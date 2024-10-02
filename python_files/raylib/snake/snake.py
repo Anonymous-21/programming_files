@@ -9,12 +9,9 @@ class Snake:
         self.height = box_size
         self.color = r.BLUE
         self.speed = box_size
-
         self.direction = "right"
-
-        self.frames_counter = 0
-
         self.list = [[self.x, self.y]]
+        self.frames_counter = 0
 
     def draw(self):
         for segment in self.list:
@@ -30,7 +27,8 @@ class Snake:
         elif r.IsKeyPressed(r.KEY_DOWN) and self.direction != "up":
             self.direction = "down"
 
-    def update(self, food):
+    def update(self, food, score):
+        # adjust player speed, block_size as speed is too fast
         self.frames_counter += 1
         if self.frames_counter % 5 == 0:
             if self.direction == "right":
@@ -49,31 +47,31 @@ class Snake:
                 (food.x, food.y, food.width, food.height),
             ):
                 self.list.append(self.list[-1])
+                score += 1
                 food.x, food.y = food.gen_random_coordinates()
 
             self.list.insert(0, [self.x, self.y])
             self.list.pop()
 
-        return (food.x, food.y)
+        return (food.x, food.y, score)
 
-    def check_collision_walls(self, game_over):
-        if not game_over:
-            if self.x < 0 or self.x + self.width > r.GetScreenWidth():
-                game_over = True
-            elif self.y < 0 or self.y + self.height > r.GetScreenHeight():
-                game_over = True
+    def check_collision_walls(self):
+        if (
+            self.x < 0
+            or self.x > r.GetScreenWidth() - self.width
+            or self.y < 0
+            or self.y > r.GetScreenHeight() - self.height
+        ):
+            return True
 
-        return game_over
+        return False
 
-    def check_collision_itself(self, game_over):
+    def check_collision_itself(self):
         for segment in self.list[1:]:
-            if r.CheckCollisionRecs((self.list[0][0],
-                                     self.list[0][1],
-                                     self.width,
-                                     self.height),
-                                    (segment[0],
-                                     segment[1],
-                                     self.width,
-                                     self.height)):
-                game_over = True
-                return game_over
+            if r.CheckCollisionRecs(
+                (self.list[0][0], self.list[0][1], self.width, self.height),
+                (segment[0], segment[1], self.width, self.height),
+            ):
+                return True
+            
+        return False
