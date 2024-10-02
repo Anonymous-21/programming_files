@@ -19,11 +19,18 @@ class Game:
         self.spritesheet = r.LoadTexture(encode("assets/spritesheet_complete.png"))
         self.spritesheet_xml = "assets/spritesheet_complete.xml"
         self.sprite_dict = xml_parser(self.spritesheet_xml)
+        
+        self.game_over = False
 
-        self.player = Player()
+        self.player = Player(self.sprite_dict,
+                             self.spritesheet)
 
     def draw(self):
         self.player.draw()
+        
+    def update(self):
+        if not self.game_over:
+            self.player.update()
 
 
 def main():
@@ -37,6 +44,7 @@ def main():
         r.ClearBackground(SCREEN_BACKGROUND)
 
         game.draw()
+        game.update()
 
         r.EndDrawing()
 

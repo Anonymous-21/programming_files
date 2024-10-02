@@ -5,10 +5,6 @@ class Player:
     def __init__(self, sprite_dict, spritesheet) -> None:
         self.spritesheet = spritesheet
         self.sprite_dict = sprite_dict
-        self.frames_counter = 0
-        self.frames_speed = 8
-        self.frame_num = 1
-        self.current_frame = sprite_dict[self.frame_num]
         
         self.alien_biege = {
             1: "alienBeige_front.png",
@@ -75,6 +71,11 @@ class Player:
             10: "alienYellow_swim1.png",
             11: "alienYellow_swim2.png",
         }
+        
+        self.frames_counter = 0
+        self.frames_speed = 8
+        self.frame_num = 1
+        self.current_frame = self.sprite_dict[self.alien_blue[self.frame_num]]
 
     def draw(self):
         r.DrawTextureRec(self.spritesheet,
@@ -85,7 +86,7 @@ class Player:
         
     def update(self):
         self.frames_counter += 1
-        if self.frames_counter % self.frames_speed:
+        if self.frames_counter % self.frames_speed == 0:
             self.frame_num += 1
             if self.frame_num > 11:
                 self.frame_num = 1
