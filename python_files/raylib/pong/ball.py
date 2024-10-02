@@ -5,7 +5,7 @@ class Ball:
     def __init__(self) -> None:
         self.radius = 10
         self.initial_pos = (
-            r.GetScreenWidth() // 2 - self.radius,
+            r.GetScreenWidth() // 2,
             r.GetScreenHeight() // 2 - self.radius,
         )
         self.x, self.y = self.initial_pos
