@@ -11,65 +11,54 @@ class Snake:
         self.height = box_size
         self.color = r.BLUE
         self.speed = box_size
-        
-        self.move_right = True
-        self.move_left = False
-        self.move_up = False
-        self.move_down = False
-        
+
+        self.direction = "right"
+
         self.frames_counter = 0
-        
+
         self.list = [[self.x, self.y]]
-        
+
     def draw(self):
         for segment in self.list:
-            r.DrawRectangle(segment[0],
-                            segment[1],
-                            self.width,
-                            self.height,
-                            self.color)
-    
+            r.DrawRectangle(segment[0], segment[1], self.width, self.height, self.color)
+
     def move(self):
-        if r.IsKeyPressed(r.KEY_RIGHT) and not self.move_left:
-            self.move_right = True
-            self.move_left = False
-            self.move_up = False
-            self.move_down = False
-        elif r.IsKeyPressed(r.KEY_LEFT) and not self.move_right:
-            self.move_right = False
-            self.move_left = True
-            self.move_up = False
-            self.move_down = False
-        elif r.IsKeyPressed(r.KEY_UP) and not self.move_down:
-            self.move_right = False
-            self.move_left = False
-            self.move_up = True
-            self.move_down = False
-        elif r.IsKeyPressed(r.KEY_DOWN) and not self.move_up:
-            self.move_right = False
-            self.move_left = False
-            self.move_up = False
-            self.move_down = True
-            
+        if r.IsKeyPressed(r.KEY_RIGHT) and self.direction != "left":
+            self.direction = "right"
+        elif r.IsKeyPressed(r.KEY_LEFT) and self.direction != "right":
+            self.direction = "left"
+        elif r.IsKeyPressed(r.KEY_UP) and self.direction != "down":
+            self.direction = "up"
+        elif r.IsKeyPressed(r.KEY_DOWN) and self.direction != "up":
+            self.direction = "down"
+
         self.frames_counter += 1
-        if self.frames_counter % 5 == 0:    
-            if self.move_right:
+        if self.frames_counter % 5 == 0:
+            if self.direction == "right":
                 self.x += self.speed
-            elif self.move_left:
+            elif self.direction == "left":
                 self.x -= self.speed
-            elif self.move_up:
+            elif self.direction == "up":
                 self.y -= self.speed
-            elif self.move_down:
+            elif self.direction == "down":
                 self.y += self.speed
-        
+
         self.list.insert(0, [self.x, self.y])
         self.list.pop()
-        
-    def check_collision(self, game_over):
+
+    def check_collision(self, game_over, food):
         # with walls
         if self.x < 0 or self.x > r.GetScreenWidth():
             game_over = True
         elif self.y < 0 or self.y > r.GetScreenHeight():
             game_over = True
-        return game_over
-        
+
+        # with food
+        if r.CheckCollisionRecs(
+            (self.list[0][0], self.list[0][1], self.width, self.height),
+            (food.x, food.y, food.width, food.height),
+        ):
+            self.list.append(self.list[-1])
+            food.x, food.y = food.gen_random_coordinates()
+
+        return (game_over, food.x, food.y)
