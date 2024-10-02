@@ -58,9 +58,9 @@ class Snake:
 
     def check_collision_walls(self, game_over):
         if not game_over:
-            if self.x < 0 or self.x > r.GetScreenWidth() - self.width:
+            if self.x < 0 or self.x + self.width > r.GetScreenWidth():
                 game_over = True
-            elif self.y < 0 or self.y > r.GetScreenHeight() - self.height:
+            elif self.y < 0 or self.y + self.height > r.GetScreenHeight():
                 game_over = True
 
         return game_over

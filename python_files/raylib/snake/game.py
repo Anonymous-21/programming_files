@@ -6,7 +6,7 @@ from snake import Snake
 from food import Food
 
 
-SCREEN_WIDTH = 800
+SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "SNAKE"
 SCREEN_BACKGROUND = r.RAYWHITE
@@ -19,7 +19,7 @@ class Game:
 
         self.rows = 20
         self.cols = 20
-        self.box_size = 40
+        self.box_size = 30
 
         self.grid = Grid(self.rows, self.cols, self.box_size)
         self.snake = Snake(self.box_size)
