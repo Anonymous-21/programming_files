@@ -46,4 +46,6 @@ class Snake:
         elif self.move_down:
             self.y += self.speed
         
+        self.list.insert(0, [self.x, self.y])
+        self.list.pop()
         

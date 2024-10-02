@@ -35,6 +35,9 @@ class Game:
                 
     def draw(self):
         self.snake.draw()
+        
+    def update(self):
+        self.snake.move()
 
 
 def main():
