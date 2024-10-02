@@ -37,7 +37,32 @@ class Game:
         self.snake.draw()
         
     def update(self):
-        self.snake.move()
+        if not self.game_over:
+            self.snake.move()
+            self.game_over = self.snake.check_collision(self.game_over)
+            
+    def game_over_menu(self):
+        if self.game_over:
+            r.DrawRectangle(0,
+                            0,
+                            r.GetScreenWidth(),
+                            r.GetScreenHeight(),
+                            SCREEN_BACKGROUND)
+            r.DrawText(encode("GAME OVER"),
+                       r.GetScreenWidth()//2 - 100,
+                       r.GetScreenHeight()//2 - 70,
+                       30,
+                       r.BLACK)
+            r.DrawText(encode("Press 'ENTER' to continue"),
+                       r.GetScreenWidth()//2 - 130,
+                       r.GetScreenHeight()//2 ,
+                       20,
+                       r.BLACK)
+        
+        if r.IsKeyPressed(r.KEY_ENTER):
+            self.game_over = False
+            self.snake = Snake(self.box_size)  
+        
 
 
 def main():
@@ -52,6 +77,8 @@ def main():
         
         game.draw_grid()
         game.draw()
+        game.update()
+        game.game_over_menu()
         
         r.EndDrawing()
         

@@ -17,6 +17,8 @@ class Snake:
         self.move_up = False
         self.move_down = False
         
+        self.frames_counter = 0
+        
         self.list = [[self.x, self.y]]
         
     def draw(self):
@@ -30,22 +32,44 @@ class Snake:
     def move(self):
         if r.IsKeyPressed(r.KEY_RIGHT) and not self.move_left:
             self.move_right = True
+            self.move_left = False
+            self.move_up = False
+            self.move_down = False
         elif r.IsKeyPressed(r.KEY_LEFT) and not self.move_right:
+            self.move_right = False
             self.move_left = True
+            self.move_up = False
+            self.move_down = False
         elif r.IsKeyPressed(r.KEY_UP) and not self.move_down:
+            self.move_right = False
+            self.move_left = False
             self.move_up = True
+            self.move_down = False
         elif r.IsKeyPressed(r.KEY_DOWN) and not self.move_up:
+            self.move_right = False
+            self.move_left = False
+            self.move_up = False
             self.move_down = True
             
-        if self.move_right:
-            self.x += self.speed
-        elif self.move_left:
-            self.x -= self.speed
-        elif self.move_up:
-            self.y -= self.speed
-        elif self.move_down:
-            self.y += self.speed
+        self.frames_counter += 1
+        if self.frames_counter % 5 == 0:    
+            if self.move_right:
+                self.x += self.speed
+            elif self.move_left:
+                self.x -= self.speed
+            elif self.move_up:
+                self.y -= self.speed
+            elif self.move_down:
+                self.y += self.speed
         
         self.list.insert(0, [self.x, self.y])
         self.list.pop()
+        
+    def check_collision(self, game_over):
+        # with walls
+        if self.x < 0 or self.x > r.GetScreenWidth():
+            game_over = True
+        elif self.y < 0 or self.y > r.GetScreenHeight():
+            game_over = True
+        return game_over
         
