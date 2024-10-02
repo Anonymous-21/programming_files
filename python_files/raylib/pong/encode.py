@@ -1,2 +1,2 @@
 def encode(text):
-    return text.encode('utf-8')
+    return text.encode("utf-8")
