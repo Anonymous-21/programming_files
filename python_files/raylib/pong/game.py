@@ -13,7 +13,8 @@ GAME_FPS = 60
 
 class Game:
     def __init__(self) -> None:
-        self.game_over = False
+        self.left_score = 0
+        self.right_score = 0
 
         self.paddle = Paddle()
         self.ball = Ball()
@@ -31,33 +32,32 @@ class Game:
         self.ball.draw()
 
     def update(self):
-        if not self.game_over:
-            self.paddle.move()
-            self.ball.move()
+        self.paddle.move()
+        self.ball.move(self.left_score, self.right_score)
 
-            # paddle collision with ball
-            if r.CheckCollisionCircleRec(
-                (self.ball.x, self.ball.y),
-                self.ball.radius,
-                (
-                    self.paddle.left_x,
-                    self.paddle.left_y,
-                    self.paddle.width,
-                    self.paddle.height,
-                ),
-            ):
-                self.ball.change_x *= -1
-            elif r.CheckCollisionCircleRec(
-                (self.ball.x, self.ball.y),
-                self.ball.radius,
-                (
-                    self.paddle.right_x,
-                    self.paddle.right_y,
-                    self.paddle.width,
-                    self.paddle.height,
-                ),
-            ):
-                self.ball.change_x *= -1
+        # paddle collision with ball
+        if r.CheckCollisionCircleRec(
+            (self.ball.x, self.ball.y),
+            self.ball.radius,
+            (
+                self.paddle.left_x,
+                self.paddle.left_y,
+                self.paddle.width,
+                self.paddle.height,
+            ),
+        ):
+            self.ball.change_x *= -1
+        elif r.CheckCollisionCircleRec(
+            (self.ball.x, self.ball.y),
+            self.ball.radius,
+            (
+                self.paddle.right_x,
+                self.paddle.right_y,
+                self.paddle.width,
+                self.paddle.height,
+            ),
+        ):
+            self.ball.change_x *= -1
 
 
 def main():
