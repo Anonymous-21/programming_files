@@ -32,3 +32,5 @@ class Ball:
             self.x, self.y = self.initial_pos
         elif self.y <= 0 or self.y >= r.GetScreenHeight() - self.radius:
             self.change_y *= -1
+
+        return (left_score, right_score)

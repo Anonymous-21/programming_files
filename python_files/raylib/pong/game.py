@@ -28,12 +28,24 @@ class Game:
             r.GRAY,
         )
 
+        # score
+        # left
+        r.DrawText(
+            encode(str(self.left_score)), r.GetScreenWidth() // 2 - 50, 0, 30, r.GRAY
+        )
+        # right
+        r.DrawText(
+            encode(str(self.right_score)), r.GetScreenWidth() // 2 + 30, 0, 30, r.GRAY
+        )
+
         self.paddle.draw()
         self.ball.draw()
 
     def update(self):
         self.paddle.move()
-        self.ball.move(self.left_score, self.right_score)
+        self.left_score, self.right_score = self.ball.move(
+            self.left_score, self.right_score
+        )
 
         # paddle collision with ball
         if r.CheckCollisionCircleRec(
