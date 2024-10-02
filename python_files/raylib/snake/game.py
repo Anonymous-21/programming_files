@@ -16,7 +16,6 @@ GAME_FPS = 60
 class Game:
     def __init__(self) -> None:
         self.game_over = False
-
         self.rows = 20
         self.cols = 20
         self.box_size = 30
@@ -50,18 +49,23 @@ class Game:
             )
             r.DrawText(
                 encode("GAME OVER"),
-                r.GetScreenWidth() // 2 - 100,
-                r.GetScreenHeight() // 2 - 70,
+                r.GetScreenWidth() // 2 - 90,
+                r.GetScreenHeight() // 2 - 20,
                 30,
-                r.BLACK,
+                r.GRAY,
             )
             r.DrawText(
                 encode("Press 'ENTER' to continue"),
                 r.GetScreenWidth() // 2 - 130,
-                r.GetScreenHeight() // 2,
+                r.GetScreenHeight() // 2 + 50,
                 20,
-                r.BLACK,
+                r.GRAY,
             )
+            r.DrawText(encode(f"Score: {self.score}"),
+                   r.GetScreenWidth()//2 - 80,
+                   200,
+                   40,
+                   r.GRAY)
 
             if r.IsKeyPressed(r.KEY_ENTER):
                 self.game_over = False
