@@ -15,8 +15,8 @@ class Food:
 
     def gen_random_coordinates(self):
         while True:
-            x = random.randint(0, self.rows-1) * self.box_size
-            y = random.randint(0, self.cols-1) * self.box_size
+            x = random.randint(0, self.rows - 1) * self.box_size
+            y = random.randint(0, self.cols - 1) * self.box_size
 
             if (x, y) not in self.snake.list:
                 return (x, y)

@@ -32,10 +32,10 @@ class Game:
 
     def update(self):
         if not self.game_over:
-            self.snake.move()
-            self.game_over, self.food.x, self.food.y = self.snake.check_collision(
-                self.game_over, self.food
-            )
+            self.snake.on_key_press()
+            self.food.x, self.food.y = self.snake.update(self.food)
+            self.game_over = self.snake.check_collision_walls(self.game_over)
+            self.game_over = self.snake.check_collision_itself(self.game_over)
 
     def game_over_menu(self):
         if self.game_over:
@@ -57,10 +57,10 @@ class Game:
                 r.BLACK,
             )
 
-        if r.IsKeyPressed(r.KEY_ENTER):
-            self.game_over = False
-            self.snake = Snake(self.box_size)
-            self.food = Food(self.rows, self.cols, self.box_size, self.snake)
+            if r.IsKeyPressed(r.KEY_ENTER):
+                self.game_over = False
+                self.snake = Snake(self.box_size)
+                self.food = Food(self.rows, self.cols, self.box_size, self.snake)
 
 
 def main():

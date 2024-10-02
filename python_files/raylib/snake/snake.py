@@ -3,10 +3,8 @@ import raylib as r
 
 class Snake:
     def __init__(self, box_size) -> None:
-        self.initial_x = 0
-        self.initial_y = 0
-        self.x = self.initial_x
-        self.y = self.initial_y
+        self.x = 0
+        self.y = 0
         self.width = box_size
         self.height = box_size
         self.color = r.BLUE
@@ -22,7 +20,7 @@ class Snake:
         for segment in self.list:
             r.DrawRectangle(segment[0], segment[1], self.width, self.height, self.color)
 
-    def move(self):
+    def on_key_press(self):
         if r.IsKeyPressed(r.KEY_RIGHT) and self.direction != "left":
             self.direction = "right"
         elif r.IsKeyPressed(r.KEY_LEFT) and self.direction != "right":
@@ -32,6 +30,7 @@ class Snake:
         elif r.IsKeyPressed(r.KEY_DOWN) and self.direction != "up":
             self.direction = "down"
 
+    def update(self, food):
         self.frames_counter += 1
         if self.frames_counter % 5 == 0:
             if self.direction == "right":
@@ -43,22 +42,38 @@ class Snake:
             elif self.direction == "down":
                 self.y += self.speed
 
-        self.list.insert(0, [self.x, self.y])
-        self.list.pop()
+            # check food collision before eating so that it does not
+            # consider eating food as collision (part of snake)
+            if r.CheckCollisionRecs(
+                (self.list[0][0], self.list[0][1], self.width, self.height),
+                (food.x, food.y, food.width, food.height),
+            ):
+                self.list.append(self.list[-1])
+                food.x, food.y = food.gen_random_coordinates()
 
-    def check_collision(self, game_over, food):
-        # with walls
-        if self.x < 0 or self.x > r.GetScreenWidth():
-            game_over = True
-        elif self.y < 0 or self.y > r.GetScreenHeight():
-            game_over = True
+            self.list.insert(0, [self.x, self.y])
+            self.list.pop()
 
-        # with food
-        if r.CheckCollisionRecs(
-            (self.list[0][0], self.list[0][1], self.width, self.height),
-            (food.x, food.y, food.width, food.height),
-        ):
-            self.list.append(self.list[-1])
-            food.x, food.y = food.gen_random_coordinates()
+        return (food.x, food.y)
 
-        return (game_over, food.x, food.y)
+    def check_collision_walls(self, game_over):
+        if not game_over:
+            if self.x < 0 or self.x > r.GetScreenWidth() - self.width:
+                game_over = True
+            elif self.y < 0 or self.y > r.GetScreenHeight() - self.height:
+                game_over = True
+
+        return game_over
+
+    def check_collision_itself(self, game_over):
+        for segment in self.list[1:]:
+            if r.CheckCollisionRecs((self.list[0][0],
+                                     self.list[0][1],
+                                     self.width,
+                                     self.height),
+                                    (segment[0],
+                                     segment[1],
+                                     self.width,
+                                     self.height)):
+                game_over = True
+                return game_over
