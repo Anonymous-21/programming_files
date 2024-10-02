@@ -1,6 +1,8 @@
 import raylib as r
 
 from encode import encode
+from snake import Snake
+
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -15,8 +17,9 @@ class Game:
         
         self.rows = 20
         self.cols = 20
-        
         self.box_size = 40
+        
+        self.snake = Snake(self.box_size)
         
     def draw_grid(self):
         for i in range(self.rows):
@@ -29,6 +32,9 @@ class Game:
                                      self.box_size,
                                      self.box_size,
                                      r.BLACK)
+                
+    def draw(self):
+        self.snake.draw()
 
 
 def main():
@@ -36,17 +42,18 @@ def main():
     r.SetTargetFPS(GAME_FPS)
     
     game = Game()
-
+    
     while not r.WindowShouldClose():
         r.BeginDrawing()
         r.ClearBackground(SCREEN_BACKGROUND)
         
         game.draw_grid()
+        game.draw()
         
         r.EndDrawing()
-
+        
     r.CloseWindow()
+    
 
-
-if __name__ == "__main_":
+if __name__ == "__main__":
     main()
