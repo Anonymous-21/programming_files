@@ -75,7 +75,7 @@ class Player:
         self.frames_counter = 0
         self.frames_speed = 8
         self.frame_num = 1
-        self.current_frame = self.sprite_dict[self.alien_blue[self.frame_num]]
+        self.current_frame = self.alien_blue[self.frame_num]
 
     def draw(self):
         r.DrawTextureRec(self.spritesheet,
