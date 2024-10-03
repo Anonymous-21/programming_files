@@ -17,32 +17,48 @@ def draw_font(screen, text, font, color, x, y):
 class Game:
     def __init__(self, screen) -> None:
         self.screen = screen
-        
+
         self.game_over = False
         self.left_score = 0
         self.right_score = 0
-        
+
         self.paddle = Paddle(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT)
         self.ball = Ball(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     def draw(self):
         # draw screen divider
-        pygame.draw.line(self.screen,
-                         "gray",
-                         (SCREEN_WIDTH/2, 0),
-                         (SCREEN_WIDTH/2, SCREEN_HEIGHT),
-                         width=5)
-        
-        
+        pygame.draw.line(
+            self.screen,
+            "gray",
+            (SCREEN_WIDTH / 2, 0),
+            (SCREEN_WIDTH / 2, SCREEN_HEIGHT),
+            width=5,
+        )
+
         self.paddle.draw()
         self.ball.draw()
 
     def update(self):
         self.paddle.update()
         self.paddle.move()
-        self.left_score, self.right_score = self.ball.update(self.left_score, self.right_score)
-        
+        self.left_score, self.right_score = self.ball.update(
+            self.left_score, self.right_score
+        )
+
         # ball and paddle collision
+        # if (
+        #     self.ball.x <= self.paddle.left_x + self.paddle.width
+        #     and self.ball.y >= self.paddle.left_y
+        #     and self.ball.y <= self.paddle.left_y + self.ball.screen_height
+        # ):
+        #     self.ball.speed_x *= -1
+        # elif (
+        #     self.ball.x >= self.paddle.right_xif self.paddle.left_rect.collide_circle()
+        #     and self.ball.y >= self.paddle.right_y
+        #     and self.ball.y <= self.paddle.right_y + self.ball.screen_height
+        # ):
+        #     self.ball.speed_x *= -1
+
 
 def main():
     pygame.init()
@@ -61,21 +77,15 @@ def main():
                 running = False
 
         screen.fill(SCREEN_BACKGROUND)
-        
+
         # draw left score
-        draw_font(screen,
-                  str(game.left_score),
-                  font,
-                  font_color,
-                  SCREEN_WIDTH/2 - 50,
-                  20)
+        draw_font(
+            screen, str(game.left_score), font, font_color, SCREEN_WIDTH / 2 - 50, 20
+        )
         # draw right score
-        draw_font(screen,
-                  str(game.right_score),
-                  font,
-                  font_color,
-                  SCREEN_WIDTH/2 + 35,
-                  20)
+        draw_font(
+            screen, str(game.right_score), font, font_color, SCREEN_WIDTH / 2 + 35, 20
+        )
 
         game.draw()
         game.update()
