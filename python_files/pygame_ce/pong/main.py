@@ -9,6 +9,11 @@ SCREEN_BACKGROUND = "white"
 GAME_FPS = 60
 
 
+def draw_font(screen, text, font, color, x, y):
+    img = font.render(text, True, color)
+    screen.blit(img, (x, y))
+
+
 class Game:
     def __init__(self, screen) -> None:
         self.screen = screen
@@ -28,6 +33,7 @@ class Game:
                          (SCREEN_WIDTH/2, SCREEN_HEIGHT),
                          width=5)
         
+        
         self.paddle.draw()
         self.ball.draw()
 
@@ -35,6 +41,8 @@ class Game:
         self.paddle.update()
         self.paddle.move()
         self.ball.update()
+        
+        # ball and paddle collision
 
 
 def main():
@@ -45,6 +53,8 @@ def main():
     running = True
 
     game = Game(screen)
+    font = pygame.font.SysFont("Ariel", 40)
+    font_color = "black"
 
     while running:
         for event in pygame.event.get():
@@ -52,6 +62,21 @@ def main():
                 running = False
 
         screen.fill(SCREEN_BACKGROUND)
+        
+        # draw left score
+        draw_font(screen,
+                  str(game.left_score),
+                  font,
+                  font_color,
+                  SCREEN_WIDTH/2 - 50,
+                  20)
+        # draw right score
+        draw_font(screen,
+                  str(game.right_score),
+                  font,
+                  font_color,
+                  SCREEN_WIDTH/2 + 35,
+                  20)
 
         game.draw()
         game.update()
