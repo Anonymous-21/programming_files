@@ -40,10 +40,9 @@ class Game:
     def update(self):
         self.paddle.update()
         self.paddle.move()
-        self.ball.update()
+        self.left_score, self.right_score = self.ball.update(self.left_score, self.right_score)
         
         # ball and paddle collision
-
 
 def main():
     pygame.init()
