@@ -13,7 +13,7 @@ class Background:
         self.height = self.background[3]
         self.x2_window = self.width
         self.y2_window = 0
-        self.speed = 0.5
+        self.speed = 1
 
     def draw(self):
         draw_texture_rec(

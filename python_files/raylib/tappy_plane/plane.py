@@ -35,7 +35,7 @@ class Plane:
         self.tint = WHITE
 
         self.change_y = 0
-        self.jump_force = -15
+        self.jump_force = -10
         self.gravity = 1
         self.is_jumping = False
 

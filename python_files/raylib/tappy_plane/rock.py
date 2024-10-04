@@ -30,7 +30,7 @@ class Rock:
         self.x2_window = self.x1_window + self.gap_between_rocks
         self.y2_window = 0
 
-        self.speed = 2
+        self.speed = 4
 
     def draw(self):
         # rock

@@ -32,20 +32,20 @@ class Game:
         self.rock = Rock(self.spritesheet, self.sprite_dict)
 
     def draw(self):
-        # draw Score
-        draw_text(str(self.score),
-                  get_screen_width() - 300,
-                  100,
-                  30,
-                  GRAY)
-
         self.background.draw()
         self.rock.draw()
         self.ground.draw()
         self.plane.draw()
+        
+        # draw Score
+        draw_text(str(int(self.score)),
+                  get_screen_width() - 150,
+                  20,
+                  30,
+                  GRAY)
 
     def update(self):
-        self.score += 1
+        self.score += 0.1
         self.background.animation()
         self.rock.animation(self.score, self.change_season_score)
         self.ground.animation(self.score, self.change_season_score)

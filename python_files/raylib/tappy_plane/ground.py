@@ -23,7 +23,7 @@ class Ground:
         self.y1_window = get_screen_height() - self.height
         self.x2_window = self.width
         self.y2_window = get_screen_height() - self.height
-        self.speed = 2
+        self.speed = 4
 
     def draw(self):
         draw_texture_rec(self.spritesheet,
