@@ -48,6 +48,41 @@ class Game:
         self.plane.update()
         self.plane.jump()
 
+    def check_collision(self):
+        # collision between rocks (triangles) and player (Rectangle)
+        # check every point of rectangle collision with triangle(Rock)
+        if check_collision_point_triangle(
+            (self.plane.x_window, self.plane.y_window),
+            self.rock.triangle1[1],
+            self.rock.triangle1[2],
+            self.rock.triangle1[3],
+        ):
+            self.game_over = True
+        elif check_collision_point_triangle(
+            (self.plane.x_window + self.plane.width, self.plane.y_window),
+            self.rock.triangle1[1],
+            self.rock.triangle1[2],
+            self.rock.triangle1[3],
+        ):
+            self.game_over = True
+        elif check_collision_point_triangle(
+            (self.plane.x_window, self.plane.y_window + self.plane.height),
+            self.rock.triangle1[1],
+            self.rock.triangle1[2],
+            self.rock.triangle1[3],
+        ):
+            self.game_over = True
+        elif check_collision_point_triangle(
+            (
+                self.plane.x_window + self.plane.width,
+                self.plane.y_window + self.plane.height,
+            ),
+            self.rock.triangle1[1],
+            self.rock.triangle1[2],
+            self.rock.triangle1[3],
+        ):
+            self.game_over = True
+
     def game_over_menu(self):
         pass
 

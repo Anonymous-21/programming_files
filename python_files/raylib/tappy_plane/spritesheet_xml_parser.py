@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as Et
 
+
 def xml_parser(xml_file):
     tree = Et.parse(xml_file)
     root = tree.getroot()
@@ -16,4 +17,3 @@ def xml_parser(xml_file):
         sprite_dict[name] = (x, y, width, height)
 
     return sprite_dict
-
