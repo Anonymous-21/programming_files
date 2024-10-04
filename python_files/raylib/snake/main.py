@@ -24,12 +24,14 @@ class Game:
         self.snake = Snake(
             self.rows, self.cols, self.margin_x, self.margin_y, self.block_size
         )
-        self.food = Food(self.rows,
-                         self.cols,
-                         self.margin_x,
-                         self.margin_y,
-                         self.block_size,
-                         self.snake.list)
+        self.food = Food(
+            self.rows,
+            self.cols,
+            self.margin_x,
+            self.margin_y,
+            self.block_size,
+            self.snake.list,
+        )
 
     def draw(self):
         draw_grid(self.rows, self.cols, self.block_size, self.margin_x, self.margin_y)
@@ -39,7 +41,36 @@ class Game:
 
     def update(self):
         if not self.game_over:
-            self.snake.update()
+            self.game_over = self.snake.update()
+
+    def game_over_menu(self):
+        if self.game_over:
+            pr.draw_rectangle_rec(
+                (0, 0, pr.get_screen_width, pr.get_screen_height), SCREEN_BACKGROUND
+            )
+            pr.draw_text(
+                "GAME OVER",
+                pr.get_screen_width() // 2,
+                pr.get_screen_height() // 2 - 100,
+                30,
+                pr.GRAY,
+            )
+            pr.draw_text(
+                "Press 'ENTER' to continue",
+                pr.get_screen_width() // 2,
+                pr.get_screen_height() // 2,
+                20,
+                pr.GRAY,
+            )
+
+            if pr.is_key_pressed(pr.KeyboardKey.KEY_ENTER):
+                self.game_over = False
+                self.snake = Snake(
+                    self.rows, self.cols, self.margin_x, self.margin_y, self.block_size
+                )
+                self.food = Food(
+                    self.rows, self.cols, self.margin_x, self.margin_y, self.snake.list
+                )
 
 
 def main():

@@ -54,3 +54,9 @@ class Snake:
 
             self.list.insert(0, [self.x, self.y])
             self.list.pop()
+            
+        # snake collision with walls
+        if self.x > 0 or self.x < pr.get_screen_width() - self.margin_x:
+            return True
+        if self.y > 0 or self.y < pr.get_screen_height() - self.margin_y:
+            return True
