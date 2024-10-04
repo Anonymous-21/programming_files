@@ -7,24 +7,24 @@ class Plane:
         self.sprite_dict = sprite_dict
 
         self.plane_blue = {
-            1:"planeBlue1.png",
-            2:"planeBlue2.png",
-            3:"planeBlue3.png",
+            1: "planeBlue1.png",
+            2: "planeBlue2.png",
+            3: "planeBlue3.png",
         }
-        self.plane_green= {
-            1:"planeGreen1.png",
-            2:"planeGreen2.png",
-            3:"planeGreen3.png",
+        self.plane_green = {
+            1: "planeGreen1.png",
+            2: "planeGreen2.png",
+            3: "planeGreen3.png",
         }
         self.plane_red = {
-            1:"planeRed1.png",
-            2:"planeRed2.png",
-            3:"planeRed3.png",
+            1: "planeRed1.png",
+            2: "planeRed2.png",
+            3: "planeRed3.png",
         }
-        self.plane_yellow= {
-            1:"planeYellow1.png",
-            2:"planeYellow2.png",
-            3:"planeYellow3.png",
+        self.plane_yellow = {
+            1: "planeYellow1.png",
+            2: "planeYellow2.png",
+            3: "planeYellow3.png",
         }
         self.frame_num = 1
         self.current_frame = self.sprite_dict[self.plane_blue[self.frame_num]]
@@ -43,10 +43,12 @@ class Plane:
         self.frames_counter = 0
 
     def draw(self):
-        draw_texture_rec(self.spritesheet,
-                         self.current_frame,
-                         (self.x_window, self.y_window),
-                         self.tint)
+        draw_texture_rec(
+            self.spritesheet,
+            self.current_frame,
+            (self.x_window, self.y_window),
+            self.tint,
+        )
 
     def update(self):
         # update current frame
@@ -68,5 +70,3 @@ class Plane:
         if self.is_jumping:
             self.change_y += self.gravity
             self.y_window += self.change_y
-        
-        
