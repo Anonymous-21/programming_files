@@ -21,13 +21,15 @@ class Snake:
 
         self.list = [[self.x, self.y]]
 
+        self.frames_counter = 0
+
     def draw(self):
         for segment in self.list:
             draw_rectangle_rec(
                 (segment[0], segment[1], self.width, self.height), self.color
             )
-    
-    def move(self):
+
+    def update(self):
         # get direction from player
         if is_key_pressed(KeyboardKey.KEY_RIGHT) and self.direction != "left":
             self.direction = "right"
@@ -37,16 +39,18 @@ class Snake:
             self.direction = "up"
         elif is_key_pressed(KeyboardKey.KEY_DOWN) and self.direction != "up":
             self.direction = "down"
-            
+
         # move snake
-        if self.direction == "right":
-            self.x += self.speed
-        elif self.direction == "left":
-            self.x -= self.speed
-        elif self.direction == "up":
-            self.y -= self.speed
-        elif self.direction == "down":
-            self.y += self.speed
-            
-        self.list.insert(0, [self.x, self.y])
-        self.list.pop()
+        self.frames_counter += 1
+        if self.frames_counter % 5 == 0:
+            if self.direction == "right":
+                self.x += self.speed
+            elif self.direction == "left":
+                self.x -= self.speed
+            elif self.direction == "up":
+                self.y -= self.speed
+            elif self.direction == "down":
+                self.y += self.speed
+
+            self.list.insert(0, [self.x, self.y])
+            self.list.pop()

@@ -2,6 +2,7 @@ from pyray import *
 
 from grid import draw_grid
 from snake import Snake
+from food import Food
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
@@ -23,14 +24,22 @@ class Game:
         self.snake = Snake(
             self.rows, self.cols, self.margin_x, self.margin_y, self.block_size
         )
+        self.food = Food(self.rows,
+                         self.cols,
+                         self.margin_x,
+                         self.margin_y,
+                         self.block_size,
+                         self.snake.list)
 
     def draw(self):
         draw_grid(self.rows, self.cols, self.block_size, self.margin_x, self.margin_y)
 
         self.snake.draw()
-        
+        self.food.draw()
+
     def update(self):
-        self.snake.move()
+        if not self.game_over:
+            self.snake.update()
 
 
 def main():
@@ -44,6 +53,7 @@ def main():
         clear_background(SCREEN_BACKGROUND)
 
         game.draw()
+        game.update()
 
         end_drawing()
 
