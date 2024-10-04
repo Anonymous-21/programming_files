@@ -7,10 +7,10 @@ class Ground:
         self.sprite_dict = sprite_dict
 
         self.ground = {
-            1:"groundDirt.png",
-            2:"groundGrass.png",
-            3:"groundSnow.png",
-            4:"groundIce.png",
+            1: "groundDirt.png",
+            2: "groundGrass.png",
+            3: "groundSnow.png",
+            4: "groundIce.png",
             # 5:"groundRock.png",
         }
         self.frame_num = 1
@@ -26,20 +26,24 @@ class Ground:
         self.speed = 4
 
     def draw(self):
-        draw_texture_rec(self.spritesheet,
-                         self.current_ground,
-                         (self.x1_window, self.y1_window),
-                         WHITE)
-        draw_texture_rec(self.spritesheet,
-                         self.current_ground,
-                         (self.x2_window, self.y2_window),
-                         WHITE)
-        
+        draw_texture_rec(
+            self.spritesheet,
+            self.current_ground,
+            (self.x1_window, self.y1_window),
+            WHITE,
+        )
+        draw_texture_rec(
+            self.spritesheet,
+            self.current_ground,
+            (self.x2_window, self.y2_window),
+            WHITE,
+        )
+
     def animation(self, score, change_season_score):
         # move ground
         self.x1_window -= self.speed
         self.x2_window -= self.speed
-        
+
         if self.x2_window == 0:
             self.x1_window = self.width
         elif self.x1_window == 0:

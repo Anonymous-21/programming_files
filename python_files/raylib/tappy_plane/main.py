@@ -20,7 +20,7 @@ class Game:
     def __init__(self):
         self.game_over = False
         self.score = 0
-        self.change_season_score = 1000 # change season at given score
+        self.change_season_score = 1000  # change season at given score
 
         self.spritesheet = load_texture("assets/sheet.png")
         self.spritesheet_xml = "assets/sheet.xml"
@@ -36,13 +36,9 @@ class Game:
         self.rock.draw()
         self.ground.draw()
         self.plane.draw()
-        
+
         # draw Score
-        draw_text(str(int(self.score)),
-                  get_screen_width() - 150,
-                  20,
-                  30,
-                  GRAY)
+        draw_text(str(int(self.score)), get_screen_width() - 150, 20, 30, GRAY)
 
     def update(self):
         self.score += 0.1

@@ -7,16 +7,16 @@ class Rock:
         self.sprite_dict = sprite_dict
 
         self.rock = {
-            1:"rock.png",
-            2:"rockGrass.png",
-            3:"rockSnow.png",
-            4:"rockIce.png",
+            1: "rock.png",
+            2: "rockGrass.png",
+            3: "rockSnow.png",
+            4: "rockIce.png",
         }
         self.rock_down = {
-            1:"rockDown.png",
-            2:"rockGrassDown.png",
-            3:"rockSnowDown.png",
-            4:"rockIceDown.png",
+            1: "rockDown.png",
+            2: "rockGrassDown.png",
+            3: "rockSnowDown.png",
+            4: "rockIceDown.png",
         }
 
         self.frame_num = 1
@@ -24,7 +24,7 @@ class Rock:
         self.current_rock_down = self.sprite_dict[self.rock_down[self.frame_num]]
         self.width = self.current_rock[2]
         self.height = self.current_rock[3]
-        self.x1_window = get_screen_width()/2
+        self.x1_window = get_screen_width() / 2
         self.y1_window = get_screen_height() - self.height
         self.gap_between_rocks = 400
         self.x2_window = self.x1_window + self.gap_between_rocks
@@ -34,27 +34,27 @@ class Rock:
 
     def draw(self):
         # rock
-        draw_texture_rec(self.spritesheet,
-                         self.current_rock,
-                         (self.x1_window, self.y1_window),
-                         WHITE)
+        draw_texture_rec(
+            self.spritesheet, self.current_rock, (self.x1_window, self.y1_window), WHITE
+        )
 
         # rock down
-        draw_texture_rec(self.spritesheet,
-                         self.current_rock_down,
-                         (self.x2_window, self.y2_window),
-                         WHITE)
-    
+        draw_texture_rec(
+            self.spritesheet,
+            self.current_rock_down,
+            (self.x2_window, self.y2_window),
+            WHITE,
+        )
 
     def animation(self, score, change_season_score):
         # update rocks
         self.current_rock = self.sprite_dict[self.rock[self.frame_num]]
         self.current_rock_down = self.sprite_dict[self.rock_down[self.frame_num]]
-        
+
         # move rocks
         self.x1_window -= self.speed
         self.x2_window -= self.speed
-        
+
         if self.x1_window < -self.width:
             self.x1_window = get_screen_width() + self.width
         elif self.x2_window < -self.width:
