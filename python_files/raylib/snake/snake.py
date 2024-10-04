@@ -29,6 +29,10 @@ class Snake:
                 (segment[0], segment[1], self.width, self.height), self.color
             )
 
+    def reset_snake(self):
+        self.x = self.initial_x
+        self.y = self.initial_y
+
     def update(self):
         # get direction from player
         if pr.is_key_pressed(pr.KeyboardKey.KEY_RIGHT) and self.direction != "left":
@@ -54,9 +58,15 @@ class Snake:
 
             self.list.insert(0, [self.x, self.y])
             self.list.pop()
-            
+
         # snake collision with walls
-        if self.x > 0 or self.x < pr.get_screen_width() - self.margin_x:
+        if (
+            self.x < self.margin_x
+            or self.x > pr.get_screen_width() - self.margin_x - self.width
+        ):
             return True
-        if self.y > 0 or self.y < pr.get_screen_height() - self.margin_y:
+        elif (
+            self.y < self.margin_y
+            or self.y > pr.get_screen_height() - self.margin_y - self.width
+        ):
             return True

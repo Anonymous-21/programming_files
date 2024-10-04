@@ -40,26 +40,34 @@ class Game:
         self.food.draw()
 
     def update(self):
-        if not self.game_over:
-            self.game_over = self.snake.update()
+        self.game_over = self.snake.update()
+
+        # snake collision with food
+        for segment in self.snake.list:
+            if pr.check_collision_recs(
+                (segment[0], segment[1], self.snake.width, self.snake.height),
+                (self.food.x, self.food.y, self.food.width, self.food.height),
+            ):
+                self.food.x, self.food.y = self.food.gen_random_food()
+                self.snake.list.append(self.snake.list[-1])
 
     def game_over_menu(self):
         if self.game_over:
             pr.draw_rectangle_rec(
-                (0, 0, pr.get_screen_width, pr.get_screen_height), SCREEN_BACKGROUND
+                (0, 0, pr.get_screen_width(), pr.get_screen_height()), SCREEN_BACKGROUND
             )
             pr.draw_text(
                 "GAME OVER",
-                pr.get_screen_width() // 2,
+                pr.get_screen_width() // 2 - 110,
                 pr.get_screen_height() // 2 - 100,
-                30,
+                40,
                 pr.GRAY,
             )
             pr.draw_text(
                 "Press 'ENTER' to continue",
-                pr.get_screen_width() // 2,
+                pr.get_screen_width() // 2 - 180,
                 pr.get_screen_height() // 2,
-                20,
+                30,
                 pr.GRAY,
             )
 
@@ -69,7 +77,12 @@ class Game:
                     self.rows, self.cols, self.margin_x, self.margin_y, self.block_size
                 )
                 self.food = Food(
-                    self.rows, self.cols, self.margin_x, self.margin_y, self.snake.list
+                    self.rows,
+                    self.cols,
+                    self.margin_x,
+                    self.margin_y,
+                    self.block_size,
+                    self.snake.list,
                 )
 
 
@@ -83,8 +96,11 @@ def main():
         pr.begin_drawing()
         pr.clear_background(SCREEN_BACKGROUND)
 
-        game.draw()
-        game.update()
+        if not game.game_over:
+            game.draw()
+            game.update()
+        else:
+            game.game_over_menu()
 
         pr.end_drawing()
 

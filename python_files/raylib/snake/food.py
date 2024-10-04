@@ -20,7 +20,7 @@ class Food:
         while True:
             x = random.randint(0, self.cols - 1) * self.block_size + self.margin_x
             y = random.randint(0, self.rows - 1) * self.block_size + self.margin_y
-            
+
             if (x, y) not in self.snake_list:
                 return (x, y)
 
