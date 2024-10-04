@@ -6,6 +6,7 @@ from plane import Plane
 from background import Background
 from ground import Ground
 from rock import Rock
+from fonts import Font
 
 os.chdir("/home/anonymous/Downloads/programming_files/python_files/raylib/tappy_plane")
 
@@ -30,6 +31,7 @@ class Game:
         self.background = Background(self.spritesheet, self.sprite_dict)
         self.ground = Ground(self.spritesheet, self.sprite_dict)
         self.rock = Rock(self.spritesheet, self.sprite_dict)
+        self.font = Font(self.spritesheet, self.sprite_dict)
 
     def draw(self):
         self.background.draw()
@@ -84,7 +86,16 @@ class Game:
             self.game_over = True
 
     def game_over_menu(self):
-        pass
+        if self.game_over:
+            self.font.draw_game_over()
+
+            if is_key_pressed(KeyboardKey.KEY_ENTER):
+                self.game_over = False
+                self.score = 0
+                self.plane = Plane(self.spritesheet, self.sprite_dict)
+                self.background = Background(self.spritesheet, self.sprite_dict)
+                self.ground = Ground(self.spritesheet, self.sprite_dict)
+                self.rock = Rock(self.spritesheet, self.sprite_dict)
 
 
 def main():
@@ -97,10 +108,10 @@ def main():
         begin_drawing()
         clear_background(SCREEN_BACKGROUND)
 
+        game.draw()
         if not game.game_over:
-            game.draw()
             game.update()
-        else:
+        elif game.game_over:
             game.game_over_menu()
 
         end_drawing()
