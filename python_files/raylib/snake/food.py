@@ -1,4 +1,4 @@
-from pyray import *
+import pyray as pr
 import random
 
 
@@ -14,7 +14,7 @@ class Food:
         self.x, self.y = self.gen_random_food()
         self.width = block_size
         self.height = block_size
-        self.color = RED
+        self.color = pr.RED
 
     def gen_random_food(self):
         while True:
@@ -25,4 +25,4 @@ class Food:
                 return (x, y)
 
     def draw(self):
-        draw_rectangle_rec((self.x, self.y, self.width, self.height), self.color)
+        pr.draw_rectangle_rec((self.x, self.y, self.width, self.height), self.color)

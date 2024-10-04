@@ -1,4 +1,4 @@
-from pyray import *
+import pyray as pr
 
 
 class Snake:
@@ -15,7 +15,7 @@ class Snake:
         self.y = self.initial_y
         self.width = self.block_size
         self.height = self.block_size
-        self.color = BLUE
+        self.color = pr.BLUE
         self.direction = "right"
         self.speed = self.block_size
 
@@ -25,19 +25,19 @@ class Snake:
 
     def draw(self):
         for segment in self.list:
-            draw_rectangle_rec(
+            pr.draw_rectangle_rec(
                 (segment[0], segment[1], self.width, self.height), self.color
             )
 
     def update(self):
         # get direction from player
-        if is_key_pressed(KeyboardKey.KEY_RIGHT) and self.direction != "left":
+        if pr.is_key_pressed(pr.KeyboardKey.KEY_RIGHT) and self.direction != "left":
             self.direction = "right"
-        elif is_key_pressed(KeyboardKey.KEY_LEFT) and self.direction != "right":
+        elif pr.is_key_pressed(pr.KeyboardKey.KEY_LEFT) and self.direction != "right":
             self.direction = "left"
-        elif is_key_pressed(KeyboardKey.KEY_UP) and self.direction != "down":
+        elif pr.is_key_pressed(pr.KeyboardKey.KEY_UP) and self.direction != "down":
             self.direction = "up"
-        elif is_key_pressed(KeyboardKey.KEY_DOWN) and self.direction != "up":
+        elif pr.is_key_pressed(pr.KeyboardKey.KEY_DOWN) and self.direction != "up":
             self.direction = "down"
 
         # move snake

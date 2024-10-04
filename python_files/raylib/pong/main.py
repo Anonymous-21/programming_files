@@ -1,4 +1,4 @@
-from pyray import *
+import pyray as pr
 
 from paddle import Paddle
 from ball import Ball
@@ -7,7 +7,7 @@ from ball import Ball
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "PONG"
-SCREEN_BACKGROUND = RAYWHITE
+SCREEN_BACKGROUND = pr.RAYWHITE
 GAME_FPS = 60
 
 
@@ -19,19 +19,19 @@ class Game:
 
         self.paddle_left = Paddle(x=10)
         self.paddle_right = Paddle(
-            x=get_screen_width() - self.paddle_left.width - 10,
+            x=pr.get_screen_width() - self.paddle_left.width - 10,
         )
         self.ball = Ball()
 
     def draw(self):
         # draw screen divider
-        draw_line_ex((SCREEN_WIDTH / 2, 0), (SCREEN_WIDTH / 2, SCREEN_HEIGHT), 5, GRAY)
+        pr.draw_line_ex((SCREEN_WIDTH / 2, 0), (SCREEN_WIDTH / 2, SCREEN_HEIGHT), 5, pr.GRAY)
 
         # draw score
         # left
-        draw_text(str(self.score_left), get_screen_width() // 2 - 70, 10, 30, GRAY)
+        pr.draw_text(str(self.score_left), pr.get_screen_width() // 2 - 70, 10, 30, pr.GRAY)
         # right
-        draw_text(str(self.score_right), get_screen_width() // 2 + 50, 10, 30, GRAY)
+        pr.draw_text(str(self.score_right), pr.get_screen_width() // 2 + 50, 10, 30, pr.GRAY)
 
         self.paddle_left.draw()
         self.paddle_right.draw()
@@ -39,9 +39,9 @@ class Game:
 
     def update(self):
         if not self.game_over:
-            self.paddle_left.move(key_up=KeyboardKey.KEY_W, key_down=KeyboardKey.KEY_S)
+            self.paddle_left.move(key_up=pr.KeyboardKey.KEY_W, key_down=pr.KeyboardKey.KEY_S)
             self.paddle_right.move(
-                key_up=KeyboardKey.KEY_UP, key_down=KeyboardKey.KEY_DOWN
+                key_up=pr.KeyboardKey.KEY_UP, key_down=pr.KeyboardKey.KEY_DOWN
             )
 
             self.score_left, self.score_right = self.ball.move(
@@ -49,7 +49,7 @@ class Game:
             )
 
             # collision between ball and paddle
-            if check_collision_circle_rec(
+            if pr.check_collision_circle_rec(
                 (self.ball.x, self.ball.y),
                 self.ball.radius,
                 (
@@ -60,7 +60,7 @@ class Game:
                 ),
             ):
                 self.ball.change_x *= -1
-            elif check_collision_circle_rec(
+            elif pr.check_collision_circle_rec(
                 (self.ball.x, self.ball.y),
                 self.ball.radius,
                 (
@@ -74,21 +74,21 @@ class Game:
 
 
 def main():
-    init_window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    set_target_fps(GAME_FPS)
+    pr.init_window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    pr.set_target_fps(GAME_FPS)
 
     game = Game()
 
-    while not window_should_close():
-        begin_drawing()
-        clear_background(SCREEN_BACKGROUND)
+    while not pr.window_should_close():
+        pr.begin_drawing()
+        pr.clear_background(SCREEN_BACKGROUND)
 
         game.draw()
         game.update()
 
-        end_drawing()
+        pr.end_drawing()
 
-    close_window()
+    pr.close_window()
 
 
 if __name__ == "__main__":

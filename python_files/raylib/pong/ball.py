@@ -1,20 +1,20 @@
-from pyray import *
+import pyray as pr
 
 
 class Ball:
     def __init__(self) -> None:
         self.radius = 10
-        self.initial_x = get_screen_width()//2
-        self.initial_y = get_screen_height()//2 - self.radius
+        self.initial_x = pr.get_screen_width()//2
+        self.initial_y = pr.get_screen_height()//2 - self.radius
         self.x = self.initial_x
         self.y = self.initial_y
-        self.color = RED
+        self.color = pr.RED
         self.change_x = 5
         self.change_y = 6
         self.frames_counter = 0
         
     def draw(self):
-        draw_circle(self.x,
+        pr.draw_circle(self.x,
                     self.y,
                     self.radius,
                     self.color)
@@ -36,12 +36,12 @@ class Ball:
         if self.x <= 0:
             score_right += 1
             self.ball_reset()
-        elif self.x >= get_screen_width() - self.radius:
+        elif self.x >= pr.get_screen_width() - self.radius:
             score_left += 1
             self.ball_reset()
         
         # bounce back ball on y coordinates
-        if self.y <= 0 or self.y >= get_screen_height() - self.radius:
+        if self.y <= 0 or self.y >= pr.get_screen_height() - self.radius:
             self.change_y *= -1
             
         return (score_left, score_right)
