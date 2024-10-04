@@ -17,7 +17,9 @@ class Snake:
         self.height = self.block_size
         self.color = pr.BLUE
         self.direction = "right"
-        self.speed = self.block_size
+        self.speed = self.block_size  # move block length
+        self.real_speed = 5  # real speed of snake on screen
+        self.eating = False
 
         self.list = [[self.x, self.y]]
 
@@ -46,7 +48,7 @@ class Snake:
 
         # move snake
         self.frames_counter += 1
-        if self.frames_counter % 5 == 0:
+        if self.frames_counter % self.real_speed == 0:
             if self.direction == "right":
                 self.x += self.speed
             elif self.direction == "left":
@@ -70,3 +72,13 @@ class Snake:
             or self.y > pr.get_screen_height() - self.margin_y - self.width
         ):
             return True
+
+        # # snake collision with itself
+        # if not self.eating:
+        #     snake_head = self.list[0]
+        #     for segment in self.list[1:]:
+        #         if pr.check_collision_recs(
+        #             (snake_head[0], snake_head[1], self.width, self.height),
+        #             (segment[0], segment[1], self.width, self.height),
+        #         ):
+        #             return True

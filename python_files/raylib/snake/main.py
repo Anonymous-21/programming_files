@@ -14,6 +14,7 @@ GAME_FPS = 60
 class Game:
     def __init__(self) -> None:
         self.game_over = False
+        self.score = 0
 
         self.rows = 20
         self.cols = 20
@@ -42,6 +43,15 @@ class Game:
     def update(self):
         self.game_over = self.snake.update()
 
+        # draw score
+        pr.draw_text(
+            f"SCORE: {self.score}",
+            pr.get_screen_width()//2 - 65,
+            40,
+            30,
+            pr.GRAY,
+        )
+
         # snake collision with food
         for segment in self.snake.list:
             if pr.check_collision_recs(
@@ -50,6 +60,7 @@ class Game:
             ):
                 self.food.x, self.food.y = self.food.gen_random_food()
                 self.snake.list.append(self.snake.list[-1])
+                self.score += 1
 
     def game_over_menu(self):
         if self.game_over:
@@ -57,22 +68,30 @@ class Game:
                 (0, 0, pr.get_screen_width(), pr.get_screen_height()), SCREEN_BACKGROUND
             )
             pr.draw_text(
-                "GAME OVER",
-                pr.get_screen_width() // 2 - 110,
+                f"SCORE: {self.score}",
+                pr.get_screen_width() // 2 - 90,
                 pr.get_screen_height() // 2 - 100,
                 40,
                 pr.GRAY,
             )
             pr.draw_text(
-                "Press 'ENTER' to continue",
-                pr.get_screen_width() // 2 - 180,
+                "GAME OVER",
+                pr.get_screen_width() // 2 - 110,
                 pr.get_screen_height() // 2,
-                30,
+                40,
+                pr.GRAY,
+            )
+            pr.draw_text(
+                "Press 'ENTER' to continue",
+                pr.get_screen_width() // 2 - 250,
+                pr.get_screen_height() // 2 + 100,
+                40,
                 pr.GRAY,
             )
 
             if pr.is_key_pressed(pr.KeyboardKey.KEY_ENTER):
                 self.game_over = False
+                self.score = 0
                 self.snake = Snake(
                     self.rows, self.cols, self.margin_x, self.margin_y, self.block_size
                 )
