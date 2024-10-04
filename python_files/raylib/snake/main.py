@@ -37,30 +37,23 @@ class Game:
     def draw(self):
         draw_grid(self.rows, self.cols, self.block_size, self.margin_x, self.margin_y)
 
-        self.snake.draw()
-        self.food.draw()
-
-    def update(self):
-        self.game_over = self.snake.update()
-
         # draw score
         pr.draw_text(
             f"SCORE: {self.score}",
-            pr.get_screen_width()//2 - 65,
+            pr.get_screen_width() // 2 - 65,
             40,
             30,
             pr.GRAY,
         )
 
-        # snake collision with food
-        for segment in self.snake.list:
-            if pr.check_collision_recs(
-                (segment[0], segment[1], self.snake.width, self.snake.height),
-                (self.food.x, self.food.y, self.food.width, self.food.height),
-            ):
-                self.food.x, self.food.y = self.food.gen_random_food()
-                self.snake.list.append(self.snake.list[-1])
-                self.score += 1
+        self.snake.draw()
+        self.food.draw()
+
+    def update(self):
+        self.food.x, self.food.y, self.score = self.snake.update(self.food, self.score)
+
+        self.game_over = self.snake.collision_walls(self.game_over)
+        self.game_over = self.snake.collision_itself(self.game_over)
 
     def game_over_menu(self):
         if self.game_over:
