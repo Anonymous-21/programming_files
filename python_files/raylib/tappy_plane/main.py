@@ -212,6 +212,7 @@ def main():
 
         end_drawing()
 
+    unload_texture(game.spritesheet)
     close_window()
 
 

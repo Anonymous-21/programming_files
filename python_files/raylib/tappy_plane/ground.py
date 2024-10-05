@@ -7,14 +7,14 @@ class Ground:
         self.sprite_dict = sprite_dict
 
         self.ground = {
-            1: "groundDirt.png",
-            2: "groundGrass.png",
-            3: "groundSnow.png",
-            4: "groundIce.png",
-            # 5:"groundRock.png",
+            1:self.sprite_dict["groundDirt.png"],
+            2:self.sprite_dict["groundGrass.png"],
+            3:self.sprite_dict["groundSnow.png"],
+            4:self.sprite_dict["groundIce.png"],
+            5:self.sprite_dict["groundRock.png"],
         }
         self.frame_num = 1
-        self.current_ground = self.sprite_dict[self.ground[self.frame_num]]
+        self.current_ground = self.ground[self.frame_num]
 
         self.width = self.current_ground[2]
         self.height = self.current_ground[3]
@@ -24,6 +24,11 @@ class Ground:
         self.x2_window = self.width
         self.y2_window = get_screen_height() - self.height
         self.speed = 4
+
+        self.polygon_x = self.x1_window
+        self.polygon_y = self.y1_window
+        self.polygon_width = self.width
+        self.polygon_height = self.height
 
     def draw(self):
         draw_texture_rec(
@@ -39,7 +44,12 @@ class Ground:
             WHITE,
         )
 
+        # draw polygon (for collision)
+
     def animation(self, score, change_season_score):
+        # update current frame
+        self.current_ground = self.ground[self.frame_num]
+
         # move ground
         self.x1_window -= self.speed
         self.x2_window -= self.speed
@@ -55,5 +65,3 @@ class Ground:
             if self.frame_num > 4:
                 self.frame_num = 1
 
-        # update current frame
-        self.current_ground = self.sprite_dict[self.ground[self.frame_num]]
