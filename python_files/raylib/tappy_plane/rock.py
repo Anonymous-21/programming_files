@@ -7,21 +7,21 @@ class Rock:
         self.sprite_dict = sprite_dict
 
         self.rock = {
-            1: "rock.png",
-            2: "rockGrass.png",
-            3: "rockSnow.png",
-            4: "rockIce.png",
+            1: self.sprite_dict["rock.png"],
+            2: self.sprite_dict["rockGrass.png"],
+            3: self.sprite_dict["rockSnow.png"],
+            4: self.sprite_dict["rockIce.png"],
         }
         self.rock_down = {
-            1: "rockDown.png",
-            2: "rockGrassDown.png",
-            3: "rockSnowDown.png",
-            4: "rockIceDown.png",
+            1: self.sprite_dict["rockDown.png"],
+            2: self.sprite_dict["rockGrassDown.png"],
+            3: self.sprite_dict["rockSnowDown.png"],
+            4: self.sprite_dict["rockIceDown.png"],
         }
 
         self.frame_num = 1
-        self.current_rock = self.sprite_dict[self.rock[self.frame_num]]
-        self.current_rock_down = self.sprite_dict[self.rock_down[self.frame_num]]
+        self.current_rock = self.rock[self.frame_num]
+        self.current_rock_down = self.rock_down[self.frame_num]
         self.width = self.current_rock[2]
         self.height = self.current_rock[3]
         self.x1_window = get_screen_width() / 2
@@ -45,15 +45,7 @@ class Rock:
         }
 
     def draw(self):
-        # draw triangles
-        # rock
-        draw_triangle_lines(
-            self.triangle1[1], self.triangle1[2], self.triangle1[3], BLACK
-        )
-        # rock down
-        draw_triangle_lines(
-            self.triangle2[1], self.triangle2[2], self.triangle2[3], BLACK
-        )
+        # not drawing collision triangles to hide them from view (collision still works)
         # rock
         draw_texture_rec(
             self.spritesheet, self.current_rock, (self.x1_window, self.y1_window), WHITE
@@ -69,8 +61,8 @@ class Rock:
 
     def animation(self, score, change_season_score):
         # update rocks
-        self.current_rock = self.sprite_dict[self.rock[self.frame_num]]
-        self.current_rock_down = self.sprite_dict[self.rock_down[self.frame_num]]
+        self.current_rock = self.rock[self.frame_num]
+        self.current_rock_down = self.rock_down[self.frame_num]
 
         # update triangles
         self.triangle1 = {

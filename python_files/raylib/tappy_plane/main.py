@@ -20,6 +20,9 @@ GAME_FPS = 60
 class Game:
     def __init__(self):
         self.game_over = False
+        self.get_ready = True
+        self.frames_counter = 0
+        self.frame_num = 1
         self.score = 0
         self.change_season_score = 1000  # change season at given score
 
@@ -53,7 +56,7 @@ class Game:
     def check_collision(self):
         # collision between rocks (triangles) and player (Rectangle)
         # check every point of rectangle collision with triangle(Rock)
-        # triangle 
+        # triangle
         if check_collision_point_triangle(
             (self.plane.x_window, self.plane.y_window),
             self.rock.triangle1[1],
@@ -119,12 +122,48 @@ class Game:
         ):
             self.game_over = True
 
+    def get_ready_menu(self):
+        if self.get_ready:
+            self.frames_counter += 1
+            if self.frames_counter > 60:
+                self.frames_counter = 0
+                self.frame_num += 1
+                if self.frame_num > 6:
+                    self.get_ready = False
+
+            match self.frame_num:
+                case 1:
+                    self.font.draw_numbers(
+                        5, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                    )
+                case 2:
+                    self.font.draw_numbers(
+                        4, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                    )
+                case 3:
+                    self.font.draw_numbers(
+                        3, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                    )
+                case 4:
+                    self.font.draw_numbers(
+                        2, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                    )
+                case 5:
+                    self.font.draw_numbers(
+                        1, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                    )
+                case 6:
+                    self.font.draw_get_ready()
+
     def game_over_menu(self):
         if self.game_over:
             self.font.draw_game_over()
 
             if is_key_pressed(KeyboardKey.KEY_ENTER):
                 self.game_over = False
+                self.get_ready = True
+                self.frame_num = 1
+                self.frames_counter = 0
                 self.score = 0
                 self.plane = Plane(self.spritesheet, self.sprite_dict)
                 self.background = Background(self.spritesheet, self.sprite_dict)
@@ -143,9 +182,11 @@ def main():
         clear_background(SCREEN_BACKGROUND)
 
         game.draw()
-        if not game.game_over:
+        if not game.game_over and not game.get_ready:
             game.update()
             game.check_collision()
+        elif game.get_ready:
+            game.get_ready_menu()
         elif game.game_over:
             game.game_over_menu()
 
