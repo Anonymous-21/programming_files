@@ -70,3 +70,4 @@ class Plane:
         if self.is_jumping:
             self.change_y += self.gravity
             self.y_window += self.change_y
+

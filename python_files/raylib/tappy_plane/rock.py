@@ -54,7 +54,6 @@ class Rock:
         draw_triangle_lines(
             self.triangle2[1], self.triangle2[2], self.triangle2[3], BLACK
         )
-
         # rock
         draw_texture_rec(
             self.spritesheet, self.current_rock, (self.x1_window, self.y1_window), WHITE

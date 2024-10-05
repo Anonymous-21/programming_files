@@ -22,11 +22,12 @@ x_window = 0
 y_window = 0
 
 triangle = {
-    1:(300, 300),
-    2:(150, 450),
-    3:(450, 450),
+    1:[300, 300],
+    2:[150, 450],
+    3:[450, 450],
 }
 triangle_color = GREEN
+triangle_speed = 5
 
 while not window_should_close():
     begin_drawing()
@@ -41,6 +42,14 @@ while not window_should_close():
                      plane,
                      (x_window, y_window),
                      WHITE)
+
+    # move triangle
+    triangle[2][0] -= triangle_speed
+    triangle[1][0] = triangle[2][0] + 150
+    triangle[3][0] = triangle[2][0] + 300
+    
+    if triangle[2][0] < -300:
+        triangle[2][0] = get_screen_width() + 300
 
     # move rectangle
     if is_key_down(KeyboardKey.KEY_RIGHT):
