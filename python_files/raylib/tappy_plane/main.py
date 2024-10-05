@@ -134,23 +134,43 @@ class Game:
             match self.frame_num:
                 case 1:
                     self.font.draw_numbers(
-                        5, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                        5,
+                        (
+                            get_screen_width() / 2 - self.font.numbers_width / 2,
+                            get_screen_height() / 2 - self.font.numbers_height / 2,
+                        ),
                     )
                 case 2:
                     self.font.draw_numbers(
-                        4, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                        4,
+                        (
+                            get_screen_width() / 2 - self.font.numbers_width / 2,
+                            get_screen_height() / 2 - self.font.numbers_height / 2,
+                        ),
                     )
                 case 3:
                     self.font.draw_numbers(
-                        3, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                        3,
+                        (
+                            get_screen_width() / 2 - self.font.numbers_width / 2,
+                            get_screen_height() / 2 - self.font.numbers_height / 2,
+                        ),
                     )
                 case 4:
                     self.font.draw_numbers(
-                        2, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                        2,
+                        (
+                            get_screen_width() / 2 - self.font.numbers_width / 2,
+                            get_screen_height() / 2 - self.font.numbers_height / 2,
+                        ),
                     )
                 case 5:
                     self.font.draw_numbers(
-                        1, (get_screen_width()/2 - self.font.numbers_width/2, get_screen_height()/2 - self.font.numbers_height/2)
+                        1,
+                        (
+                            get_screen_width() / 2 - self.font.numbers_width / 2,
+                            get_screen_height() / 2 - self.font.numbers_height / 2,
+                        ),
                     )
                 case 6:
                     self.font.draw_get_ready()
