@@ -25,10 +25,30 @@ class Ground:
         self.y2_window = get_screen_height() - self.height
         self.speed = 4
 
-        self.polygon_x = self.x1_window
-        self.polygon_y = self.y1_window
-        self.polygon_width = self.width
-        self.polygon_height = self.height
+        self.line_strip= [
+            (0, 445 + 120),
+            (29, 443 + 120),
+            (37, 451 + 120),
+            (88, 455 + 120),
+            (129, 443 + 120),
+            (153, 417 + 120),
+            (245, 413 + 120),
+            (303, 437 + 120),
+            (346, 436 + 120),
+            (370, 422 + 120),
+            (432, 421 + 120),
+            (466, 453 + 120),
+            (505, 454 + 120),
+            (530, 464 + 120),
+            (569, 464 + 120),
+            (594, 437 + 120),
+            (632, 434 + 120),
+            (654, 413 + 120),
+            (740, 410 + 120),
+            (759, 436 + 120),
+            (800, 445 + 120),
+        ] 
+
 
     def draw(self):
         draw_texture_rec(
@@ -43,8 +63,6 @@ class Ground:
             (self.x2_window, self.y2_window),
             WHITE,
         )
-
-        # draw polygon (for collision)
 
     def animation(self, score, change_season_score):
         # update current frame

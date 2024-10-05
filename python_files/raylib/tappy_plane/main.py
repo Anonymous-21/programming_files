@@ -122,6 +122,12 @@ class Game:
         ):
             self.game_over = True
 
+    def collision_with_ground(self):
+        for coordinate in self.ground.line_strip:
+            if check_collision_point_rec(coordinate,
+                                         self.plane.current_frame):
+                self.game_over = True
+
     def get_ready_menu(self):
         if self.get_ready:
             self.frames_counter += 1
@@ -205,6 +211,7 @@ def main():
         if not game.game_over and not game.get_ready:
             game.update()
             game.check_collision()
+            game.collision_with_ground()
         elif game.get_ready:
             game.get_ready_menu()
         elif game.game_over:

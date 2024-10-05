@@ -22,6 +22,8 @@ y_window = 0
 ground = sprite_dict["groundDirt.png"]
 ground_width = ground[2]
 ground_height =ground[3]
+ground_x = 0
+ground_y = get_screen_height() - ground_height
 
 while not window_should_close():
     # move rectangle
@@ -39,7 +41,10 @@ while not window_should_close():
 
     draw_texture_rec(spritesheet, plane, (x_window, y_window), WHITE)
 
-    draw_texture_rec(spritesheet, ground, (0, get_screen_height() - ground_width), WHITE)
+    draw_texture_rec(spritesheet, ground, (ground_x, ground_y), WHITE)
+
+    if check_collision_recs(plane, ground):
+        draw_text("collision detected", 0, 0, 30, BLACK)
 
     end_drawing()
 
