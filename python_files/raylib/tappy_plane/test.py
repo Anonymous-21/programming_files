@@ -200,48 +200,14 @@ while not pr.window_should_close():
     pr.begin_drawing()
     pr.clear_background(pr.RAYWHITE)
 
-    # pr.draw_line_strip(line_strip, len(line_strip), pr.RED)
     pr.draw_texture_rec(spritesheet, ground, (ground_x, ground_y), pr.WHITE)
 
-    pr.draw_triangle_lines(triangle1[1], triangle1[2], triangle1[3], triangle1_color)
-    pr.draw_triangle_lines(triangle2[1], triangle2[2], triangle2[3], triangle2_color)
-    pr.draw_triangle_lines(triangle3[1], triangle3[2], triangle3[3], triangle3_color)
-    pr.draw_triangle_lines(triangle4[1], triangle4[2], triangle4[3], triangle4_color)
-    pr.draw_triangle_lines(triangle5[1], triangle5[2], triangle5[3], triangle5_color)
-    pr.draw_triangle_lines(triangle6[1], triangle6[2], triangle6[3], triangle6_color)
-    pr.draw_triangle_lines(triangle7[1], triangle7[2], triangle7[3], triangle7_color)
-    pr.draw_triangle_lines(triangle8[1], triangle8[2], triangle8[3], triangle8_color)
 
-    pr.draw_rectangle_lines_ex(
-        (rect1_x, rect1_y, rect1_width, rect1_height), 1, rect1_color
-    )
-    pr.draw_rectangle_lines_ex(
-        (rect2_x, rect2_y, rect2_width, rect2_height), 1, rect2_color
-    )
-    pr.draw_rectangle_lines_ex(
-        (rect3_x, rect3_y, rect3_width, rect3_height), 1, rect3_color
-    )
-    pr.draw_rectangle_lines_ex(
-        (rect4_x, rect4_y, rect4_width, rect4_height), 1, rect4_color
-    )
-    pr.draw_rectangle_lines_ex(
-        (rect5_x, rect5_y, rect5_width, rect5_height), 1, rect5_color
-    )
-    pr.draw_rectangle_lines_ex(
-        (rect6_x, rect6_y, rect6_width, rect6_height), 1, rect6_color
-    )
-    pr.draw_rectangle_lines_ex(
-        (rect7_x, rect7_y, rect7_width, rect7_height), 1, rect7_color
-    )
-    pr.draw_rectangle_lines_ex(
-        (rect8_x, rect8_y, rect8_width, rect8_height), 1, rect8_color
-    )
-    pr.draw_rectangle_lines_ex(
-        (rect9_x, rect9_y, rect9_width, rect9_height), 1, rect9_color
-    )
-    pr.draw_rectangle_lines_ex(
-        (rect10_x, rect10_y, rect10_width, rect10_height), 1, rect10_color
-    )
+    for rect in collision_rect_list:
+        pr.draw_rectangle_lines_ex(rect, 1, pr.BLACK)
+        
+    for triangle in collision_triangle_list:
+        pr.draw_triangle_lines(triangle[1], triangle[2], triangle[3], pr.BLACK)
 
     pr.end_drawing()
 
