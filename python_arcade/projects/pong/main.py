@@ -21,7 +21,7 @@ class Game(arcade.Window):
 
         self.ball = Ball(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-    def draw(self):
+    def on_draw(self):
         self.clear()
 
         # draw screen divider
@@ -37,8 +37,36 @@ class Game(arcade.Window):
 
         self.ball.draw()
 
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.W:
+            self.paddle_left.change_y = self.paddle_left.speed
+        elif key == arcade.key.S:
+            self.paddle_left.change_y = -self.paddle_left.speed
+
+        if key == arcade.key.UP:
+            self.paddle_right.change_y = self.paddle_right.speed
+        elif key == arcade.key.DOWN:
+            self.paddle_right.change_y = -self.paddle_right.speed
+
+    def on_key_release(self, key, modifiers):
+        if key == arcade.key.W:
+            self.paddle_left.change_y = 0
+        elif key == arcade.key.S:
+            self.paddle_left.change_y = 0
+
+        if key == arcade.key.UP:
+            self.paddle_right.change_y = 0
+        elif key == arcade.key.DOWN:
+            self.paddle_right.change_y = 0
+
+    def on_update(self, delta_time):
+        self.paddle_left.update()
+        self.paddle_right.update()    
+
+        self.ball.update()
+
+
 if __name__ == "__main__":
     game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    game.draw()
     arcade.run()
     
