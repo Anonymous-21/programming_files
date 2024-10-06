@@ -1,5 +1,4 @@
-from pyray import *
-
+import pyray as pr
 
 class Ground:
     def __init__(self, spritesheet, sprite_dict):
@@ -20,9 +19,9 @@ class Ground:
         self.height = self.current_ground[3]
 
         self.x1_window = 0
-        self.y1_window = get_screen_height() - self.height
+        self.y1_window = pr.get_screen_height() - self.height
         self.x2_window = self.width
-        self.y2_window = get_screen_height() - self.height
+        self.y2_window = pr.get_screen_height() - self.height
         self.speed = 4
 
         self.line_strip = [
@@ -50,17 +49,17 @@ class Ground:
         ]
 
     def draw(self):
-        draw_texture_rec(
+        pr.draw_texture_rec(
             self.spritesheet,
             self.current_ground,
             (self.x1_window, self.y1_window),
-            WHITE,
+            pr.WHITE,
         )
-        draw_texture_rec(
+        pr.draw_texture_rec(
             self.spritesheet,
             self.current_ground,
             (self.x2_window, self.y2_window),
-            WHITE,
+            pr.WHITE,
         )
 
     def animation(self, score, change_season_score):

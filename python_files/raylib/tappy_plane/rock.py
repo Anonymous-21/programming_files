@@ -1,4 +1,4 @@
-from pyray import *
+import pyray as pr
 
 
 class Rock:
@@ -24,8 +24,8 @@ class Rock:
         self.current_rock_down = self.rock_down[self.frame_num]
         self.width = self.current_rock[2]
         self.height = self.current_rock[3]
-        self.x1_window = get_screen_width() / 2
-        self.y1_window = get_screen_height() - self.height
+        self.x1_window = pr.get_screen_width() / 2
+        self.y1_window = pr.get_screen_height() - self.height
         self.gap_between_rocks = 400  # 400
         self.x2_window = self.x1_window + self.gap_between_rocks
         self.y2_window = 0
@@ -47,16 +47,16 @@ class Rock:
     def draw(self):
         # not drawing collision triangles to hide them from view (collision still works)
         # rock
-        draw_texture_rec(
-            self.spritesheet, self.current_rock, (self.x1_window, self.y1_window), WHITE
+        pr.draw_texture_rec(
+            self.spritesheet, self.current_rock, (self.x1_window, self.y1_window), pr.WHITE
         )
 
         # rock down
-        draw_texture_rec(
+        pr.draw_texture_rec(
             self.spritesheet,
             self.current_rock_down,
             (self.x2_window, self.y2_window),
-            WHITE,
+            pr.WHITE,
         )
 
     def animation(self, score, change_season_score):
@@ -81,7 +81,7 @@ class Rock:
         self.x2_window -= self.speed
 
         if self.x1_window < -self.width:
-            self.x1_window = get_screen_width() + self.width
+            self.x1_window = pr.get_screen_width() + self.width
         elif self.x2_window < -self.width:
             self.x2_window = self.x1_window + self.gap_between_rocks + self.width
 

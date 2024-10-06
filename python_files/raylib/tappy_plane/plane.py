@@ -1,4 +1,4 @@
-from pyray import *
+import pyray as pr
 
 
 class Plane:
@@ -32,7 +32,7 @@ class Plane:
         self.height = self.current_frame[3]
         self.x_window = self.width
         self.y_window = self.height
-        self.tint = WHITE
+        self.tint = pr.WHITE
 
         self.change_y = 0
         self.jump_force = -10
@@ -42,7 +42,7 @@ class Plane:
         self.frames_counter = 0
 
     def draw(self):
-        draw_texture_rec(
+        pr.draw_texture_rec(
             self.spritesheet,
             self.current_frame,
             (self.x_window, self.y_window),
@@ -62,7 +62,7 @@ class Plane:
                 self.frame_num = 1
 
     def jump(self):
-        if is_key_pressed(KeyboardKey.KEY_UP):
+        if pr.is_key_pressed(pr.KeyboardKey.KEY_UP):
             self.change_y = self.jump_force
 
         self.change_y += self.gravity

@@ -1,4 +1,4 @@
-from pyray import *
+import pyray as pr
 
 
 class Background:
@@ -16,11 +16,11 @@ class Background:
         self.speed = 1
 
     def draw(self):
-        draw_texture_rec(
-            self.spritesheet, self.background, (self.x1_window, self.y1_window), WHITE
+        pr.draw_texture_rec(
+            self.spritesheet, self.background, (self.x1_window, self.y1_window), pr.WHITE
         )
-        draw_texture_rec(
-            self.spritesheet, self.background, (self.x2_window, self.y2_window), WHITE
+        pr.draw_texture_rec(
+            self.spritesheet, self.background, (self.x2_window, self.y2_window), pr.WHITE
         )
 
     def animation(self):

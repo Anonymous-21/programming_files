@@ -1,4 +1,4 @@
-from pyray import *
+import pyray as pr
 import os
 
 from spritesheet_xml_parser import xml_parser
@@ -13,7 +13,7 @@ os.chdir("/home/anonymous/Downloads/programming_files/python_files/raylib/tappy_
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 480
 SCREEN_TITLE = "TAPPY PLANE"
-SCREEN_BACKGROUND = RAYWHITE
+SCREEN_BACKGROUND = pr.RAYWHITE
 GAME_FPS = 60
 
 
@@ -26,7 +26,7 @@ class Game:
         self.score = 0
         self.change_season_score = 1000  # change season at given score
 
-        self.spritesheet = load_texture("assets/sheet.png")
+        self.spritesheet = pr.load_texture("assets/sheet.png")
         self.spritesheet_xml = "assets/sheet.xml"
         self.sprite_dict = xml_parser(self.spritesheet_xml)
 
@@ -43,7 +43,7 @@ class Game:
         self.plane.draw()
 
         # draw Score
-        draw_text(str(int(self.score)), get_screen_width() - 150, 20, 30, GRAY)
+        pr.draw_text(str(int(self.score)), pr.get_screen_width() - 150, 20, 30, pr.GRAY)
 
     def update(self):
         self.score += 0.1
@@ -57,28 +57,28 @@ class Game:
         # collision between rocks (triangles) and player (Rectangle)
         # check every point of rectangle collision with triangle(Rock)
         # triangle
-        if check_collision_point_triangle(
+        if pr.check_collision_point_triangle(
             (self.plane.x_window, self.plane.y_window),
             self.rock.triangle1[1],
             self.rock.triangle1[2],
             self.rock.triangle1[3],
         ):
             self.game_over = True
-        elif check_collision_point_triangle(
+        elif pr.check_collision_point_triangle(
             (self.plane.x_window + self.plane.width, self.plane.y_window),
             self.rock.triangle1[1],
             self.rock.triangle1[2],
             self.rock.triangle1[3],
         ):
             self.game_over = True
-        elif check_collision_point_triangle(
+        elif pr.check_collision_point_triangle(
             (self.plane.x_window, self.plane.y_window + self.plane.height),
             self.rock.triangle1[1],
             self.rock.triangle1[2],
             self.rock.triangle1[3],
         ):
             self.game_over = True
-        elif check_collision_point_triangle(
+        elif pr.check_collision_point_triangle(
             (
                 self.plane.x_window + self.plane.width,
                 self.plane.y_window + self.plane.height,
@@ -90,28 +90,28 @@ class Game:
             self.game_over = True
 
         # triangle down
-        if check_collision_point_triangle(
+        if pr.check_collision_point_triangle(
             (self.plane.x_window, self.plane.y_window),
             self.rock.triangle2[1],
             self.rock.triangle2[2],
             self.rock.triangle2[3],
         ):
             self.game_over = True
-        elif check_collision_point_triangle(
+        elif pr.check_collision_point_triangle(
             (self.plane.x_window + self.plane.width, self.plane.y_window),
             self.rock.triangle2[1],
             self.rock.triangle2[2],
             self.rock.triangle2[3],
         ):
             self.game_over = True
-        elif check_collision_point_triangle(
+        elif pr.check_collision_point_triangle(
             (self.plane.x_window, self.plane.y_window + self.plane.height),
             self.rock.triangle2[1],
             self.rock.triangle2[2],
             self.rock.triangle2[3],
         ):
             self.game_over = True
-        elif check_collision_point_triangle(
+        elif pr.check_collision_point_triangle(
             (
                 self.plane.x_window + self.plane.width,
                 self.plane.y_window + self.plane.height,
@@ -136,24 +136,24 @@ class Game:
                     self.font.draw_numbers(
                         3,
                         (
-                            get_screen_width() / 2 - self.font.numbers_width / 2,
-                            get_screen_height() / 2 - self.font.numbers_height / 2,
+                            pr.get_screen_width() / 2 - self.font.numbers_width / 2,
+                            pr.get_screen_height() / 2 - self.font.numbers_height / 2,
                         ),
                     )
                 case 2:
                     self.font.draw_numbers(
                         2,
                         (
-                            get_screen_width() / 2 - self.font.numbers_width / 2,
-                            get_screen_height() / 2 - self.font.numbers_height / 2,
+                            pr.get_screen_width() / 2 - self.font.numbers_width / 2,
+                            pr.get_screen_height() / 2 - self.font.numbers_height / 2,
                         ),
                     )
                 case 3:
                     self.font.draw_numbers(
                         1,
                         (
-                            get_screen_width() / 2 - self.font.numbers_width / 2,
-                            get_screen_height() / 2 - self.font.numbers_height / 2,
+                            pr.get_screen_width() / 2 - self.font.numbers_width / 2,
+                            pr.get_screen_height() / 2 - self.font.numbers_height / 2,
                         ),
                     )
                 case 4:
@@ -163,7 +163,7 @@ class Game:
         if self.game_over:
             self.font.draw_game_over()
 
-            if is_key_pressed(KeyboardKey.KEY_ENTER):
+            if pr.is_key_pressed(pr.KeyboardKey.KEY_ENTER):
                 self.game_over = False
                 self.get_ready = True
                 self.frame_num = 1
@@ -176,14 +176,14 @@ class Game:
 
 
 def main():
-    init_window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    set_target_fps(GAME_FPS)
+    pr.init_window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    pr.set_target_fps(GAME_FPS)
 
     game = Game()
 
-    while not window_should_close():
-        begin_drawing()
-        clear_background(SCREEN_BACKGROUND)
+    while not pr.window_should_close():
+        pr.begin_drawing()
+        pr.clear_background(SCREEN_BACKGROUND)
 
         game.draw()
         if not game.game_over and not game.get_ready:
@@ -194,10 +194,10 @@ def main():
         elif game.game_over:
             game.game_over_menu()
 
-        end_drawing()
+        pr.end_drawing()
 
-    unload_texture(game.spritesheet)
-    close_window()
+    pr.unload_texture(game.spritesheet)
+    pr.close_window()
 
 
 if __name__ == "__main__":

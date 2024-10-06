@@ -1,4 +1,4 @@
-from pyray import *
+import pyray as pr
 
 
 class Font:
@@ -59,32 +59,32 @@ class Font:
         self.numbers_width = (self.numbers[0])[2]
         self.numbers_height = (self.numbers[0])[3]
 
-    def draw_numbers(self, number, position_vector, tint=WHITE):
-        draw_texture_rec(self.spritesheet, self.numbers[number], position_vector, tint)
+    def draw_numbers(self, number, position_vector, tint=pr.WHITE):
+        pr.draw_texture_rec(self.spritesheet, self.numbers[number], position_vector, tint)
 
-    def draw_letters(self, letter, position_vector, tint=WHITE):
-        draw_texture_rec(
+    def draw_letters(self, letter, position_vector, tint=pr.WHITE):
+        pr.draw_texture_rec(
             self.spritesheet, self.letters[str(letter)], position_vector, tint
         )
 
     def draw_game_over(self):
-        draw_texture_rec(
+        pr.draw_texture_rec(
             self.spritesheet,
             self.game_over,
             (
-                get_screen_width() / 2 - self.game_over_width / 2,
-                get_screen_height() / 2 - self.game_over_height / 2,
+                pr.get_screen_width() / 2 - self.game_over_width / 2,
+                pr.get_screen_height() / 2 - self.game_over_height / 2,
             ),
-            WHITE,
+            pr.WHITE,
         )
 
     def draw_get_ready(self):
-        draw_texture_rec(
+        pr.draw_texture_rec(
             self.spritesheet,
             self.get_ready,
             (
-                get_screen_width() / 2 - self.get_ready_width / 2,
-                get_screen_height() / 2 - self.get_ready_height / 2,
+                pr.get_screen_width() / 2 - self.get_ready_width / 2,
+                pr.get_screen_height() / 2 - self.get_ready_height / 2,
             ),
-            WHITE,
+            pr.WHITE,
         )
