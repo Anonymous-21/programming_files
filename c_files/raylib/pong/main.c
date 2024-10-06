@@ -4,12 +4,18 @@
 
 #define MAX 10
 
-int ball_reset(int ball_x,  int ball_y, int ball_initial_x, int ball_initial_y);
+void ball_reset(int *ball_x,  int *ball_y, int ball_initial_x, int ball_initial_y);
+void paddle_reset(int *paddle_y, int paddle_intial_y);
 
-int ball_reset(ball_x, ball_y, ball_initial_x, ball_initial_y)
+void ball_reset(int *ball_x, int *ball_y, int ball_initial_x, int ball_initial_y)
 {
-    ball_x = ball_initial_x;
-    ball_y = ball_initial_y;
+    *ball_x = ball_initial_x;
+    *ball_y = ball_initial_y;
+}
+
+void paddle_reset(int *paddle_y, int paddle_initial_y)
+{
+    *paddle_y = paddle_initial_y;
 }
 
 int main(void)
@@ -26,6 +32,7 @@ int main(void)
     char left_score_str[MAX], right_score_str[MAX];
 
     bool game_over = false;
+    int frames_counter = 0;
     int left_score = 0;
     int right_score = 0;
 
@@ -84,12 +91,30 @@ int main(void)
             }
 
             // move ball
-            ball_x += ball_change_x;
-            ball_y += ball_change_y;
-
-            if (ball_x <= ball_radius || ball_x >= GetScreenWidth() - ball_radius)
+            frames_counter ++;
+            if (frames_counter > 60)
             {
+                ball_x += ball_change_x;
+                ball_y += ball_change_y;
+            }
+
+            if (ball_x <= ball_radius) 
+            {
+                frames_counter = 0;
+                right_score ++;
                 ball_change_x *= -1;
+                ball_reset(&ball_x, &ball_y, ball_initial_x, ball_initial_y);
+                paddle_reset(&paddle_left_y, paddle_initial_y);
+                paddle_reset(&paddle_right_y, paddle_initial_y);
+            }
+            else if (ball_x >= GetScreenWidth() - ball_radius)
+            {
+                frames_counter = 0;
+                left_score ++;
+                ball_change_x *= -1;
+                ball_reset(&ball_x, &ball_y, ball_initial_x, ball_initial_y);   
+                paddle_reset(&paddle_left_y, paddle_initial_y);
+                paddle_reset(&paddle_right_y, paddle_initial_y);
             }
             else if (ball_y <= 0 || ball_y >= GetScreenHeight() - ball_radius)
             {
@@ -124,8 +149,7 @@ int main(void)
                 paddle_right_y = paddle_initial_y;
 
                 // reset ball
-                ball_x = ball_initial_x;
-                ball_y = ball_initial_y;
+                ball_reset(&ball_x, &ball_y, ball_initial_x, ball_initial_y);
 
                 // reset score
                 left_score = 0;
@@ -146,8 +170,8 @@ int main(void)
             DrawText(right_score_str, GetScreenWidth()/2 + 50, 10, 30, GRAY);
 
             // screen divider
-            DrawLineEx((Vector2){GetScreenWidth()/2, 0},
-                       (Vector2){GetScreenWidth()/2, GetScreenHeight()},
+            DrawLineEx((Vector2){(float)GetScreenWidth()/2, 0},
+                       (Vector2){(float)GetScreenWidth()/2, GetScreenHeight()},
                        2,
                        GRAY);
 
