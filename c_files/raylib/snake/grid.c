@@ -1,14 +1,15 @@
 #include "grid.h"
 #include "raylib.h"
 
-void initGrid(Grid *grid) {
-  grid->rows = 20;
-  grid->cols = 20;
-  grid->block_size = 30;
-  grid->margin_x = (GetScreenWidth() - (grid->rows * grid->block_size)) / 2;
-  grid->margin_y = (GetScreenHeight() - (grid->cols * grid->block_size)) / 2;
-  grid->line_thickness = 1;
+void initGrid(Grid *grid, int rows, int cols, int block_size, int margin_x,
+              int margin_y) {
+  grid->rows = rows;
+  grid->cols = cols;
+  grid->block_size = block_size;
   grid->color = BLACK;
+  grid->line_thickness = 1;
+  grid->margin_x = margin_x;
+  grid->margin_y = margin_y;
 }
 
 void drawGrid(Grid *grid) {
@@ -18,7 +19,8 @@ void drawGrid(Grid *grid) {
       int y = i * grid->block_size + grid->margin_y;
 
       DrawRectangleLinesEx(
-          (Rectangle){x, y, grid->block_size, grid->block_size}, grid->line_thickness, grid->color);
+          (Rectangle){x, y, grid->block_size, grid->block_size},
+          grid->line_thickness, grid->color);
     }
   }
 }

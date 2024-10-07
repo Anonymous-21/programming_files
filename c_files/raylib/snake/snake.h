@@ -1,32 +1,34 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-#include "raylib.h"
 #include "grid.h"
+#include "raylib.h"
 
-#define MAX 6
-#define LMAX 400
+#define DIRECTION_MAX 6
+#define SNAKE_LIST_MAX 400
 
 typedef struct Snake {
-
+  int block_size;
+  int margin_x;
+  int margin_y;
   int x;
   int y;
   int width;
   int height;
   Color color;
-  char direction[MAX];
   int speed;
+  char direction[DIRECTION_MAX];
+  int sentinal_x;
+  int sentinal_y;
   int frames_counter;
-  float sentinel_x;
-  float sentinel_y;
-  Vector2 list[LMAX];
-
+  Vector2 list[SNAKE_LIST_MAX];
 } Snake;
 
-void initSnake(Grid *grid, Snake *snake);
+void initSnake(Snake *snake, int block_size, int margin_x, int margin_y);
 int arrayLength(Snake *snake);
 void drawSnake(Snake *snake);
+void on_key_press(Snake *snake);
 void updateSnake(Snake *snake);
-// void freeArray(Snake *snake);
+bool collisionWalls(Snake *snake, bool game_over);
 
 #endif // SNAKE_H
