@@ -87,14 +87,12 @@ void updateSnake(Snake *snake) {
   }
 }
 
-bool collisionWalls(Snake *snake, bool game_over)
-{
-  if (snake->x < snake->margin_x || snake->x > GetScreenWidth() - snake->margin_x - snake->width) 
-  {
+bool collisionWalls(Snake *snake, bool game_over) {
+  if (snake->x < snake->margin_x ||
+      snake->x > GetScreenWidth() - snake->margin_x - snake->width) {
     game_over = true;
-  }
-  else if (snake->y < snake->margin_y || snake->y > GetScreenHeight() - snake->margin_y - snake->height)
-  {
+  } else if (snake->y < snake->margin_y ||
+             snake->y > GetScreenHeight() - snake->margin_y - snake->height) {
     game_over = true;
   }
 

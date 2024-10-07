@@ -1,11 +1,13 @@
-#include "raylib.h"
 #include "grid.h"
+#include "raylib.h"
 #include "snake.h"
+#include "food.h"
 #include <stdbool.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
 #define SCORE_MAX 20
+#define SCORE_MAX_CONCATENATED 40
 
 int main(void) {
   const int screenWidth = 800;
@@ -20,7 +22,7 @@ int main(void) {
   bool game_over = false;
   int score = 0;
   char score_str[SCORE_MAX];
-  char score_str_concatenated[SCORE_MAX];
+  char score_str_concatenated[SCORE_MAX_CONCATENATED];
 
   int rows = 20;
   int cols = 20;
@@ -30,51 +32,53 @@ int main(void) {
 
   Grid grid;
   Snake snake;
+  Food food;
 
   initGrid(&grid, rows, cols, block_size, margin_x, margin_y);
   initSnake(&snake, block_size, margin_x, margin_y);
+  initFood(&food, &snake, rows, cols, block_size, margin_x, margin_y);
 
   while (!WindowShouldClose()) {
 
-    if (!game_over)
-    {
+    if (!game_over) {
       // update score and convert to string for display
       snprintf(score_str, SCORE_MAX, "%d\n", score);
-      strncpy(score_str_concatenated, "Score: ", SCORE_MAX);
-      strncat(score_str_concatenated, score_str, SCORE_MAX);
+      strncpy(score_str_concatenated, "Score: ", SCORE_MAX_CONCATENATED);
+      strncat(score_str_concatenated, score_str,
+              SCORE_MAX_CONCATENATED - strlen(score_str_concatenated) - 1);
 
       // get input from player and move snake
       on_key_press(&snake);
       updateSnake(&snake);
       game_over = collisionWalls(&snake, game_over);
-    }
-    else
-    {
-      if (IsKeyPressed(KEY_ENTER))
-      {
+    } else {
+      if (IsKeyPressed(KEY_ENTER)) {
         game_over = false;
         score = 0;
         snake.frames_counter = 0;
         initGrid(&grid, rows, cols, block_size, margin_x, margin_y);
-        initSnake(&snake,block_size, margin_x, margin_y);
+        initSnake(&snake, block_size, margin_x, margin_y);
+        initFood(&food, &snake, rows, cols, block_size, margin_x, margin_y);
       }
     }
     BeginDrawing();
 
     ClearBackground(screenBackground);
 
-    if (!game_over)
-    {
-      DrawText(score_str_concatenated, GetScreenWidth()/2 - 70, 35, 30, GRAY);
+    if (!game_over) {
+      DrawText(score_str_concatenated, GetScreenWidth() / 2 - 70, 35, 30, GRAY);
       drawGrid(&grid);
       drawSnake(&snake);
-    }
-    else
-    {
-      DrawRectangleRec((Rectangle){0, 0, GetScreenWidth(), GetScreenHeight()}, screenBackground);
-      DrawText(score_str_concatenated, GetScreenWidth()/2 - 70, GetScreenHeight()/2 - 100, 30, GRAY);
-      DrawText("Game Over", GetScreenWidth()/2 - 75, GetScreenHeight()/2, 30, GRAY);
-      DrawText("Press 'Enter' to continue", GetScreenWidth()/2 - 165, GetScreenHeight()/2 + 100, 30, GRAY);
+      drawFood(&food);
+    } else {
+      DrawRectangleRec((Rectangle){0, 0, GetScreenWidth(), GetScreenHeight()},
+                       screenBackground);
+      DrawText(score_str_concatenated, GetScreenWidth() / 2 - 70,
+               GetScreenHeight() / 2 - 150, 40, GRAY);
+      DrawText("Game Over", GetScreenWidth() / 2 - 110, GetScreenHeight() / 2,
+               50, GRAY);
+      DrawText("Press 'Enter' to continue", GetScreenWidth() / 2 - 165,
+               GetScreenHeight() / 2 + 80, 30, GRAY);
     }
 
     EndDrawing();
