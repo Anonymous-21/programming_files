@@ -1,4 +1,5 @@
 #include "snake.h"
+#include "food.h"
 #include "grid.h"
 #include "raylib.h"
 #include <string.h>
@@ -14,6 +15,7 @@ void initSnake(Snake *snake, Grid *grid) {
   snake->sentinal_x = GetScreenWidth() * 10;
   snake->sentinal_y = GetScreenHeight() * 10;
   snake->frames_counter = 0;
+  snake->size = 1;
 
   // initialize every value in list with sentinal values for calculating actual
   // length of array
@@ -36,8 +38,7 @@ int arrayLength(Snake *snake) {
 }
 
 void drawSnake(Snake *snake) {
-  int length = arrayLength(snake);
-  for (int i = 0; i < length; i++) {
+  for (int i = 0; i < snake->size; i++) {
     DrawRectangleRec((Rectangle){snake->list[i].x, snake->list[i].y,
                                  snake->width, snake->height},
                      snake->color);
@@ -60,10 +61,58 @@ void onKeyPress(Snake *snake) {
   }
 }
 
-void updateSnake(Snake *snake) {
+// int updateSnake(Snake *snake, Food *food, Grid *grid, int score) {
+//   // move snake based on given direction
+//   snake->frames_counter++;
+//   if (snake->frames_counter % 5 == 0) {
+//     if (strncmp(snake->direction, "right", DIRECTION_LENGTH) == 0) {
+//       snake->x += snake->speed;
+//     } else if (strncmp(snake->direction, "left", DIRECTION_LENGTH) == 0) {
+//       snake->x -= snake->speed;
+//     } else if (strncmp(snake->direction, "up", DIRECTION_LENGTH) == 0) {
+//       snake->y -= snake->speed;
+//     } else if (strncmp(snake->direction, "down", DIRECTION_LENGTH) == 0) {
+//       snake->y += snake->speed;
+//     }
+
+//     // food collision with snake
+//     // before updating snake list so that food is not considered part of snake
+//     if (CheckCollisionRecs(
+//             (Rectangle){snake->x, snake->y, snake->width, snake->height},
+//             (Rectangle){food->x, food->y, food->width, food->height})) {
+//       snake->list[snake->size] = snake->list[snake->size- 1];
+//       snake->size++;
+//       Vector2 random_food = genRandomFood(grid, snake);
+//       food->x = random_food.x;
+//       food->y = random_food.y;
+//       score++;
+//     }
+//     for (int i = 1; i < snake->size; i++) {
+//       snake->list[i] = snake->list[i - 1];
+//     }
+
+//     // update snake head
+//     snake->list[0] = (Vector2){snake->x, snake->y};
+//   }
+
+//   return score;
+// }
+
+int updateSnake(Snake *snake, Food *food, Grid *grid, int score) {
   // move snake based on given direction
   snake->frames_counter++;
   if (snake->frames_counter % 5 == 0) {
+
+    if (snake->frames_counter > 10000)
+    {
+      snake->frames_counter = 0;
+    }
+    // Update the body starting from the tail
+    for (int i = snake->size - 1; i > 0; i--) {
+      snake->list[i] = snake->list[i - 1];
+    }
+
+    // Move the head in the direction
     if (strncmp(snake->direction, "right", DIRECTION_LENGTH) == 0) {
       snake->x += snake->speed;
     } else if (strncmp(snake->direction, "left", DIRECTION_LENGTH) == 0) {
@@ -71,24 +120,32 @@ void updateSnake(Snake *snake) {
     } else if (strncmp(snake->direction, "up", DIRECTION_LENGTH) == 0) {
       snake->y -= snake->speed;
     } else if (strncmp(snake->direction, "down", DIRECTION_LENGTH) == 0) {
-      snake->y += snake->speed;
+;      snake->y += snake->speed;
     }
 
-    // update snake head
+    // Update the head position
     snake->list[0] = (Vector2){snake->x, snake->y};
 
-    // update rest of the list
-    int array_length = arrayLength(snake);
-    Vector2 new_list[LIST_LENGTH];
+    // Check for food collision
+    if (CheckCollisionRecs(
+            (Rectangle){snake->x, snake->y, snake->width, snake->height},
+            (Rectangle){food->x, food->y, food->width, food->height})) {
+      // Increase snake size and add new segment
+      snake->list[snake->size] = snake->list[snake->size - 1];
+      snake->size++;
 
-    for (int i = 0; i < array_length; i++) {
-      new_list[i] = snake->list[i];
-      snake->list[i + 1] = new_list[i];
-      snake->list[array_length] =
-          (Vector2){snake->sentinal_x, snake->sentinal_y};
+      // Generate new food position
+      Vector2 random_food = genRandomFood(grid, snake);
+      food->x = random_food.x;
+      food->y = random_food.y;
+
+      score++;
     }
   }
+
+  return score;
 }
+
 
 int collisionWalls(Snake *snake, Grid *grid, bool game_over) {
   if (snake->x < grid->margin_x ||
