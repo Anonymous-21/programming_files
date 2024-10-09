@@ -14,21 +14,19 @@ void initFood(Food *food, Grid *grid, Snake *snake) {
 }
 
 Vector2 genRandomFood(Grid *grid, Snake *snake) {
-  int array_length = arrayLength(snake);
-  bool overlaps = false;
-  while (1) {
-    int x =
-        GetRandomValue(0, grid->cols - 1) * grid->block_size + grid->margin_x;
-    int y =
-        GetRandomValue(0, grid->rows - 1) * grid->block_size + grid->margin_y;
+  bool inside_snake = false;
 
-    for (int i = 0; i < array_length; i++) {
+  while (1) {
+    int x = GetRandomValue(0, grid->cols - 1) * grid->block_size + grid->margin;
+    int y = GetRandomValue(0, grid->rows - 1) * grid->block_size + grid->margin;
+
+    for (int i = 0; i < snake->size; i++) {
       if (x == snake->list[i].x && y == snake->list[i].y) {
-        overlaps = true;
-        break;
+        inside_snake = true;
       }
     }
-    if (!overlaps) {
+
+    if (!inside_snake) {
       return (Vector2){x, y};
     }
   }

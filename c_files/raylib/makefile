@@ -3,11 +3,11 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 SRC = 
-TARGET = 
+TARGET =
 
 # Build rule
 build:
-	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
+	# $(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LDFLAGS)
 
 # Clean rule
 clean:
