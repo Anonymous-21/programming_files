@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -g
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 SRC = main.c grid.c snake.c food.c
 TARGET = snake

@@ -1,13 +1,13 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -g
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 SRC = main.c paddle.c ball.c bricks.c
 TARGET = breakout
 
 # Build rule
 build:
-	# $(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LDFLAGS)
 
 # Clean rule
 clean:

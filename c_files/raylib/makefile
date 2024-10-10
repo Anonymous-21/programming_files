@@ -7,7 +7,7 @@ TARGET =
 
 # Build rule
 build:
-	# $(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LDFLAGS)
 
 # Clean rule
 clean:

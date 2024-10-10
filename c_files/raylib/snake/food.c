@@ -24,6 +24,10 @@ Vector2 genRandomFood(Grid *grid, Snake *snake) {
       if (x == snake->list[i].x && y == snake->list[i].y) {
         inside_snake = true;
       }
+      else
+      {
+        inside_snake = false;
+      }
     }
 
     if (!inside_snake) {
