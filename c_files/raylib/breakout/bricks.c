@@ -76,3 +76,17 @@ void bricksCollisionBall(Bricks *bricks, Ball *ball) {
     }
   }
 }
+
+bool checkWinCondition(Bricks *bricks, bool game_won) {
+  for (int i = 0; i < bricks->rows; i++) {
+    for (int j = 0; j < bricks->cols; j++) {
+      if (bricks->grid[i][j].x != -1 && bricks->grid[i][j].y != -1) {
+        break;
+      } else {
+        game_won = true;
+      }
+    }
+  }
+
+  return game_won;
+}

@@ -1,9 +1,9 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-SRC = 
-TARGET =
+SRC = main.c player.c obstacles.c
+TARGET = endless_runner
 
 # Build rule
 build:

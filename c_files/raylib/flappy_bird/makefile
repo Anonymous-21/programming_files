@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 SRC = 
 TARGET =

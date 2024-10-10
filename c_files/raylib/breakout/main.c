@@ -3,7 +3,6 @@
 #include "paddle.h"
 #include "raylib.h"
 #include <stdio.h>
-#include <string.h>
 
 int main(void) {
   const int screenWidth = 800;
@@ -17,6 +16,7 @@ int main(void) {
   SetTargetFPS(gameFps);
 
   bool game_over = false;
+  bool game_won = false;
   int lives = 5;
   char lives_str[LIVES_LENGTH];
 
@@ -41,6 +41,7 @@ int main(void) {
       lives = moveBall(&ball, lives);
       paddleCollisionBall(&paddle, &ball);
       bricksCollisionBall(&bricks, &ball);
+      game_won = checkWinCondition(&bricks, game_won);
     } else if (game_over) {
       if (IsKeyPressed(KEY_ENTER)) {
         game_over = false;
@@ -48,30 +49,45 @@ int main(void) {
         initPaddle(&paddle);
         initBall(&ball);
         initBricks(&bricks);
+      } else if (game_won) {
+        if (IsKeyPressed(KEY_ENTER)) {
+          game_won = false;
+          lives = 5;
+          initPaddle(&paddle);
+          initBall(&ball);
+          initBricks(&bricks);
+        }
       }
+      BeginDrawing();
+
+      ClearBackground(screenBackground);
+
+      if (!game_over) {
+        // draw lives
+        DrawText(lives_str, 10, GetScreenHeight() - 40, 30, GRAY);
+
+        drawPaddle(&paddle);
+        drawBall(&ball);
+        drawBricks(&bricks);
+      } else if (game_over) {
+        DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
+                      screenBackground);
+        DrawText("Game Over", GetScreenWidth() / 2 - 85,
+                 GetScreenHeight() / 2 - 100, 40, GRAY);
+        DrawText("Press 'Enter' to restart", GetScreenWidth() / 2 - 160,
+                 GetScreenHeight() / 2, 30, GRAY);
+      } else if (game_won) {
+        DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
+                      screenBackground);
+        DrawText("You Win", GetScreenWidth() / 2 - 85,
+                 GetScreenHeight() / 2 - 100, 40, GRAY);
+        DrawText("Press 'Enter' to restart", GetScreenWidth() / 2 - 160,
+                 GetScreenHeight() / 2, 30, GRAY);
+      }
+
+      EndDrawing();
     }
-    BeginDrawing();
 
-    ClearBackground(screenBackground);
-
-    if (!game_over) {
-      // draw lives
-      DrawText(lives_str, 10, GetScreenHeight() - 40, 30, GRAY);
-
-      drawPaddle(&paddle);
-      drawBall(&ball);
-      drawBricks(&bricks);
-    } else if (game_over) {
-      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
-                    screenBackground);
-      DrawText("Game Over", GetScreenWidth() / 2 - 85, GetScreenHeight() / 2 - 100,
-               40, GRAY);
-      DrawText("Press 'Enter' to restart", GetScreenWidth() / 2 - 160,
-               GetScreenHeight() / 2, 30, GRAY);
-    }
-
-    EndDrawing();
+    CloseWindow();
   }
-
-  CloseWindow();
 }

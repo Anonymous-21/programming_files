@@ -25,5 +25,6 @@ void genGrid(Bricks *bricks);
 void updateBrickColor(Bricks *bricks);
 void drawBricks(Bricks *bricks);
 void bricksCollisionBall(Bricks *bricks, Ball *ball);
+bool checkWinCondition(Bricks *bricks, bool game_won);
 
 #endif // BRICKS_H
