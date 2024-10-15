@@ -9,30 +9,25 @@ class Ball:
         self.x = self.initial_x
         self.y = self.initial_y
         self.color = p.RED
+        self.frames_counter = 0
         self.speed_x = 5
         self.speed_y = 6
 
-    def ball_reset(self):
+    def reset(self):
         self.x = self.initial_x
         self.y = self.initial_y
+        self.frames_counter = 0
 
     def draw(self):
         p.draw_circle_v((self.x, self.y), self.radius, self.color)
 
-    def move(self):
-        self.x += self.speed_x
-        self.y += self.speed_y
+    def update(self):
+        self.frames_counter += 1
+        if self.frames_counter > 60:
+            self.frames_counter = 61
+            self.x += self.speed_x
+            self.y += self.speed_y
 
-    def collision_walls(self, left_score, right_score):
-        if self.x <= self.radius:
-            right_score += 1
-            self.ball_reset()
-            self.speed_x *= -1
-        elif self.x >= p.get_screen_width() - self.radius:
-            left_score += 1
-            self.ball_reset()
-            self.speed_x *= -1
-        elif self.y <= self.radius or self.y >= p.get_screen_height() - self.radius:
+        # ball collision with roof and floor
+        if self.y <= self.radius or self.y >= p.get_screen_height() - self.radius:
             self.speed_y *= -1
-
-        return (left_score, right_score)
