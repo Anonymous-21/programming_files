@@ -24,12 +24,9 @@ class Game:
         if not self.game_over:
             # draw score
             p.draw_text(
-                f"Score: {self.score}",
-                p.get_screen_width() // 2 - 80,
-                35,
-                40,
-                p.GRAY)
-            
+                f"Score: {self.score}", p.get_screen_width() // 2 - 80, 35, 40, p.GRAY
+            )
+
             self.grid.draw()
             self.snake.draw()
             self.food.draw()
