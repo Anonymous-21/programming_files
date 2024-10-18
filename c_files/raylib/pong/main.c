@@ -16,6 +16,7 @@ int main(void) {
   InitWindow(screenWidth, screenHeight, screenTitle);
   SetTargetFPS(gameFps);
 
+  bool game_paused = false;
   int left_score = 0;
   int right_score = 0;
   char left_score_str[SCOREMAXLENGTH];
@@ -35,25 +36,36 @@ int main(void) {
     snprintf(left_score_str, SCOREMAXLENGTH, "%d\n", left_score);
     snprintf(right_score_str, SCOREMAXLENGTH, "%d\n", right_score);
 
-    movePaddle(&paddle_left, KEY_W, KEY_S);
-    movePaddle(&paddle_right, KEY_UP, KEY_DOWN);
-    moveBall(&ball);
-    collisionPaddleBall(&paddle_left, &ball);
-    collisionPaddleBall(&paddle_right, &ball);
-    ballCollisionVerticalWalls(&ball);
+    // game pause/unpause with space key
+    if (IsKeyPressed(KEY_SPACE) && game_paused) {
+      game_paused = false;
+    } else if (IsKeyPressed(KEY_SPACE) && !game_paused) {
+      game_paused = true;
+    }
 
-    // ball collision with horizontal walls
-    // update score and reset ball/paddle
-    if (ball.x <= ball.radius) {
-      right_score++;
-      paddleReset(&paddle_left);
-      paddleReset(&paddle_right);
-      ballReset(&ball);
-    } else if (ball.x >= GetScreenWidth() - ball.radius) {
-      left_score++;
-      paddleReset(&paddle_left);
-      paddleReset(&paddle_right);
-      ballReset(&ball);
+    if (!game_paused) {
+      movePaddle(&paddle_left, KEY_W, KEY_S);
+      movePaddle(&paddle_right, KEY_UP, KEY_DOWN);
+      moveBall(&ball);
+      collisionPaddleBall(&paddle_left, &ball);
+      collisionPaddleBall(&paddle_right, &ball);
+      ballCollisionVerticalWalls(&ball);
+
+      // ball collision with horizontal walls
+      // update score and reset ball/paddle
+      if (ball.x <= ball.radius) {
+        right_score++;
+        paddleReset(&paddle_left);
+        paddleReset(&paddle_right);
+        ballReset(&ball);
+      } else if (ball.x >= GetScreenWidth() - ball.radius) {
+        left_score++;
+        paddleReset(&paddle_left);
+        paddleReset(&paddle_right);
+        ballReset(&ball);
+      }
+    } else if (game_paused) {
+      DrawText("PAUSED", GetScreenWidth() - 150, 20, 30, GRAY);
     }
 
     BeginDrawing();
