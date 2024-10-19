@@ -2,8 +2,8 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-SRC = main.c paddle.c ball.c bricks.c
-TARGET = breakout
+SRC = main.c player.c obstacles.c
+TARGET = endless_runner
 
 # Build rule
 build:
