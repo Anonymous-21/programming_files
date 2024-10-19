@@ -7,7 +7,7 @@ void initBricks(Bricks *bricks) {
   bricks->width = 79;
   bricks->height = 30;
   bricks->gap = 2;
-  bricks->color = RED;
+  bricks->color = SKYBLUE;
 
   genGrid(bricks);
 }

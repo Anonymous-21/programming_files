@@ -5,6 +5,8 @@
 
 typedef struct Ball {
   float radius;
+  float initial_x;
+  float initial_y;
   float x;
   float y;
   Color color;
@@ -15,7 +17,8 @@ typedef struct Ball {
 } Ball;
 
 void initBall(Ball *ball);
+void resetBall(Ball *ball);
 void DrawBall(Ball *ball);
-void moveBall(Ball *ball);
+int moveBall(Ball *ball, int lives, bool *game_paused);
 
 #endif // BALL_H
