@@ -3,6 +3,8 @@
 
 #include "raylib.h"
 
+#define LIST_LENGTH 5
+
 typedef struct Obstacles {
   float width;
   float height;
@@ -10,7 +12,7 @@ typedef struct Obstacles {
   float speed;
   int frames_counter;
   int list_size;
-  Vector2 list[];
+  Vector2 list[LIST_LENGTH];
 
 } Obstacles;
 
