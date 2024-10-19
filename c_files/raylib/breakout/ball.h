@@ -19,6 +19,6 @@ typedef struct Ball {
 void initBall(Ball *ball);
 void resetBall(Ball *ball);
 void DrawBall(Ball *ball);
-int moveBall(Ball *ball, int lives, bool *game_paused);
+int moveBall(Ball *ball, int lives);
 
 #endif // BALL_H

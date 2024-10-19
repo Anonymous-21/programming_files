@@ -22,10 +22,20 @@ void DrawBall(Ball *ball) {
   DrawCircleV((Vector2){ball->x, ball->y}, ball->radius, ball->color);
 }
 
-int moveBall(Ball *ball, int lives, bool *game_paused) {
+int moveBall(Ball *ball, int lives) {
 
-  ball->x += ball->speed_x;
-  ball->y += ball->speed_y;
+  // pause/unpause ball with space key
+  if (IsKeyPressed(KEY_SPACE) && ball->active) {
+    ball->active = false;
+  } else if (IsKeyPressed(KEY_SPACE) && !ball->active) {
+    ball->active = true;
+  }
+
+  // move ball
+  if (ball->active) {
+    ball->x += ball->speed_x;
+    ball->y += ball->speed_y;
+  }
 
   if (ball->x <= ball->radius || ball->x >= GetScreenWidth() - ball->radius) {
     ball->speed_x *= -1;
@@ -34,7 +44,7 @@ int moveBall(Ball *ball, int lives, bool *game_paused) {
   } else if (ball->y >= GetScreenHeight() - ball->radius) {
     lives--;
     resetBall(ball);
-    *game_paused = true;
+    ball->active = false;
   }
 
   return lives;
