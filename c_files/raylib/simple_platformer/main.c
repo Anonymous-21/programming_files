@@ -19,7 +19,9 @@ int main(void) {
   initLevels(&levels);
 
   while (!WindowShouldClose()) {
+
     // move player
+
     updatePlayer(&player);
     updateLevels(&levels);
 
