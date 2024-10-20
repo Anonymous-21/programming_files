@@ -27,17 +27,19 @@ int main(void) {
 
     // update current level
 
-    if (player.x < 0 && levels.current_level > 1)
-    {
+    if (player.x < 0 && levels.current_level > 1) {
       levels.current_level--;
-    }
-    else if (player.x > GetScreenWidth() - player.width && levels.current_level < 5)
-    {
+      player.x = 0;
+      player.y = player.ground_level;
+    } else if (player.x > GetScreenWidth() - player.width &&
+               levels.current_level < 5) {
       levels.current_level++;
+      player.x = 0;
+      player.y = player.ground_level;
     }
 
     // player collision environment
-    
+
     for (int i = 0; i < ROW; i++) {
       for (int j = 0; j < COL; j++) {
         int x = j * levels.block_size;
