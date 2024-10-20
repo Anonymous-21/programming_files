@@ -3,19 +3,22 @@
 
 #include "raylib.h"
 
-typedef struct Paddle
-{
+typedef struct Paddle {
+
+  float initial_x;
+  float initial_y;
   float x;
   float y;
   float width;
   float height;
   Color color;
   float speed;
-  
-}Paddle;
+
+} Paddle;
 
 void initPaddle(Paddle *paddle);
+void resetPaddle(Paddle *paddle);
 void drawPaddle(Paddle *paddle);
-void movePaddle(Paddle *paddle);
+void updatePaddle(Paddle *paddle);
 
 #endif // PADDLE_H

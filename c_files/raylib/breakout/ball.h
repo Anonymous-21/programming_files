@@ -4,6 +4,7 @@
 #include "raylib.h"
 
 typedef struct Ball {
+
   float radius;
   float initial_x;
   float initial_y;
@@ -18,7 +19,7 @@ typedef struct Ball {
 
 void initBall(Ball *ball);
 void resetBall(Ball *ball);
-void DrawBall(Ball *ball);
-int moveBall(Ball *ball, int lives);
+void drawBall(Ball *ball);
+void updateBall(Ball *ball);
 
 #endif // BALL_H

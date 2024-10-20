@@ -3,18 +3,18 @@
 
 #include "raylib.h"
 
-#define GRID_MAX_LENGTH 100
+#define ROWS 5
+#define COLS 10
 
 typedef struct Bricks {
+
   int rows;
   int cols;
   int width;
   int height;
-  int gap;
   Color color;
-  Vector2 grid[GRID_MAX_LENGTH];
-  int size;
-
+  int gap;
+  Vector2 grid[ROWS][COLS];
 } Bricks;
 
 void initBricks(Bricks *bricks);
