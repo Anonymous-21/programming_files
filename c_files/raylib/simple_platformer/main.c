@@ -1,6 +1,9 @@
 #include "levels.h"
 #include "player.h"
 #include "raylib.h"
+#include <stdio.h>
+
+#define CURRENT_LEVEL_LENGTH 20
 
 int main(void) {
   const int screenWidth = 800;
@@ -12,6 +15,8 @@ int main(void) {
   InitWindow(screenWidth, screenHeight, screenTitle);
   SetTargetFPS(gameFps);
 
+  char current_level_str[CURRENT_LEVEL_LENGTH];
+
   Player player;
   Levels levels;
 
@@ -19,6 +24,10 @@ int main(void) {
   initLevels(&levels);
 
   while (!WindowShouldClose()) {
+
+    // convert current level to string
+    snprintf(current_level_str, CURRENT_LEVEL_LENGTH, "Level: %d\n",
+             levels.current_level);
 
     // move player
 
@@ -29,7 +38,7 @@ int main(void) {
 
     if (player.x < 0 && levels.current_level > 1) {
       levels.current_level--;
-      player.x = 0;
+      player.x = GetScreenWidth() - player.width;
       player.y = player.ground_level;
     } else if (player.x > GetScreenWidth() - player.width &&
                levels.current_level < 5) {
@@ -77,6 +86,9 @@ int main(void) {
 
     BeginDrawing();
     ClearBackground(screenBackground);
+
+    // draw current level number
+    DrawText(current_level_str, 50, 50, 30, GRAY);
 
     // draw levels
     drawLevels(&levels);
