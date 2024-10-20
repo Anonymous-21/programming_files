@@ -31,7 +31,7 @@ class Game:
 
     def update(self):
         # game win condition
-        if len(self.bricks.grid) == 0:
+        if len(self.bricks.grid) <= 0:
             self.game_won = True
             
         # game over condition
@@ -71,7 +71,7 @@ class Game:
             0, 0, p.get_screen_width(), p.get_screen_height(), SCREEN_BACKGROUND
         )
         p.draw_text(
-            "You Win!",
+            "Game Over",
             p.get_screen_width()//2 - 70,
             p.get_screen_height()//2 - 30,
             40,
@@ -79,7 +79,7 @@ class Game:
         )
         p.draw_text(
             "Press 'Enter' to restart",
-            p.get_screen_width()//2 - 130,
+            p.get_screen_width()//2 - 150,
             p.get_screen_height()//2 + 20,
             30,
             p.BLACK,
@@ -88,6 +88,7 @@ class Game:
         if p.is_key_pressed(p.KeyboardKey.KEY_ENTER):
             self.lives = 5
             self.game_over = False
+            self.game_won = False
             self.paddle = Paddle()
             self.ball = Ball()
             self.bricks = Bricks()
@@ -97,7 +98,7 @@ class Game:
             0, 0, p.get_screen_width(), p.get_screen_height(), SCREEN_BACKGROUND
         )
         p.draw_text(
-            "Game Over",
+            "You Win!",
             p.get_screen_width()//2 - 70,
             p.get_screen_height()//2 - 30,
             40,
@@ -105,7 +106,7 @@ class Game:
         )
         p.draw_text(
             "Press 'Enter' to restart",
-            p.get_screen_width()//2 - 130,
+            p.get_screen_width()//2 - 150,
             p.get_screen_height()//2 + 20,
             30,
             p.BLACK,
@@ -114,6 +115,7 @@ class Game:
         if p.is_key_pressed(p.KeyboardKey.KEY_ENTER):
             self.lives = 5
             self.game_won = False
+            self.game_over = False
             self.paddle = Paddle()
             self.ball = Ball()
             self.bricks = Bricks()
@@ -128,7 +130,7 @@ def main():
         p.begin_drawing()
         p.clear_background(SCREEN_BACKGROUND)
 
-        if not game.game_over:
+        if not game.game_over and not game.game_won:
             game.draw()
             game.update()
         elif game.game_won:

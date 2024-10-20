@@ -25,4 +25,3 @@ class Bricks:
     def draw(self):
         for segment in self.grid:
             p.draw_rectangle_rec((segment[0], segment[1], self.width, self.height), self.color)
-    
