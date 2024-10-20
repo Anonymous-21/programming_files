@@ -12,8 +12,8 @@ GAME_FPS = 60
 
 class Game:
     def __init__(self) -> None:
-        self.left_score = 0
-        self.right_score = 0
+        self.score_left = 0
+        self.score_right = 0
 
         self.paddle_left = Paddle(10)
         self.paddle_right = Paddle(p.get_screen_width() - self.paddle_left.width - 10)
@@ -21,19 +21,20 @@ class Game:
         self.ball = Ball()
 
     def draw(self):
+        # print scores
+        p.draw_text(
+            str(self.score_left), p.get_screen_width() // 2 - 70, 20, 30, p.GRAY
+        )
+        p.draw_text(
+            str(self.score_right), p.get_screen_width() // 2 + 50, 20, 30, p.GRAY
+        )
+
         # draw screen divider
         p.draw_line_ex(
             (p.get_screen_width() / 2, 0),
             (p.get_screen_width() / 2, p.get_screen_height()),
             5,
             p.GRAY,
-        )
-        # draw score
-        p.draw_text(
-            str(self.left_score), p.get_screen_width() // 2 - 70, 10, 30, p.GRAY
-        )
-        p.draw_text(
-            str(self.right_score), p.get_screen_width() // 2 + 50, 10, 30, p.GRAY
         )
 
         self.paddle_left.draw()
@@ -45,13 +46,47 @@ class Game:
         self.paddle_left.move(p.KeyboardKey.KEY_W, p.KeyboardKey.KEY_S)
         self.paddle_right.move(p.KeyboardKey.KEY_UP, p.KeyboardKey.KEY_DOWN)
 
-        self.paddle_left.collision_ball(self.ball)
-        self.paddle_right.collision_ball(self.ball)
+        self.ball.update()
 
-        self.ball.move()
-        self.left_score, self.right_score = self.ball.collision_walls(
-            self.paddle_left, self.paddle_right, self.left_score, self.right_score
-        )
+        # ball collision with horizontal walls
+        if self.ball.x <= self.ball.radius:
+            self.score_right += 1
+            self.ball.frames_counter = 0
+            self.ball.speed_x *= -1
+            self.ball.reset()
+            self.paddle_left.reset()
+            self.paddle_right.reset()
+        elif self.ball.x >= p.get_screen_width() - self.ball.radius:
+            self.score_left += 1
+            self.ball.frames_counter = 0
+            self.ball.speed_x *= -1
+            self.ball.reset()
+            self.paddle_left.reset()
+            self.paddle_right.reset()
+
+        # ball collision paddles
+        if p.check_collision_circle_rec(
+            (self.ball.x, self.ball.y),
+            self.ball.radius,
+            (
+                self.paddle_left.x,
+                self.paddle_left.y,
+                self.paddle_left.width,
+                self.paddle_left.height,
+            ),
+        ):
+            self.ball.speed_x *= -1
+        elif p.check_collision_circle_rec(
+            (self.ball.x, self.ball.y),
+            self.ball.radius,
+            (
+                self.paddle_right.x,
+                self.paddle_right.y,
+                self.paddle_right.width,
+                self.paddle_right.height,
+            ),
+        ):
+            self.ball.speed_x *= -1
 
 
 def main():

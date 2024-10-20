@@ -21,56 +21,53 @@ class Game:
         self.food = Food(self.grid, self.snake.list)
 
     def draw(self):
-        if not self.game_over:
-            # draw score
-            p.draw_text(
-                f"Score: {self.score}", p.get_screen_width() // 2 - 80, 35, 40, p.GRAY
-            )
+        # draw score
+        p.draw_text(
+            f"Score: {self.score}", p.get_screen_width() // 2 - 80, 30, 40, p.GRAY
+        )
 
-            self.grid.draw()
-            self.snake.draw()
-            self.food.draw()
-        elif self.game_over:
-            p.draw_rectangle(
-                0, 0, p.get_screen_width(), p.get_screen_height(), SCREEN_BACKGROUND
-            )
-            p.draw_text(
-                f"Score: {self.score}",
-                p.get_screen_width() // 2 - 80,
-                p.get_screen_height() // 2 - 100,
-                40,
-                p.GRAY,
-            )
-            p.draw_text(
-                "Game Over",
-                p.get_screen_width() // 2 - 90,
-                p.get_screen_height() // 2,
-                40,
-                p.GRAY,
-            )
-            p.draw_text(
-                "Press 'Enter' to continue!",
-                p.get_screen_width() // 2 - 190,
-                p.get_screen_height() // 2 + 100,
-                30,
-                p.GRAY,
-            )
+        self.grid.draw()
+        self.snake.draw()
+        self.food.draw()
 
     def update(self):
-        if not self.game_over:
-            self.snake.on_key_press()
-            self.food.x, self.food.y, self.score = self.snake.move(
-                self.food, self.score
-            )
-            self.game_over = self.snake.collision_walls(self.game_over)
-            self.game_over = self.snake.collision_itself(self.game_over)
-        elif self.game_over:
-            if p.is_key_pressed(p.KeyboardKey.KEY_ENTER):
-                self.game_over = False
-                self.score = 0
-                self.grid = Grid()
-                self.snake = Snake(self.grid)
-                self.food = Food(self.grid, self.snake.list)
+        self.snake.get_direction()
+        self.score = self.snake.move(self.food, self.score)
+        self.game_over = self.snake.collision_itself(self.game_over)
+        self.game_over = self.snake.collision_walls(self.game_over)
+
+    def game_over_menu(self):
+        p.draw_rectangle(
+            0, 0, p.get_screen_width(), p.get_screen_height(), SCREEN_BACKGROUND
+        )
+        p.draw_text(
+            f"Score: {self.score}",
+            p.get_screen_width() // 2 - 60,
+            p.get_screen_height() // 2 - 100,
+            40,
+            p.GRAY,
+        )
+        p.draw_text(
+            "Game Over",
+            p.get_screen_width() // 2 - 70,
+            p.get_screen_height() // 2,
+            40,
+            p.GRAY,
+        )
+        p.draw_text(
+            "Press 'Enter' to restart",
+            p.get_screen_width() // 2 - 150,
+            p.get_screen_height() // 2 + 70,
+            30,
+            p.GRAY,
+        )
+
+        if p.is_key_pressed(p.KeyboardKey.KEY_ENTER):
+            self.game_over = False
+            self.score = 0
+            self.grid = Grid()
+            self.snake = Snake(self.grid)
+            self.food = Food(self.grid, self.snake.list)
 
 
 def main():
@@ -83,8 +80,11 @@ def main():
         p.begin_drawing()
         p.clear_background(SCREEN_BACKGROUND)
 
-        game.draw()
-        game.update()
+        if not game.game_over:
+            game.draw()
+            game.update()
+        elif game.game_over:
+            game.game_over_menu()
 
         p.end_drawing()
 

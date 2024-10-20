@@ -7,8 +7,8 @@ class Grid:
         self.cols = 20
         self.block_size = 30
         self.margin = 100
-        self.line_thickness = 1
         self.color = p.BLACK
+        self.line_thickness = 1
 
     def draw(self):
         for i in range(self.rows):

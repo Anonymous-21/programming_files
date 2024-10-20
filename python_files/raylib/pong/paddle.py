@@ -24,9 +24,3 @@ class Paddle:
             self.y -= self.speed
         elif p.is_key_down(key_down) and self.y <= p.get_screen_height() - self.height:
             self.y += self.speed
-
-    def collision_ball(self, ball):
-        if p.check_collision_circle_rec(
-            (ball.x, ball.y), ball.radius, (self.x, self.y, self.width, self.height)
-        ):
-            ball.speed_x *= -1

@@ -4,15 +4,15 @@ import pyray as p
 class Snake:
     def __init__(self, grid) -> None:
         self.grid = grid
-        self.width = self.grid.block_size
-        self.height = self.grid.block_size
         self.x = self.grid.margin
         self.y = self.grid.margin
+        self.width = self.grid.block_size
+        self.height = self.grid.block_size
         self.color = p.BLUE
-        self.direction = "right"
         self.speed = self.grid.block_size
-        self.list = [[self.x, self.y]]
         self.frames_counter = 0
+        self.direction = "right"
+        self.list = [[self.x, self.y]]
 
     def draw(self):
         for segment in self.list:
@@ -20,7 +20,7 @@ class Snake:
                 (segment[0], segment[1], self.width, self.height), self.color
             )
 
-    def on_key_press(self):
+    def get_direction(self):
         if p.is_key_pressed(p.KeyboardKey.KEY_RIGHT) and self.direction != "left":
             self.direction = "right"
         elif p.is_key_pressed(p.KeyboardKey.KEY_LEFT) and self.direction != "right":
@@ -35,6 +35,7 @@ class Snake:
         if self.frames_counter % 5 == 0:
             if self.frames_counter > 1000:
                 self.frames_counter = 0
+
             if self.direction == "right":
                 self.x += self.speed
             elif self.direction == "left":
@@ -44,7 +45,7 @@ class Snake:
             elif self.direction == "down":
                 self.y += self.speed
 
-            # food collision with snake
+            # food collision snake head
             if p.check_collision_recs(
                 (self.list[0][0], self.list[0][1], self.width, self.height),
                 (food.x, food.y, food.width, food.height),
@@ -53,11 +54,10 @@ class Snake:
                 self.list.append(self.list[-1])
                 food.x, food.y = food.gen_random_food()
 
-            # move snake
             self.list.insert(0, [self.x, self.y])
             self.list.pop()
 
-        return (food.x, food.y, score)
+        return score
 
     def collision_walls(self, game_over):
         if (

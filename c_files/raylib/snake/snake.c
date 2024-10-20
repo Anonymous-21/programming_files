@@ -2,7 +2,6 @@
 #include "food.h"
 #include "grid.h"
 #include "raylib.h"
-#include <stdbool.h>
 
 void initSnake(Snake *snake, Grid *grid) {
   snake->width = grid->block_size;
