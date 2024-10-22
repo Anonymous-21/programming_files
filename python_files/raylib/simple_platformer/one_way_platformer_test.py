@@ -53,12 +53,11 @@ class Game:
             self.player_can_jump = True
             
         # player collision platform
-        if self.player_y <= self.platform_y - self.player_height:
-            if p.check_collision_recs((self.player_x, self.player_y, self.player_width, self.player_height), (self.platform_x, self.platform_y, self.platform_width, self.platform_height)):
-                if self.player_change_y > 0:
-                    self.player_change_y = 0
-                self.player_y = self.platform_y - self.player_height
-                self.player_can_jump = True
+        if p.check_collision_recs((self.player_x, self.player_y, self.player_width, self.player_height), (self.platform_x, self.platform_y, self.platform_width, self.platform_height)):
+            if self.player_change_y > 0:
+                self.player_change_y = 0
+            self.player_y = self.platform_y - self.player_height
+            self.player_can_jump = True
             
 
 def main():
