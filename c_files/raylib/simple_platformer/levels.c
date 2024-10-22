@@ -25,7 +25,7 @@ void initLevels(Levels *levels) {
       {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
       {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
       {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
-      {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
+      {2, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
       {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
       {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
@@ -258,9 +258,9 @@ void initLevels(Levels *levels) {
 void drawLevels(Levels *levels) {
   for (int i = 0; i < ROW; i++) {
     for (int j = 0; j < COL; j++) {
+      int x = j * levels->block_size;
+      int y = i * levels->block_size;
       if (levels->level[i][j] > 0) {
-        int x = j * levels->block_size;
-        int y = i * levels->block_size;
 
         DrawRectangle(x, y, levels->block_size, levels->block_size, GRAY);
       }
@@ -269,12 +269,20 @@ void drawLevels(Levels *levels) {
 }
 
 void updateLevels(Levels *levels) {
+
+  if (levels->level1_pass) {
+    levels->level1_locked[15][19] = 0;
+    levels->level1_locked[16][19] = 0;
+    levels->level1_locked[17][19] = 0;
+    levels->level1_locked[18][19] = 0;
+  }
+
   switch (levels->current_level) {
   case 1:
     levels->level = levels->level1_locked;
-    if (levels->level1_pass) {
-      levels->level = levels->level1_unlocked;
-    }
+    // if (levels->level1_pass) {
+    //   levels->level = levels->level1_unlocked;
+    // }
     break;
   case 2:
     levels->level = levels->level2_locked;

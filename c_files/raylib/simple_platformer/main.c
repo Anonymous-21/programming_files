@@ -80,26 +80,32 @@ int main(void) {
                   (Rectangle){x, y, levels.block_size, levels.block_size})) {
             player.x = x - player.width;
           }
+        } else if (levels.level[i][j] == 6) {
+          if (CheckCollisionRecs(
+                  (Rectangle){player.x, player.y, player.width, player.height},
+                  (Rectangle){x, y, levels.block_size, levels.block_size})) {
+            levels.level1_pass = true;
+          }
         }
       }
+
+      BeginDrawing();
+      ClearBackground(screenBackground);
+
+      // draw current level number
+      DrawText(current_level_str, 50, 50, 30, GRAY);
+
+      // draw levels
+      drawLevels(&levels);
+
+      // draw player
+      drawPlayer(&player);
+
+      EndDrawing();
     }
 
-    BeginDrawing();
-    ClearBackground(screenBackground);
+    CloseWindow();
 
-    // draw current level number
-    DrawText(current_level_str, 50, 50, 30, GRAY);
-
-    // draw levels
-    drawLevels(&levels);
-
-    // draw player
-    drawPlayer(&player);
-
-    EndDrawing();
+    return 0;
   }
-
-  CloseWindow();
-
-  return 0;
 }
