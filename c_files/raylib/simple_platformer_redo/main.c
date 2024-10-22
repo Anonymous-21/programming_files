@@ -48,52 +48,36 @@ int main(void) {
                   (Rectangle){x, y, levels.block_size, levels.block_size},
                   (Rectangle){player.x, player.y, player.width,
                               player.height})) {
-            player.can_jump = true;
-            player.change_y = 0;
-            player.y = y - player.height;
-          }
-        } else if (levels.level[i][j] == 2) {
-          if (CheckCollisionRecs(
-                  (Rectangle){x, y, levels.block_size, levels.block_size},
-                  (Rectangle){player.x, player.y, player.width,
-                              player.height})) {
-            player.x = x + levels.block_size;
-          }
-        } else if (levels.level[i][j] == 3) {
-          if (CheckCollisionRecs(
-                  (Rectangle){x, y, levels.block_size, levels.block_size},
-                  (Rectangle){player.x, player.y, player.width,
-                              player.height})) {
-            player.y = y + levels.block_size;
-          }
-        } else if (levels.level[i][j] == 4) {
-          if (CheckCollisionRecs(
-                  (Rectangle){x, y, levels.block_size, levels.block_size},
-                  (Rectangle){player.x, player.y, player.width,
-                              player.height})) {
-            player.x = GetScreenWidth() - levels.block_size - player.width;
-          }
-        } else if (levels.level[i][j] == 5) {
-          if (CheckCollisionRecs(
-                  (Rectangle){x, y, levels.block_size, levels.block_size},
-                  (Rectangle){player.x, player.y, player.width,
-                              player.height})) {
-            levels.level[i][j] = 0;
-            levels.level1_unlocked = true;
+            if (player.y < y) {
+              player.can_jump = true;
+              player.change_y = 0;
+              player.y = y - player.height;
+            } else if (player.y >= y) {
+              player.y = y + levels.block_size;
+            }
+            if (player.x > x) {
+              player.x = x + levels.block_size;
+            } else if (player.x <= x) {
+              player.x = x - player.width;
+            }
           }
         }
       }
     }
 
     // player level transition
-    if (levels.current_level >= 1 && levels.current_level <= 5) {
-      if (player.x < 0) {
-        levels.current_level--;
-        player.x = GetScreenWidth() - player.width;
-      } else if (player.x > GetScreenWidth() - player.width) {
-        levels.current_level++;
-        player.x = 0;
-      }
+    if (levels.current_level <= 1) {
+      levels.current_level = 1;
+    } else if (levels.current_level >= 5) {
+      levels.current_level = 5;
+    }
+
+    if (player.x < 0) {
+      levels.current_level--;
+      player.x = GetScreenWidth() - player.width;
+    } else if (player.x > GetScreenWidth() - player.width) {
+      levels.current_level++;
+      player.x = 0;
     }
 
     BeginDrawing();

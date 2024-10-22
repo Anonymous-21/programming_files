@@ -47,10 +47,11 @@ int main(void) {
       player.y = player.ground_level;
     }
 
-    // player collision environment
+    // player collision walls
 
     for (int i = 0; i < ROW; i++) {
       for (int j = 0; j < COL; j++) {
+
         int x = j * levels.block_size;
         int y = i * levels.block_size;
 
@@ -61,30 +62,6 @@ int main(void) {
             player.can_jump = true;
             player.change_y = 0;
             player.y = y - player.height;
-          }
-        } else if (levels.level[i][j] == 2) {
-          if (CheckCollisionRecs(
-                  (Rectangle){player.x, player.y, player.width, player.height},
-                  (Rectangle){x, y, levels.block_size, levels.block_size})) {
-            player.x = x + levels.block_size;
-          }
-        } else if (levels.level[i][j] == 3) {
-          if (CheckCollisionRecs(
-                  (Rectangle){player.x, player.y, player.width, player.height},
-                  (Rectangle){x, y, levels.block_size, levels.block_size})) {
-            player.y = y + levels.block_size;
-          }
-        } else if (levels.level[i][j] == 4) {
-          if (CheckCollisionRecs(
-                  (Rectangle){player.x, player.y, player.width, player.height},
-                  (Rectangle){x, y, levels.block_size, levels.block_size})) {
-            player.x = x - player.width;
-          }
-        } else if (levels.level[i][j] == 6) {
-          if (CheckCollisionRecs(
-                  (Rectangle){player.x, player.y, player.width, player.height},
-                  (Rectangle){x, y, levels.block_size, levels.block_size})) {
-            levels.level1_pass = true;
           }
         }
       }

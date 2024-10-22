@@ -11,21 +11,16 @@ typedef struct Levels {
   int current_level;
   int block_size;
   int (*level)[COL];
-  int level1_locked[ROW][COL];
-  int level1_unlocked[ROW][COL];
-  bool level1_pass;
-  int level2_locked[ROW][COL];
-  int level2_unlocked[ROW][COL];
-  bool level2_pass;
-  int level3_locked[ROW][COL];
-  int level3_unlocked[ROW][COL];
-  bool level3_pass;
-  int level4_locked[ROW][COL];
-  int level4_unlocked[ROW][COL];
-  bool level4_pass;
-  int level5_locked[ROW][COL];
-  int level5_unlocked[ROW][COL];
-  bool level5_pass;
+  int level1[ROW][COL];
+  bool level1_unlocked;
+  int level2[ROW][COL];
+  bool level2_unlocked;
+  int level3[ROW][COL];
+  bool level3_unlocked;
+  int level4[ROW][COL];
+  bool level4_unlocked;
+  int level5[ROW][COL];
+  bool level5_unlocked;
 
 } Levels;
 
