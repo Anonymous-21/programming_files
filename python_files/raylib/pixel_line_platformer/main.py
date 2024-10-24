@@ -1,14 +1,13 @@
 import pyray as p
 import os
 
-from xml_parser import spritesheet_xml_parser
+from spritesheet_xml_parser import spritesheet_xml_parser
 from levels import Levels
 from player import Player
 
 os.chdir(
     "/home/anonymous/Downloads/programming_files/python_files/raylib/pixel_line_platformer"
 )
-
 
 SCREEN_WIDTH = 1440
 SCREEN_HEIGHT = 960
@@ -19,8 +18,8 @@ GAME_FPS = 60
 
 class Game:
     def __init__(self) -> None:
-        self.spritesheet = p.load_texture("assets/pixel_line.png")
-        self.spritesheet_xml = "assets/pixel_line.xml"
+        self.spritesheet = p.load_texture("assets.py/pixel_line.png")
+        self.spritesheet_xml = "assets.py/pixel_line.xml"
         self.sprite_dict = spritesheet_xml_parser(self.spritesheet_xml)
 
         self.rows = 20
@@ -37,32 +36,52 @@ class Game:
         self.player.draw()
 
     def update(self):
+        self.levels.update()
         self.player.update()
 
-        # player collision environment
-        for i in range(self.levels.rows):
-            for j in range(self.levels.cols):
-                x_window = j * self.levels.block_size
-                y_window = i * self.levels.block_size
+        # player collision with env
+        for i in range(self.rows):
+            for j in range(self.cols):
+                x_window = j * self.block_size
+                y_window = i * self.block_size
 
-                if self.levels.level[i][j] in [3, 4, 5, 6, 7, 8, 9, 20, 21, 22]:
+                # if (
+                #     self.levels.current_level[i][j]
+                #     in self.levels.current_level_single_digit
+                # ):
+                #     self.current_frame = self.sprite_dict[
+                #         f"tile_000{self.levels.current_level[i][j]}.png"
+                #     ]
+                # else:
+                #     self.current_frame = self.sprite_dict[
+                #         f"tile_00{self.levels.current_level[i][j]}.png"
+                #     ]
+
+                if self.levels.current_level[i][j] in [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    19,
+                    20,
+                    21,
+                    22,
+                    27,
+                    28,
+                ]:
                     if p.check_collision_recs(
                         (
                             self.player.x_window,
                             self.player.y_window,
-                            self.player.current_frame_width * 3,
-                            self.player.current_frame_height * 3,
+                            self.block_size,
+                            self.block_size,
                         ),
-                        (
-                            x_window,
-                            y_window,
-                            self.levels.block_size,
-                            self.levels.block_size,
-                        ),
+                        (x_window, y_window, self.block_size, self.block_size),
                     ):
-                        self.player.y_window = (
-                            y_window - self.player.current_frame_height * 3
-                        )
+                        self.player.y_window = y_window - self.player.block_size
                         if self.player.change_y > 0:
                             self.player.change_y = 0
                         self.player.can_jump = True
