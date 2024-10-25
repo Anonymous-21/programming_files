@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:9dbe6a5c2237116c862fdb70cad94894:16ba96ef1b7c5164cfe80e36cdbbf747:c1e9c6b75c0cf8ed2054565702299925$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="pico-8_platformer.png" width="1200" height="8">
+    <sprite n="tile_0000.png" x="0" y="0" w="8" h="8"/>
+    <sprite n="tile_0001.png" x="8" y="0" w="8" h="8"/>
+    <sprite n="tile_0002.png" x="16" y="0" w="8" h="8"/>
+    <sprite n="tile_0003.png" x="24" y="0" w="8" h="8"/>
+    <sprite n="tile_0004.png" x="32" y="0" w="8" h="8"/>
+    <sprite n="tile_0005.png" x="40" y="0" w="8" h="8"/>
+    <sprite n="tile_0006.png" x="48" y="0" w="8" h="8"/>
+    <sprite n="tile_0007.png" x="56" y="0" w="8" h="8"/>
+    <sprite n="tile_0008.png" x="64" y="0" w="8" h="8"/>
+    <sprite n="tile_0009.png" x="72" y="0" w="8" h="8"/>
+    <sprite n="tile_0010.png" x="80" y="0" w="8" h="8"/>
+    <sprite n="tile_0011.png" x="88" y="0" w="8" h="8"/>
+    <sprite n="tile_0012.png" x="96" y="0" w="8" h="8"/>
+    <sprite n="tile_0013.png" x="104" y="0" w="8" h="8"/>
+    <sprite n="tile_0014.png" x="112" y="0" w="8" h="8"/>
+    <sprite n="tile_0015.png" x="120" y="0" w="8" h="8"/>
+    <sprite n="tile_0016.png" x="128" y="0" w="8" h="8"/>
+    <sprite n="tile_0017.png" x="136" y="0" w="8" h="8"/>
+    <sprite n="tile_0018.png" x="144" y="0" w="8" h="8"/>
+    <sprite n="tile_0019.png" x="152" y="0" w="8" h="8"/>
+    <sprite n="tile_0020.png" x="160" y="0" w="8" h="8"/>
+    <sprite n="tile_0021.png" x="168" y="0" w="8" h="8"/>
+    <sprite n="tile_0022.png" x="176" y="0" w="8" h="8"/>
+    <sprite n="tile_0023.png" x="184" y="0" w="8" h="8"/>
+    <sprite n="tile_0024.png" x="192" y="0" w="8" h="8"/>
+    <sprite n="tile_0025.png" x="200" y="0" w="8" h="8"/>
+    <sprite n="tile_0026.png" x="208" y="0" w="8" h="8"/>
+    <sprite n="tile_0027.png" x="216" y="0" w="8" h="8"/>
+    <sprite n="tile_0028.png" x="224" y="0" w="8" h="8"/>
+    <sprite n="tile_0029.png" x="232" y="0" w="8" h="8"/>
+    <sprite n="tile_0030.png" x="240" y="0" w="8" h="8"/>
+    <sprite n="tile_0031.png" x="248" y="0" w="8" h="8"/>
+    <sprite n="tile_0032.png" x="256" y="0" w="8" h="8"/>
+    <sprite n="tile_0033.png" x="264" y="0" w="8" h="8"/>
+    <sprite n="tile_0034.png" x="272" y="0" w="8" h="8"/>
+    <sprite n="tile_0035.png" x="280" y="0" w="8" h="8"/>
+    <sprite n="tile_0036.png" x="288" y="0" w="8" h="8"/>
+    <sprite n="tile_0037.png" x="296" y="0" w="8" h="8"/>
+    <sprite n="tile_0038.png" x="304" y="0" w="8" h="8"/>
+    <sprite n="tile_0039.png" x="312" y="0" w="8" h="8"/>
+    <sprite n="tile_0040.png" x="320" y="0" w="8" h="8"/>
+    <sprite n="tile_0041.png" x="328" y="0" w="8" h="8"/>
+    <sprite n="tile_0042.png" x="336" y="0" w="8" h="8"/>
+    <sprite n="tile_0043.png" x="344" y="0" w="8" h="8"/>
+    <sprite n="tile_0044.png" x="352" y="0" w="8" h="8"/>
+    <sprite n="tile_0045.png" x="360" y="0" w="8" h="8"/>
+    <sprite n="tile_0046.png" x="368" y="0" w="8" h="8"/>
+    <sprite n="tile_0047.png" x="376" y="0" w="8" h="8"/>
+    <sprite n="tile_0048.png" x="384" y="0" w="8" h="8"/>
+    <sprite n="tile_0049.png" x="392" y="0" w="8" h="8"/>
+    <sprite n="tile_0050.png" x="400" y="0" w="8" h="8"/>
+    <sprite n="tile_0051.png" x="408" y="0" w="8" h="8"/>
+    <sprite n="tile_0052.png" x="416" y="0" w="8" h="8"/>
+    <sprite n="tile_0053.png" x="424" y="0" w="8" h="8"/>
+    <sprite n="tile_0054.png" x="432" y="0" w="8" h="8"/>
+    <sprite n="tile_0055.png" x="440" y="0" w="8" h="8"/>
+    <sprite n="tile_0056.png" x="448" y="0" w="8" h="8"/>
+    <sprite n="tile_0057.png" x="456" y="0" w="8" h="8"/>
+    <sprite n="tile_0058.png" x="464" y="0" w="8" h="8"/>
+    <sprite n="tile_0059.png" x="472" y="0" w="8" h="8"/>
+    <sprite n="tile_0060.png" x="480" y="0" w="8" h="8"/>
+    <sprite n="tile_0061.png" x="488" y="0" w="8" h="8"/>
+    <sprite n="tile_0062.png" x="496" y="0" w="8" h="8"/>
+    <sprite n="tile_0063.png" x="504" y="0" w="8" h="8"/>
+    <sprite n="tile_0064.png" x="512" y="0" w="8" h="8"/>
+    <sprite n="tile_0065.png" x="520" y="0" w="8" h="8"/>
+    <sprite n="tile_0066.png" x="528" y="0" w="8" h="8"/>
+    <sprite n="tile_0067.png" x="536" y="0" w="8" h="8"/>
+    <sprite n="tile_0068.png" x="544" y="0" w="8" h="8"/>
+    <sprite n="tile_0069.png" x="552" y="0" w="8" h="8"/>
+    <sprite n="tile_0070.png" x="560" y="0" w="8" h="8"/>
+    <sprite n="tile_0071.png" x="568" y="0" w="8" h="8"/>
+    <sprite n="tile_0072.png" x="576" y="0" w="8" h="8"/>
+    <sprite n="tile_0073.png" x="584" y="0" w="8" h="8"/>
+    <sprite n="tile_0074.png" x="592" y="0" w="8" h="8"/>
+    <sprite n="tile_0075.png" x="600" y="0" w="8" h="8"/>
+    <sprite n="tile_0076.png" x="608" y="0" w="8" h="8"/>
+    <sprite n="tile_0077.png" x="616" y="0" w="8" h="8"/>
+    <sprite n="tile_0078.png" x="624" y="0" w="8" h="8"/>
+    <sprite n="tile_0079.png" x="632" y="0" w="8" h="8"/>
+    <sprite n="tile_0080.png" x="640" y="0" w="8" h="8"/>
+    <sprite n="tile_0081.png" x="648" y="0" w="8" h="8"/>
+    <sprite n="tile_0082.png" x="656" y="0" w="8" h="8"/>
+    <sprite n="tile_0083.png" x="664" y="0" w="8" h="8"/>
+    <sprite n="tile_0084.png" x="672" y="0" w="8" h="8"/>
+    <sprite n="tile_0085.png" x="680" y="0" w="8" h="8"/>
+    <sprite n="tile_0086.png" x="688" y="0" w="8" h="8"/>
+    <sprite n="tile_0087.png" x="696" y="0" w="8" h="8"/>
+    <sprite n="tile_0088.png" x="704" y="0" w="8" h="8"/>
+    <sprite n="tile_0089.png" x="712" y="0" w="8" h="8"/>
+    <sprite n="tile_0090.png" x="720" y="0" w="8" h="8"/>
+    <sprite n="tile_0091.png" x="728" y="0" w="8" h="8"/>
+    <sprite n="tile_0092.png" x="736" y="0" w="8" h="8"/>
+    <sprite n="tile_0093.png" x="744" y="0" w="8" h="8"/>
+    <sprite n="tile_0094.png" x="752" y="0" w="8" h="8"/>
+    <sprite n="tile_0095.png" x="760" y="0" w="8" h="8"/>
+    <sprite n="tile_0096.png" x="768" y="0" w="8" h="8"/>
+    <sprite n="tile_0097.png" x="776" y="0" w="8" h="8"/>
+    <sprite n="tile_0098.png" x="784" y="0" w="8" h="8"/>
+    <sprite n="tile_0099.png" x="792" y="0" w="8" h="8"/>
+    <sprite n="tile_0100.png" x="800" y="0" w="8" h="8"/>
+    <sprite n="tile_0101.png" x="808" y="0" w="8" h="8"/>
+    <sprite n="tile_0102.png" x="816" y="0" w="8" h="8"/>
+    <sprite n="tile_0103.png" x="824" y="0" w="8" h="8"/>
+    <sprite n="tile_0104.png" x="832" y="0" w="8" h="8"/>
+    <sprite n="tile_0105.png" x="840" y="0" w="8" h="8"/>
+    <sprite n="tile_0106.png" x="848" y="0" w="8" h="8"/>
+    <sprite n="tile_0107.png" x="856" y="0" w="8" h="8"/>
+    <sprite n="tile_0108.png" x="864" y="0" w="8" h="8"/>
+    <sprite n="tile_0109.png" x="872" y="0" w="8" h="8"/>
+    <sprite n="tile_0110.png" x="880" y="0" w="8" h="8"/>
+    <sprite n="tile_0111.png" x="888" y="0" w="8" h="8"/>
+    <sprite n="tile_0112.png" x="896" y="0" w="8" h="8"/>
+    <sprite n="tile_0113.png" x="904" y="0" w="8" h="8"/>
+    <sprite n="tile_0114.png" x="912" y="0" w="8" h="8"/>
+    <sprite n="tile_0115.png" x="920" y="0" w="8" h="8"/>
+    <sprite n="tile_0116.png" x="928" y="0" w="8" h="8"/>
+    <sprite n="tile_0117.png" x="936" y="0" w="8" h="8"/>
+    <sprite n="tile_0118.png" x="944" y="0" w="8" h="8"/>
+    <sprite n="tile_0119.png" x="952" y="0" w="8" h="8"/>
+    <sprite n="tile_0120.png" x="960" y="0" w="8" h="8"/>
+    <sprite n="tile_0121.png" x="968" y="0" w="8" h="8"/>
+    <sprite n="tile_0122.png" x="976" y="0" w="8" h="8"/>
+    <sprite n="tile_0123.png" x="984" y="0" w="8" h="8"/>
+    <sprite n="tile_0124.png" x="992" y="0" w="8" h="8"/>
+    <sprite n="tile_0125.png" x="1000" y="0" w="8" h="8"/>
+    <sprite n="tile_0126.png" x="1008" y="0" w="8" h="8"/>
+    <sprite n="tile_0127.png" x="1016" y="0" w="8" h="8"/>
+    <sprite n="tile_0128.png" x="1024" y="0" w="8" h="8"/>
+    <sprite n="tile_0129.png" x="1032" y="0" w="8" h="8"/>
+    <sprite n="tile_0130.png" x="1040" y="0" w="8" h="8"/>
+    <sprite n="tile_0131.png" x="1048" y="0" w="8" h="8"/>
+    <sprite n="tile_0132.png" x="1056" y="0" w="8" h="8"/>
+    <sprite n="tile_0133.png" x="1064" y="0" w="8" h="8"/>
+    <sprite n="tile_0134.png" x="1072" y="0" w="8" h="8"/>
+    <sprite n="tile_0135.png" x="1080" y="0" w="8" h="8"/>
+    <sprite n="tile_0136.png" x="1088" y="0" w="8" h="8"/>
+    <sprite n="tile_0137.png" x="1096" y="0" w="8" h="8"/>
+    <sprite n="tile_0138.png" x="1104" y="0" w="8" h="8"/>
+    <sprite n="tile_0139.png" x="1112" y="0" w="8" h="8"/>
+    <sprite n="tile_0140.png" x="1120" y="0" w="8" h="8"/>
+    <sprite n="tile_0141.png" x="1128" y="0" w="8" h="8"/>
+    <sprite n="tile_0142.png" x="1136" y="0" w="8" h="8"/>
+    <sprite n="tile_0143.png" x="1144" y="0" w="8" h="8"/>
+    <sprite n="tile_0144.png" x="1152" y="0" w="8" h="8"/>
+    <sprite n="tile_0145.png" x="1160" y="0" w="8" h="8"/>
+    <sprite n="tile_0146.png" x="1168" y="0" w="8" h="8"/>
+    <sprite n="tile_0147.png" x="1176" y="0" w="8" h="8"/>
+    <sprite n="tile_0148.png" x="1184" y="0" w="8" h="8"/>
+    <sprite n="tile_0149.png" x="1192" y="0" w="8" h="8"/>
+</TextureAtlas>

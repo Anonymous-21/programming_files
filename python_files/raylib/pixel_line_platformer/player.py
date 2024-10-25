@@ -28,6 +28,12 @@ class Player:
         self.have_gun = False
         self.can_jump = True
 
+        self.collision_rec_x = self.x_window
+        self.collision_rec_y = self.y_window
+        self.collision_rec_width = self.block_size
+        self.collision_rec_height = self.block_size
+        self.collision_rec_color = p.BLACK
+
     def draw(self):
         if p.is_key_down(p.KeyboardKey.KEY_LEFT):
             p.draw_texture_pro(
@@ -58,6 +64,17 @@ class Player:
                 p.WHITE,
             )
 
+        p.draw_rectangle_lines_ex(
+            (
+                self.collision_rec_x,
+                self.collision_rec_y,
+                self.collision_rec_width,
+                self.collision_rec_height,
+            ),
+            1,
+            self.collision_rec_color,
+        )
+
     def update(self):
         # update current frame
         match self.frame_num:
@@ -77,6 +94,7 @@ class Player:
             p.is_key_down(p.KeyboardKey.KEY_LEFT)
             and p.is_key_pressed(p.KeyboardKey.KEY_UP)
             and self.can_jump
+            and self.x_window >= 0
         ):
             self.moving = True
             self.x_window -= self.change_x
@@ -86,6 +104,7 @@ class Player:
             p.is_key_down(p.KeyboardKey.KEY_RIGHT)
             and p.is_key_pressed(p.KeyboardKey.KEY_UP)
             and self.can_jump
+            and self.x_window <= p.get_screen_width() - self.block_size
         ):
             self.moving = True
             self.x_window += self.change_x
@@ -96,7 +115,7 @@ class Player:
             self.x_window -= self.change_x
         elif (
             p.is_key_down(p.KeyboardKey.KEY_RIGHT)
-            and p.get_screen_width() - self.block_size
+            and self.x_window <= p.get_screen_width() - self.block_size
         ):
             self.moving = True
             self.x_window += self.change_x
@@ -112,7 +131,13 @@ class Player:
 
         self.change_y += self.gravity
         self.y_window += self.change_y
-        
+
+        # update collision rec values
+        self.collision_rec_x = self.x_window
+        self.collision_rec_y = self.y_window
+        self.collision_rec_width = self.block_size
+        self.collision_rec_height = self.block_size
+
         # player animation
         self.frames_counter += 1
         if self.frames_counter >= self.frames_speed:

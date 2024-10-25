@@ -9,8 +9,8 @@ os.chdir(
     "/home/anonymous/Downloads/programming_files/python_files/raylib/pixel_line_platformer"
 )
 
-SCREEN_WIDTH = 1440
-SCREEN_HEIGHT = 960
+SCREEN_WIDTH = 800 #1440
+SCREEN_HEIGHT = 600 #960
 SCREEN_TITLE = "Pixel Line Platformer"
 SCREEN_BACKGROUND = p.RAYWHITE
 GAME_FPS = 60
@@ -31,6 +31,18 @@ class Game:
         )
         self.player = Player(self.spritesheet, self.sprite_dict, self.block_size)
 
+        self.camera_offset = (p.get_screen_width() / 2, p.get_screen_height() / 2)
+        self.camera_target = (self.player.x_window, self.player.y_window)
+        self.camera_rotation = 0
+        self.camera_zoom = 1
+
+        self.camera = p.Camera2D(
+            self.camera_offset,
+            self.camera_target,
+            self.camera_rotation,
+            self.camera_zoom,
+        )
+
     def draw(self):
         self.levels.draw()
         self.player.draw()
@@ -44,18 +56,6 @@ class Game:
             for j in range(self.cols):
                 x_window = j * self.block_size
                 y_window = i * self.block_size
-
-                # if (
-                #     self.levels.current_level[i][j]
-                #     in self.levels.current_level_single_digit
-                # ):
-                #     self.current_frame = self.sprite_dict[
-                #         f"tile_000{self.levels.current_level[i][j]}.png"
-                #     ]
-                # else:
-                #     self.current_frame = self.sprite_dict[
-                #         f"tile_00{self.levels.current_level[i][j]}.png"
-                #     ]
 
                 if self.levels.current_level[i][j] in [
                     3,
@@ -81,10 +81,14 @@ class Game:
                         ),
                         (x_window, y_window, self.block_size, self.block_size),
                     ):
-                        self.player.y_window = y_window - self.player.block_size
-                        if self.player.change_y > 0:
-                            self.player.change_y = 0
-                        self.player.can_jump = True
+                        if self.player.y_window < y_window:
+                            self.player.y_window = y_window - self.block_size
+                            if self.player.change_y > 0:
+                                self.player.change_y = 0
+                            self.player.can_jump = True
+                            
+        # update camera target
+        self.camera_target = (self.player.x_window, self.player.y_window)
 
 
 def main():
@@ -97,9 +101,13 @@ def main():
         p.begin_drawing()
         p.clear_background(SCREEN_BACKGROUND)
 
+        p.begin_mode_2d(game.camera)
+        
         game.draw()
         game.update()
-
+        
+        p.end_mode_2d()
+        
         p.end_drawing()
 
     p.close_window()
