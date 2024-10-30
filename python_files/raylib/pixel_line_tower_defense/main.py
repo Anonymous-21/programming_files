@@ -27,11 +27,12 @@ class Game:
         self.rows = 20
         self.cols = 30
         self.block_size = 32
+        self.character_block_size = 48
 
         self.map = Map(
             self.spritesheet, self.sprite_dict, self.rows, self.cols, self.block_size
         )
-        self.player = Player(self.spritesheet, self.sprite_dict, self.block_size)
+        self.player = Player(self.spritesheet, self.sprite_dict, self.block_size, self.character_block_size)
         self.bullet = Bullet(
             self.spritesheet,
             self.sprite_dict,
@@ -39,7 +40,7 @@ class Game:
             self.player.x_window,
             self.player.y_window,
         )
-        self.enemy = Enemy(self.spritesheet, self.sprite_dict, self.block_size)
+        self.enemy = Enemy(self.spritesheet, self.sprite_dict, self.character_block_size)
 
     def draw(self):
         self.map.draw()
@@ -61,14 +62,14 @@ class Game:
                         (
                             self.player.x_window,
                             self.player.y_window,
-                            self.block_size + self.player.extra_size,
-                            self.block_size + self.player.extra_size,
+                            self.character_block_size,
+                            self.character_block_size,
                         ),
                         (x_window, y_window, self.block_size, self.block_size),
                     ):
                         if self.player.y_window <= y_window:
                             self.player.y_window = (
-                                y_window - self.block_size - self.player.extra_size
+                                y_window - self.character_block_size
                             )
                             if self.player.change_y > 0:
                                 self.player.change_y = 0

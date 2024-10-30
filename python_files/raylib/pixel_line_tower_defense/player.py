@@ -2,15 +2,17 @@ import pyray as p
 
 
 class Player:
-    def __init__(self, spritesheet, sprite_dict, block_size) -> None:
+    def __init__(
+        self, spritesheet, sprite_dict, block_size, character_block_size
+    ) -> None:
         self.spritesheet = spritesheet
         self.sprite_dict = sprite_dict
         self.block_size = block_size
+        self.character_block_size = character_block_size
 
         self.player_idle = self.sprite_dict["tile_0040.png"]
         self.player_jumping = self.sprite_dict["tile_0041.png"]
         self.player_shooting = self.sprite_dict["tile_0042.png"]
-        self.extra_size = 16
 
         self.current_frame = self.player_idle
         self.x_window = 20
@@ -34,8 +36,8 @@ class Player:
             (
                 self.x_window,
                 self.y_window,
-                self.block_size + self.extra_size,
-                self.block_size + self.extra_size,
+                self.character_block_size,
+                self.character_block_size,
             ),
             (0, 0),
             self.rotation,
@@ -57,12 +59,13 @@ class Player:
         if self.y_window <= 0:
             self.y_window = 0
         # colliion with floor
-        if (
-            self.y_window
-            >= p.get_screen_height() - self.block_size * 2 - self.extra_size
+        if self.y_window >= p.get_screen_height() - self.character_block_size * 2 - (
+            self.character_block_size - self.block_size
         ):
             self.y_window = (
-                p.get_screen_height() - self.block_size * 2 - self.extra_size
+                p.get_screen_height()
+                - self.character_block_size * 2
+                - (self.character_block_size - self.block_size)
             )
 
         self.change_y += self.gravity

@@ -13,13 +13,12 @@ class Bullet:
         self.bullet = self.sprite_dict["tile_0044.png"]
 
         self.frames_counter = 0
-        self.frames_speed = 20
+        self.frames_speed = 30
 
         self.list = []
         self.update(player_x, player_y)
         self.speed = 2
-        self.rotation = -90
-        # self.list = [self.bullet_x_window, self.bullet_y_window]
+        self.rotation = 0
 
     def draw(self):
         for bullet in self.list:
@@ -51,15 +50,15 @@ class Bullet:
             )
 
     def update(self, player_x, player_y):
-        self.frames_counter += 1
 
         # update gun flash position
         self.gun_flash_x_window = player_x + self.block_size + 15
         self.gun_flash_y_window = player_y + self.block_size / 2
         # update bullet position
         self.bullet_x_window = self.gun_flash_x_window + self.block_size
-        self.bullet_y_window = self.gun_flash_y_window + self.block_size
+        self.bullet_y_window = self.gun_flash_y_window
         # add new bullet
+        self.frames_counter += 1
         if self.frames_counter % self.frames_speed == 0:
             self.frames_counter = 0
             self.list.append([self.bullet_x_window, self.bullet_y_window])
