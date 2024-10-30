@@ -1,3 +1,10 @@
+# /// script
+# dependencies = [
+#     "cffi",
+#     "raylib"
+# ]
+# ///
+import asyncio
 import pyray as p
 
 from grid import Grid
@@ -70,7 +77,7 @@ class Game:
             self.food = Food(self.grid, self.snake.list)
 
 
-def main():
+async def main():
     p.init_window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     p.set_target_fps(GAME_FPS)
 
@@ -86,10 +93,11 @@ def main():
         elif game.game_over:
             game.game_over_menu()
 
-        p.end_drawing()
+        p.end_drawing()  
+        await asyncio.sleep(0)
 
     p.close_window()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

@@ -1,3 +1,10 @@
+# /// script
+# dependencies = [
+#     "cffi",
+#     "raylib"
+# ]
+# ///
+import asyncio
 import pyray as p
 
 from paddle import Paddle
@@ -89,7 +96,7 @@ class Game:
             self.ball.speed_x *= -1
 
 
-def main():
+async def main():
     p.init_window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     p.set_target_fps(GAME_FPS)
 
@@ -103,9 +110,11 @@ def main():
         game.update()
 
         p.end_drawing()
+        
+        await asyncio.sleep(0)
 
     p.close_window()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
