@@ -18,8 +18,8 @@ class Player:
         self.rotation = 0
         self.tint = p.WHITE
         self.change_y = 0
-        self.jump_force = -15
-        self.gravity = 1
+        self.jump_force = -10
+        self.gravity = 0.5
         self.can_jump = False
 
     def draw(self):
@@ -43,15 +43,27 @@ class Player:
         )
 
     def update(self):
-        if p.is_key_pressed(p.KeyboardKey.KEY_W) and self.can_jump:
+        # move player up and down in map
+        if p.is_key_pressed(p.KeyboardKey.KEY_W):
+            self.y_window -= 150
+        elif p.is_key_pressed(p.KeyboardKey.KEY_S):
+            self.y_window += 150
+            
+        if p.is_key_pressed(p.KeyboardKey.KEY_SPACE) and self.can_jump:
             self.change_y = self.jump_force
             self.can_jump = False
-        elif p.is_key_pressed(p.KeyboardKey.KEY_S) and self.can_jump:
-            self.y_window += self.block_size * 2 + self.extra_size
 
         # collision with ceiling
         if self.y_window <= 0:
             self.y_window = 0
+        # colliion with floor
+        if (
+            self.y_window
+            >= p.get_screen_height() - self.block_size * 2 - self.extra_size
+        ):
+            self.y_window = (
+                p.get_screen_height() - self.block_size * 2 - self.extra_size
+            )
 
         self.change_y += self.gravity
         self.y_window += self.change_y

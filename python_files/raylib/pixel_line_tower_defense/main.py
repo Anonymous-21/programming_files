@@ -4,6 +4,7 @@ import os
 from spritesheet_xml_parser import xml_parser
 from map import Map
 from player import Player
+from bullet import Bullet
 
 os.chdir(
     "/home/anonymous/Downloads/programming_files/python_files/raylib/pixel_line_tower_defense"
@@ -30,15 +31,24 @@ class Game:
             self.spritesheet, self.sprite_dict, self.rows, self.cols, self.block_size
         )
         self.player = Player(self.spritesheet, self.sprite_dict, self.block_size)
+        self.bullet = Bullet(
+            self.spritesheet,
+            self.sprite_dict,
+            self.block_size,
+            self.player.x_window,
+            self.player.y_window,
+        )
 
     def draw(self):
         self.map.draw()
         self.player.draw()
+        self.bullet.draw()
 
     def update(self):
         # player movement
         self.player.update()
-        
+        self.bullet.update(self.player.x_window, self.player.y_window)
+
         # player collision ground
         for row in range(self.rows):
             for col in range(self.cols):
@@ -55,10 +65,13 @@ class Game:
                         ),
                         (x_window, y_window, self.block_size, self.block_size),
                     ):
-                        self.player.y_window = y_window - self.block_size -self.player.extra_size
-                        if self.player.change_y > 0:
-                            self.player.change_y = 0
-                        self.player.can_jump = True
+                        if self.player.y_window <= y_window:
+                            self.player.y_window = (
+                                y_window - self.block_size - self.player.extra_size
+                            )
+                            if self.player.change_y > 0:
+                                self.player.change_y = 0
+                            self.player.can_jump = True
 
 
 def main():
