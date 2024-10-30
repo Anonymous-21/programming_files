@@ -9,8 +9,8 @@ os.chdir(
     "/home/anonymous/Downloads/programming_files/python_files/raylib/pixel_line_platformer"
 )
 
-SCREEN_WIDTH = 800 #1440
-SCREEN_HEIGHT = 600 #960
+SCREEN_WIDTH = 1440
+SCREEN_HEIGHT = 960
 SCREEN_TITLE = "Pixel Line Platformer"
 SCREEN_BACKGROUND = p.RAYWHITE
 GAME_FPS = 60
@@ -101,12 +101,12 @@ def main():
         p.begin_drawing()
         p.clear_background(SCREEN_BACKGROUND)
 
-        p.begin_mode_2d(game.camera)
+        # p.begin_mode_2d(game.camera)
         
         game.draw()
         game.update()
         
-        p.end_mode_2d()
+        # p.end_mode_2d()
         
         p.end_drawing()
 

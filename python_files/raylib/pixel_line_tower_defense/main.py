@@ -36,7 +36,29 @@ class Game:
         self.player.draw()
 
     def update(self):
-        pass
+        # player movement
+        self.player.update()
+        
+        # player collision ground
+        for row in range(self.rows):
+            for col in range(self.cols):
+                x_window = col * self.block_size
+                y_window = row * self.block_size
+
+                if self.map.map[row][col] in [20, 21, 22]:
+                    if p.check_collision_recs(
+                        (
+                            self.player.x_window,
+                            self.player.y_window,
+                            self.block_size + self.player.extra_size,
+                            self.block_size + self.player.extra_size,
+                        ),
+                        (x_window, y_window, self.block_size, self.block_size),
+                    ):
+                        self.player.y_window = y_window - self.block_size -self.player.extra_size
+                        if self.player.change_y > 0:
+                            self.player.change_y = 0
+                        self.player.can_jump = True
 
 
 def main():

@@ -35,12 +35,12 @@ class Map:
                 y_window = row * self.block_size
                 
                 if self.map[row][col] in self.map_single_digit:
-                    self.current_frame = self.sprite_dict[f"tile_000{self.map[row][col]}.png"]
+                    current_frame = self.sprite_dict[f"tile_000{self.map[row][col]}.png"]
                 else:
-                    self.current_frame = self.sprite_dict[f"tile_00{self.map[row][col]}.png"]
+                    current_frame = self.sprite_dict[f"tile_00{self.map[row][col]}.png"]
                     
                 p.draw_texture_pro(self.spritesheet,
-                                   (self.current_frame[0], self.current_frame[1], self.current_frame[2], self.current_frame[3]),
+                                   (current_frame[0], current_frame[1], current_frame[2], current_frame[3]),
                                    (x_window, y_window, self.block_size, self.block_size),
                                    (0, 0),
                                    0,
