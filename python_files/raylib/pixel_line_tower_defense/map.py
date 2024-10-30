@@ -2,7 +2,9 @@ import pyray as p
 import csv
 import os
 
-os.chdir("/home/anonymous/Downloads/programming_files/python_files/raylib/pixel_line_tower_defense")
+os.chdir(
+    "/home/anonymous/Downloads/programming_files/python_files/raylib/pixel_line_tower_defense"
+)
 
 
 class Map:
@@ -12,7 +14,7 @@ class Map:
         self.rows = rows
         self.cols = cols
         self.block_size = block_size
-        
+
         self.map = []
         with open("map.csv", "r") as csv_file:
             csv_reader = csv.reader(csv_file)
@@ -21,27 +23,36 @@ class Map:
                 for j in i:
                     row.append(int(j))
                 self.map.append(row)
-                
+
         self.map_single_digit = []
         for row in self.map:
             for col in row:
                 if col < 10:
                     self.map_single_digit.append(col)
-                    
+
     def draw(self):
         for row in range(self.rows):
             for col in range(self.cols):
                 x_window = col * self.block_size
                 y_window = row * self.block_size
-                
+
                 if self.map[row][col] in self.map_single_digit:
-                    current_frame = self.sprite_dict[f"tile_000{self.map[row][col]}.png"]
+                    current_frame = self.sprite_dict[
+                        f"tile_000{self.map[row][col]}.png"
+                    ]
                 else:
                     current_frame = self.sprite_dict[f"tile_00{self.map[row][col]}.png"]
-                    
-                p.draw_texture_pro(self.spritesheet,
-                                   (current_frame[0], current_frame[1], current_frame[2], current_frame[3]),
-                                   (x_window, y_window, self.block_size, self.block_size),
-                                   (0, 0),
-                                   0,
-                                   p.WHITE)
+
+                p.draw_texture_pro(
+                    self.spritesheet,
+                    (
+                        current_frame[0],
+                        current_frame[1],
+                        current_frame[2],
+                        current_frame[3],
+                    ),
+                    (x_window, y_window, self.block_size, self.block_size),
+                    (0, 0),
+                    0,
+                    p.WHITE,
+                )

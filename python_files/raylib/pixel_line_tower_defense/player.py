@@ -48,7 +48,7 @@ class Player:
             self.y_window -= 150
         elif p.is_key_pressed(p.KeyboardKey.KEY_S):
             self.y_window += 150
-            
+
         if p.is_key_pressed(p.KeyboardKey.KEY_SPACE) and self.can_jump:
             self.change_y = self.jump_force
             self.can_jump = False
