@@ -28,5 +28,5 @@ class Ball:
             self.y += self.speed_y
         
 
-        if self.y <= self.radius or self.y >= p.get_screen_height() - self.radius:
+        if self.y < self.radius or self.y > p.get_screen_height() - self.radius:
             self.speed_y *= -1

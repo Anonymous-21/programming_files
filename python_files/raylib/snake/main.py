@@ -93,7 +93,7 @@ async def main():
         elif game.game_over:
             game.game_over_menu()
 
-        p.end_drawing()  
+        p.end_drawing()
         await asyncio.sleep(0)
 
     p.close_window()

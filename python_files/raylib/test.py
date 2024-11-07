@@ -1,65 +1,90 @@
-import pyray as rl
+import pygame
 import noise
 import random
 
-# Constants
-WIDTH, HEIGHT = 800, 600
-TILE_SIZE = 16
+# Initialize Pygame
+pygame.init()
+
+# Parameters for the map
+WIDTH = 800
+HEIGHT = 600
+TILE_SIZE = 10
 MAP_WIDTH = WIDTH // TILE_SIZE
 MAP_HEIGHT = HEIGHT // TILE_SIZE
-AMPLITUDE = 0.3   # Controls terrain height variation
-FREQUENCY = 0.1   # Controls how "stretched" the noise is horizontally
-DIRT_LAYER_HEIGHT = 5  # Number of blocks below surface as dirt
-STONE_START_DEPTH = 10  # Depth at which stone begins
-SEED = random.randint(0, 100)  # Randomize for different maps each run
+NOISE_SCALE = 0.1
+NOISE_OCTAVES = 6
+NOISE_PERSISTENCE = 0.5
+NOISE_LACUNARITY = 2.0
+START_HEIGHT = HEIGHT // 2
 
-# Initialize Raylib
-rl.init_window(WIDTH, HEIGHT, "Terraria-like Map Generation with Perlin Noise")
-rl.set_target_fps(60)
+# Colors
+BACKGROUND_COLOR = (135, 206, 235)  # Sky blue
+GROUND_COLOR = (139, 69, 19)       # Brown for ground
+PLATFORM_COLOR = (34, 139, 34)      # Green for platforms
 
-# Generate 2D map with Perlin noise
-def generate_terrain():
+# Create the screen
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption('Terraria-like Map Generation')
+
+# Generate the map using Perlin noise
+def generate_map():
     terrain = []
     for x in range(MAP_WIDTH):
-        # Generate surface level using Perlin noise
-        noise_value = noise.pnoise1(x * FREQUENCY + SEED)
-        surface_y = int((noise_value * AMPLITUDE + 0.5) * MAP_HEIGHT / 2)
-
-        # Create air above surface
-        for y in range(surface_y):
-            terrain.append((x, y, "air"))
-
-        # Create dirt layer below surface
-        for y in range(surface_y, surface_y + DIRT_LAYER_HEIGHT):
-            terrain.append((x, y, "dirt"))
-
-        # Create stone layer below the dirt layer
-        for y in range(surface_y + DIRT_LAYER_HEIGHT, MAP_HEIGHT):
-            terrain.append((x, y, "stone"))
-
+        # Use Perlin noise to calculate the height of the terrain at this point
+        noise_value = noise.pnoise2(
+            x * NOISE_SCALE,
+            START_HEIGHT * NOISE_SCALE,
+            octaves=NOISE_OCTAVES,
+            persistence=NOISE_PERSISTENCE,
+            lacunarity=NOISE_LACUNARITY,
+            repeatx=1024,
+            repeaty=1024,
+            base=42
+        )
+        
+        # Scale the noise value to fit the map height
+        height = int((noise_value + 1) / 2 * MAP_HEIGHT)  # Normalize the noise value to [0, 1]
+        
+        terrain.append(height)
+    
     return terrain
 
-# Draw the generated map
-def draw_terrain(terrain):
-    for (x, y, block_type) in terrain:
-        if block_type == "dirt":
-            color = rl.DARKBROWN
-        elif block_type == "stone":
-            color = rl.GRAY
-        else:
-            continue  # Skip drawing air blocks
-        rl.draw_rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, color)
-
-# Main game loop
-terrain = generate_terrain()
-while not rl.window_should_close():
-    rl.begin_drawing()
-    rl.clear_background(rl.RAYWHITE)
+# Draw the map
+def draw_map(terrain):
+    screen.fill(BACKGROUND_COLOR)
     
-    # Draw terrain blocks
-    draw_terrain(terrain)
-    
-    rl.end_drawing()
+    for x in range(MAP_WIDTH):
+        height = terrain[x]
+        
+        # Draw the ground (a brown rectangle at the bottom)
+        for y in range(height, MAP_HEIGHT):
+            pygame.draw.rect(screen, GROUND_COLOR, (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
+        
+        # Draw some platforms randomly (green rectangles in the air)
+        if random.random() > 0.9:  # 10% chance to draw a platform in the air
+            platform_height = random.randint(0, height)
+            pygame.draw.rect(screen, PLATFORM_COLOR, (x * TILE_SIZE, platform_height * TILE_SIZE, TILE_SIZE, TILE_SIZE))
 
-# Close Raylib
-rl.close_window()
+# Main loop
+def main():
+    clock = pygame.time.Clock()
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        # Generate and draw the map
+        terrain = generate_map()
+        draw_map(terrain)
+        
+        # Update the display
+        pygame.display.flip()
+        
+        # Cap the frame rate
+        clock.tick(60)
+
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()

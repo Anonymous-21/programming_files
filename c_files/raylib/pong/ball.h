@@ -4,22 +4,22 @@
 #include "raylib.h"
 
 typedef struct Ball {
-  float radius;
-  float initial_x;
-  float initial_y;
-  float x;
-  float y;
+  int radius;
+  int initial_x;
+  int initial_y;
+  int x;
+  int y;
   Color color;
-  float change_x;
-  float change_y;
+  int change_x;
+  int change_y;
   int frames_counter;
 
 } Ball;
 
 void initBall(Ball *ball);
-void ballReset(Ball *ball);
+void resetBall(Ball *ball);
 void drawBall(Ball *ball);
 void moveBall(Ball *ball);
-void ballCollisionVerticalWalls(Ball *ball);
+void ballCollisionWalls(Ball *ball, int *left_score, int *right_score);
 
 #endif // BALL_H

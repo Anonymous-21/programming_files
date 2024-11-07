@@ -11,7 +11,7 @@ class Paddle:
         self.y = self.initial_y
         self.color = p.BLACK
         self.speed = 8
-        
+
     def reset(self):
         self.x = self.initial_x
         self.y = self.initial_y
@@ -22,8 +22,8 @@ class Paddle:
     def update(self):
         if (
             p.is_key_down(p.KeyboardKey.KEY_RIGHT)
-            and self.x <= p.get_screen_width() - self.width
+            and self.x < p.get_screen_width() - self.width
         ):
             self.x += self.speed
-        elif p.is_key_down(p.KeyboardKey.KEY_LEFT) and self.x >= 0:
+        elif p.is_key_down(p.KeyboardKey.KEY_LEFT) and self.x > 0:
             self.x -= self.speed
