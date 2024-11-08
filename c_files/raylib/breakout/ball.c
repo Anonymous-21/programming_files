@@ -3,41 +3,43 @@
 
 void initBall(Ball *ball) {
   ball->radius = 10;
-  ball->initial_x = (float)GetScreenWidth() / 2;
-  ball->initial_y = (float)GetScreenHeight() / 2;
+  ball->initial_x = GetScreenWidth() / 2 - ball->radius / 2;
+  ball->initial_y = GetScreenHeight() / 2 - ball->radius / 2;
   ball->x = ball->initial_x;
   ball->y = ball->initial_y;
   ball->color = RED;
-  ball->speed_x = 5;
-  ball->speed_y = 6;
-  ball->active = false;
+  ball->change_x = 5;
+  ball->change_y = 6;
+  ball->frames_counter = 0;
 }
 
 void resetBall(Ball *ball) {
   ball->x = ball->initial_x;
   ball->y = ball->initial_y;
+  ball->frames_counter = 0;
+  ball->change_x *= -1;
 }
 
 void drawBall(Ball *ball) {
-
   DrawCircleV((Vector2){ball->x, ball->y}, ball->radius, ball->color);
 }
 
-void updateBall(Ball *ball) {
-
-  if (!ball->active && IsKeyPressed(KEY_SPACE)) {
-    ball->active = true;
+void moveBall(Ball *ball) {
+  ball->frames_counter++;
+  if (ball->frames_counter > 60) {
+    ball->frames_counter = 61;
+    ball->x += ball->change_x;
+    ball->y += ball->change_y;
   }
+}
 
-  if (ball->active) {
-    ball->x += ball->speed_x;
-    ball->y += ball->speed_y;
-  }
-
+void ballCollisionWalls(Ball *ball, int *lives) {
   if (ball->x <= ball->radius || ball->x >= GetScreenWidth() - ball->radius) {
-    ball->speed_x *= -1;
-
+    ball->change_x *= -1;
   } else if (ball->y <= ball->radius) {
-    ball->speed_y *= -1;
+    ball->change_y *= -1;
+  } else if (ball->y >= GetScreenHeight() - ball->radius) {
+    *lives -= 1;
+    resetBall(ball);
   }
 }

@@ -2,7 +2,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-SRC = main.c paddle.c bricks.c ball.c
+SRC = main.c bricks.c paddle.c ball.c
 TARGET = breakout
 
 # Build rule

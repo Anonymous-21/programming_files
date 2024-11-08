@@ -3,23 +3,23 @@
 
 #include "raylib.h"
 
-typedef struct Ball {
-
-  float radius;
-  float initial_x;
-  float initial_y;
-  float x;
-  float y;
+typedef struct Ball
+{
+  int radius;
+  int initial_x;
+  int initial_y;
+  int x;
+  int y;
   Color color;
-  float speed_x;
-  float speed_y;
-  bool active;
-
-} Ball;
+  int change_x;
+  int change_y;
+  int frames_counter;
+}Ball;
 
 void initBall(Ball *ball);
 void resetBall(Ball *ball);
 void drawBall(Ball *ball);
-void updateBall(Ball *ball);
+void moveBall(Ball *ball);
+void ballCollisionWalls(Ball *ball, int *lives);
 
 #endif // BALL_H

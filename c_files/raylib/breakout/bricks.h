@@ -7,18 +7,18 @@
 #define COLS 10
 
 typedef struct Bricks {
-
   int rows;
   int cols;
   int width;
   int height;
   Color color;
   int gap;
-  Vector2 grid[ROWS][COLS];
+  Vector2 list[ROWS][COLS];
+
 } Bricks;
 
 void initBricks(Bricks *bricks);
-void genGrid(Bricks *bricks);
-void drawBricks(Bricks *bricks);
+void genBricks(Bricks *bricks);
+void drawBricks(Bricks *Bricks);
 
 #endif // BRICKS_H

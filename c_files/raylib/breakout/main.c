@@ -4,8 +4,6 @@
 #include "raylib.h"
 #include <stdio.h>
 
-#define LIVES_LENGTH 20
-
 int main(void) {
   const int screenWidth = 800;
   const int screenHeight = 600;
@@ -13,13 +11,16 @@ int main(void) {
   const Color screenBackground = RAYWHITE;
   const int gameFps = 60;
 
+  const int livesLength = 10;
+
   InitWindow(screenWidth, screenHeight, screenTitle);
   SetTargetFPS(gameFps);
 
-  bool game_won = false;
   bool game_over = false;
+  bool game_win = false;
+  int total_bricks;
   int lives = 5;
-  char lives_str[LIVES_LENGTH];
+  char lives_str[livesLength];
 
   Paddle paddle;
   Ball ball;
@@ -29,40 +30,37 @@ int main(void) {
   initBall(&ball);
   initBricks(&bricks);
 
+  total_bricks = bricks.rows * bricks.cols;
+
   while (!WindowShouldClose()) {
+    // convert lives to string
+    snprintf(lives_str, livesLength, "Lives: %d\n", lives);
 
-    if (!game_over && !game_won) {
-      // convert lives to string
-      snprintf(lives_str, LIVES_LENGTH, "Lives: %d\n", lives);
+    // game win condition - all bricks destroyed
+    if (total_bricks <= 0) {
+      game_win = true;
+    }
 
-      updatePaddle(&paddle);
-      updateBall(&ball);
+    // game over condition - all lives lost
+    if (lives <= 0) {
+      game_over = true;
+    }
+    if (!game_over && !game_win) { // paddle
+      movePaddle(&paddle);
 
-      // game win condition
-      bool remaining = false;
-      for (int i = 0; i < bricks.rows; i++) {
-        for (int j = 0; j < bricks.cols; j++) {
-          if (bricks.grid[i][j].x != -2 || bricks.grid[i][j].y != -2) {
-            remaining = true;
-          }
-        }
-      }
-
-      if (!remaining) {
-        game_won = true;
-      }
-
-      // game over condition
-      if (lives <= 0) {
-        game_over = true;
-      }
+      // ball
+      moveBall(&ball);
+      ballCollisionWalls(&ball, &lives);
 
       // ball collision paddle
+      for (int i = 0; i < bricks.rows; i++) {
+        for (int j = 0; j < bricks.cols; j++) {
+        }
+      }
       if (CheckCollisionCircleRec(
               (Vector2){ball.x, ball.y}, ball.radius,
               (Rectangle){paddle.x, paddle.y, paddle.width, paddle.height})) {
-
-        ball.speed_y *= -1;
+        ball.change_y *= -1;
       }
 
       // ball collision bricks
@@ -70,57 +68,47 @@ int main(void) {
         for (int j = 0; j < bricks.cols; j++) {
           if (CheckCollisionCircleRec(
                   (Vector2){ball.x, ball.y}, ball.radius,
-                  (Rectangle){bricks.grid[i][j].x, bricks.grid[i][j].y,
+                  (Rectangle){bricks.list[i][j].x, bricks.list[i][j].y,
                               bricks.width, bricks.height})) {
-
-            ball.speed_y *= -1;
-            bricks.grid[i][j] = (Vector2){-2, -2};
+            ball.change_y *= -1;
+            bricks.list[i][j].x = -2;
+            bricks.list[i][j].y = -2;
+            total_bricks--;
           }
         }
       }
-
-      // ball collision floor and update lives
-      if (ball.y >= GetScreenHeight() - ball.radius) {
-        lives--;
-        ball.active = false;
-        resetBall(&ball);
-        resetPaddle(&paddle);
-      }
-    } else if (game_won || game_over) {
+    } else if (game_over || game_win) {
       if (IsKeyPressed(KEY_ENTER)) {
+        total_bricks = bricks.rows * bricks.cols;
         lives = 5;
-        game_won = false;
         game_over = false;
-        initBricks(&bricks);
+        game_win = false;
         initPaddle(&paddle);
         initBall(&ball);
+        initBricks(&bricks);
       }
     }
 
     BeginDrawing();
     ClearBackground(screenBackground);
 
-    if (!game_over && !game_won) {
-      // draw lives
-      DrawText(lives_str, 10, GetScreenHeight() - 50, 30, GRAY);
-
+    if (!game_over && !game_win) {
       drawPaddle(&paddle);
       drawBall(&ball);
       drawBricks(&bricks);
-    } else if (game_won) {
-      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
-                    screenBackground);
-      DrawText("You win!", GetScreenWidth() / 2 - 80,
-               GetScreenHeight() / 2 - 50, 40, GRAY);
-      DrawText("Press 'Enter' to restart!", GetScreenWidth() / 2 - 150,
-               GetScreenHeight() / 2 + 20, 30, GRAY);
+      DrawText(lives_str, 20, GetScreenHeight() - 40, 30, GRAY);
+    } else if (game_win) {
+      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), RAYWHITE);
+      DrawText("You win", GetScreenWidth() / 2 - 40, GetScreenHeight() / 2, 30,
+               GRAY);
+      DrawText("Press 'enter' to restart", GetScreenWidth() / 2 - 100,
+               GetScreenHeight() / 2 + 50, 20, GRAY);
     } else if (game_over) {
-      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
-                    screenBackground);
-      DrawText("Game Over", GetScreenWidth() / 2 - 80,
-               GetScreenHeight() / 2 - 50, 40, GRAY);
-      DrawText("Press 'Enter' to restart!", GetScreenWidth() / 2 - 150,
-               GetScreenHeight() / 2 + 20, 30, GRAY);
+      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), RAYWHITE);
+      DrawText("You lose", GetScreenWidth() / 2 - 40, GetScreenHeight() / 2, 30,
+               GRAY);
+      DrawText("Press 'enter' to restart", GetScreenWidth() / 2 - 100,
+               GetScreenHeight() / 2 + 50, 20, GRAY);
     }
 
     EndDrawing();
