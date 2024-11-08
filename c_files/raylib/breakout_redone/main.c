@@ -18,9 +18,9 @@ int main(void) {
 
   bool game_over = false;
   bool game_win = false;
+  bool bricks_destroyed = false;
   int lives = 5;
   char lives_str[livesLength];
-  int bricks_count;
 
   Paddle paddle;
   Ball ball;
@@ -30,15 +30,24 @@ int main(void) {
   initBall(&ball);
   initBricks(&bricks);
 
-  // total bricks count
-  bricks_count = bricks.rows * bricks.cols;
-
   while (!WindowShouldClose()) {
     // convert lives to string
     snprintf(lives_str, livesLength, "Lives: %d\n", lives);
 
+    // check for destroyed bricks
+    for (int i = 0; i < bricks.rows; i++) {
+      for (int j = 0; j < bricks.cols; j++) {
+        if (bricks.list[i][j].x != -2 || bricks.list[i][j].y != -2) {
+          bricks_destroyed = false;
+          break;
+        } else {
+          bricks_destroyed = true;
+        }
+      }
+    }
+
     // game win condition - all bricks destroyed
-    if (bricks_count <= 0) {
+    if (bricks_destroyed) {
       game_win = true;
     }
 
@@ -54,6 +63,10 @@ int main(void) {
       ballCollisionWalls(&ball, &lives);
 
       // ball collision paddle
+      for (int i = 0; i < bricks.rows; i++) {
+        for (int j = 0; j < bricks.cols; j++) {
+        }
+      }
       if (CheckCollisionCircleRec(
               (Vector2){ball.x, ball.y}, ball.radius,
               (Rectangle){paddle.x, paddle.y, paddle.width, paddle.height})) {
@@ -69,14 +82,12 @@ int main(void) {
                               bricks.width, bricks.height})) {
             ball.change_y *= -1;
             bricks.list[i][j] = (Vector2){-2, -2};
-            bricks_count--;
           }
         }
       }
     } else if (game_over || game_win) {
       if (IsKeyPressed(KEY_ENTER)) {
-
-        bricks_count = bricks.rows * bricks.cols;
+        bricks_destroyed = false;
         lives = 5;
         game_over = false;
         game_win = false;
