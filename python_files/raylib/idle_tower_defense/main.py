@@ -1,5 +1,5 @@
 import pyray as p
-
+from math import sqrt
 from tower import Tower
 from enemy import Enemy
 
@@ -12,15 +12,44 @@ GAME_FPS = 60
 
 class Game:
     def __init__(self) -> None:
-        self.tower = Tower()
-        self.enemy = Enemy(self.tower)
+        self.tower = Tower(SCREEN_BACKGROUND)
+        self.enemy = Enemy()
 
     def draw(self):
         self.tower.draw()
         self.enemy.draw()
 
     def update(self):
-        self.enemy.move()
+        self.enemy.update()
+        for enemy in self.enemy.list:
+            # enemy distance with tower
+            distance_x = self.tower.x - enemy[0]
+            distance_y = self.tower.y - enemy[1]
+            distance = sqrt(distance_x**2 + distance_y**2)
+            # normalize distance vectors
+            if distance > 0:
+                distance_x /= distance
+                distance_y /= distance
+            # move enemy
+            if enemy[2] == self.enemy.small_width:
+                enemy[0] += distance_x * self.enemy.small_speed
+                enemy[1] += distance_y * self.enemy.small_speed
+            elif enemy[2] == self.enemy.medium_width:
+                enemy[0] += distance_x * self.enemy.medium_speed
+                enemy[1] += distance_y * self.enemy.medium_speed
+            # enemy collision tower
+            if p.check_collision_recs(
+                (enemy[0], enemy[1], enemy[2], enemy[3]),
+                (self.tower.x, self.tower.y, self.tower.width, self.tower.height),
+            ):
+                if enemy[0] < self.tower.x - enemy[2]:
+                    enemy[0] = self.tower.x - enemy[2]
+                elif enemy[0] > self.tower.x + self.tower.width:
+                    enemy[0] = self.tower.x + self.tower.width
+                if enemy[1] < self.tower.y - enemy[3]:
+                    enemy[1] = self.tower.y - enemy[3]
+                elif enemy[1] > self.tower.y + self.tower.height:
+                    enemy[1] = self.tower.y + self.tower.height
 
 
 def main():

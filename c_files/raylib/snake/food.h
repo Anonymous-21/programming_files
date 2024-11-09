@@ -5,7 +5,6 @@
 
 typedef struct Grid Grid;
 typedef struct Snake Snake;
-
 typedef struct Food {
   int x;
   int y;

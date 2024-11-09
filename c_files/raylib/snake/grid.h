@@ -8,7 +8,6 @@ typedef struct Grid {
   int cols;
   int block_size;
   int margin;
-  float line_thickness;
   Color color;
 
 } Grid;

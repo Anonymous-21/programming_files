@@ -6,7 +6,6 @@ void initGrid(Grid *grid) {
   grid->cols = 20;
   grid->block_size = 30;
   grid->margin = 100;
-  grid->line_thickness = 1;
   grid->color = BLACK;
 }
 
@@ -16,9 +15,7 @@ void drawGrid(Grid *grid) {
       int x = j * grid->block_size + grid->margin;
       int y = i * grid->block_size + grid->margin;
 
-      DrawRectangleLinesEx(
-          (Rectangle){x, y, grid->block_size, grid->block_size},
-          grid->line_thickness, grid->color);
+      DrawRectangleLines(x, y, grid->block_size, grid->block_size, grid->color);
     }
   }
 }
