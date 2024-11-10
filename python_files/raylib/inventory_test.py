@@ -35,18 +35,53 @@ inv_height = 400
 inv_color = p.BROWN
 show_inventory = False
 
+inv_section_gap_x = 20
+inv_section_gap_y = 20
+inv_section_rows = 3
+inv_section_cols = 4
+inv_section_width = (inv_width - (inv_section_gap_x * 5)) / 4
+inv_section_height = (inv_height - (inv_section_gap_y * 4)) / 3
+inv_sections = [
+    # Row 1
+    [inv_x + inv_section_gap_x, inv_y + inv_section_gap_y],
+    [inv_x + (inv_section_gap_x * 2) + inv_section_width, inv_y + inv_section_gap_y],
+    [
+        inv_x + (inv_section_gap_x * 3) + (inv_section_width * 2),
+        inv_y + inv_section_gap_y,
+    ],
+    [
+        inv_x + (inv_section_gap_x * 4) + (inv_section_width * 3),
+        inv_y + inv_section_gap_y,
+    ],
+    # Row 2
+    [inv_x + inv_section_gap_x, inv_y + (inv_section_gap_y * 2) + inv_section_height],
+    [
+        inv_x + (inv_section_gap_x * 2) + (inv_section_width),
+        (inv_section_height * 2) + (inv_section_gap_y * 2),
+    ],
+]
+inv_section_color = p.WHITE
+
 
 while not p.window_should_close():
     if p.is_key_pressed(p.KeyboardKey.KEY_I) and not show_inventory:
         show_inventory = True
-    elif p.is_key_pressed(p.KeyboardKey.KEY_I) and show_inventory:
+    elif (
+        p.is_key_pressed(p.KeyboardKey.KEY_I)
+        or p.is_key_pressed(p.KeyboardKey.KEY_ESCAPE)
+    ) and show_inventory:
         show_inventory = False
-        
+
     p.begin_drawing()
     p.clear_background(SCREEN_BACKGROUND)
 
     if show_inventory:
         p.draw_rectangle_rec((inv_x, inv_y, inv_width, inv_height), inv_color)
+        for section in inv_sections:
+            p.draw_rectangle_rec(
+                (section[0], section[1], inv_section_width, inv_section_height),
+                inv_section_color,
+            )
 
     p.end_drawing()
 
