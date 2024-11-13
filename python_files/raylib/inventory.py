@@ -100,7 +100,7 @@ def main():
             if p.check_collision_point_rec((mouse_x, mouse_y), item.rect):
                 active_item = item
         
-        # drag and drop items with mouse
+        # DRAG AND DROP PIECES WITH MOUSE
         if (
             p.is_mouse_button_pressed(p.MouseButton.MOUSE_BUTTON_LEFT)
             and not active_item.is_dragging

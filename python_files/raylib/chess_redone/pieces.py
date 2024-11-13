@@ -9,6 +9,11 @@ class Pieces:
         self.source_width = self.spritesheet.width / 6
         self.source_height = self.spritesheet.height / 2
         
+        self.offset_x = 0
+        self.offset_y = 0
+        self.is_dragging = False
+        
+# BLACK PIECES
 
 class Black_Rook(Pieces):
     def __init__(self, pieces_spritesheet, dest_x, dest_y):
@@ -112,7 +117,7 @@ class Black_Pawn(Pieces):
                            0,
                            p.WHITE)
         
-# white pieces
+# WHITE PIECES
 
 class White_Rook(Pieces):
     def __init__(self, pieces_spritesheet, dest_x, dest_y):
