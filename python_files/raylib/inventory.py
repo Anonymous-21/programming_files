@@ -86,6 +86,7 @@ def main():
 
     while not p.window_should_close():
         active_block = None
+        active_item = None
 
         mouse_x = p.get_mouse_x()
         mouse_y = p.get_mouse_y()
@@ -95,32 +96,35 @@ def main():
                 (mouse_x, mouse_y), (block[0], block[1], BLOCK_SIZE, BLOCK_SIZE)
             ):
                 active_block = block
+                break
 
         for item in inv:
             if p.check_collision_point_rec((mouse_x, mouse_y), item.rect):
                 active_item = item
+                break
         
         # DRAG AND DROP PIECES WITH MOUSE
-        if (
-            p.is_mouse_button_pressed(p.MouseButton.MOUSE_BUTTON_LEFT)
-            and not active_item.is_dragging
-        ):
-            active_item.is_dragging = True
-            active_item.offset_x = mouse_x - active_item.rect.x
-            active_item.offset_y = mouse_y - active_item.rect.y
-        elif (
-            p.is_mouse_button_down(p.MouseButton.MOUSE_BUTTON_LEFT)
-            and active_item.is_dragging
-        ):
-            active_item.rect.x = mouse_x - active_item.offset_x
-            active_item.rect.y = mouse_y - active_item.offset_y
-        elif p.is_mouse_button_released(p.MouseButton.MOUSE_BUTTON_LEFT):
-            active_item.is_dragging = False
-            active_item.offset_x = 0
-            active_item.offset_y = 0
-            if active_block:
-                active_item.rect.x = active_block[0] + inner_padding_block
-                active_item.rect.y = active_block[1] + inner_padding_block
+        if active_item:
+            if (
+                p.is_mouse_button_pressed(p.MouseButton.MOUSE_BUTTON_LEFT)
+                and not active_item.is_dragging
+            ):
+                active_item.is_dragging = True
+                active_item.offset_x = mouse_x - active_item.rect.x
+                active_item.offset_y = mouse_y - active_item.rect.y
+            elif (
+                p.is_mouse_button_down(p.MouseButton.MOUSE_BUTTON_LEFT)
+                and active_item.is_dragging
+            ):
+                active_item.rect.x = mouse_x - active_item.offset_x
+                active_item.rect.y = mouse_y - active_item.offset_y
+            elif p.is_mouse_button_released(p.MouseButton.MOUSE_BUTTON_LEFT):
+                active_item.is_dragging = False
+                active_item.offset_x = 0
+                active_item.offset_y = 0
+                if active_block:
+                    active_item.rect.x = active_block[0] + inner_padding_block
+                    active_item.rect.y = active_block[1] + inner_padding_block
 
         p.begin_drawing()
         p.clear_background(SCREEN_BACKGROUND)

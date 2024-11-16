@@ -8,7 +8,7 @@ from constants import (
     SCREEN_BACKGROUND,
     GAME_FPS
 )
-from game_manager import Game_Manager
+from game_manager import GameManager
 
 os.chdir("/home/anonymous/Downloads/programming_files/python_files/raylib/chess_redone")
 
@@ -19,7 +19,7 @@ def main():
     
     pieces_spritesheet = p.load_texture("assets/tileset_128.png")
 
-    game_manager = Game_Manager(pieces_spritesheet)
+    game_manager = GameManager(pieces_spritesheet)
 
     while not p.window_should_close():
         p.begin_drawing()

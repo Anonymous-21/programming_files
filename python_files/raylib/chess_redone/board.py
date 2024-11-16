@@ -57,3 +57,4 @@ class Board:
                 (mouse_x, mouse_y), (tile[0], tile[1], BLOCK_SIZE, BLOCK_SIZE)
             ):
                 self.active_block = tile
+                break

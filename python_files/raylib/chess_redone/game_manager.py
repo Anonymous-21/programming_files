@@ -7,85 +7,85 @@ from board import Board
 import pieces
 
 
-class Game_Manager:
+class GameManager:
     def __init__(self, pieces_spritesheet) -> None:
         self.board = Board()
 
         # BLACK PIECES
 
-        self.black_rook1 = pieces.Black_Rook(pieces_spritesheet, 0, 0)
-        self.black_knight1 = pieces.Black_Knight(pieces_spritesheet, BLOCK_SIZE, 0)
-        self.black_bishop1 = pieces.Black_Bishop(pieces_spritesheet, BLOCK_SIZE * 2, 0)
-        self.black_queen = pieces.Black_Queen(pieces_spritesheet, BLOCK_SIZE * 3, 0)
-        self.black_king = pieces.Black_King(pieces_spritesheet, BLOCK_SIZE * 4, 0)
-        self.black_bishop2 = pieces.Black_Bishop(pieces_spritesheet, BLOCK_SIZE * 5, 0)
-        self.black_knight2 = pieces.Black_Knight(pieces_spritesheet, BLOCK_SIZE * 6, 0)
-        self.black_rook2 = pieces.Black_Rook(pieces_spritesheet, BLOCK_SIZE * 7, 0)
-        self.black_pawn1 = pieces.Black_Pawn(pieces_spritesheet, 0, BLOCK_SIZE)
-        self.black_pawn2 = pieces.Black_Pawn(pieces_spritesheet, BLOCK_SIZE, BLOCK_SIZE)
-        self.black_pawn3 = pieces.Black_Pawn(
+        self.black_rook1 = pieces.BlackRook(pieces_spritesheet, 0, 0)
+        self.black_knight1 = pieces.BlackKnight(pieces_spritesheet, BLOCK_SIZE, 0)
+        self.black_bishop1 = pieces.BlackBishop(pieces_spritesheet, BLOCK_SIZE * 2, 0)
+        self.black_queen = pieces.BlackQueen(pieces_spritesheet, BLOCK_SIZE * 3, 0)
+        self.black_king = pieces.BlackKing(pieces_spritesheet, BLOCK_SIZE * 4, 0)
+        self.black_bishop2 = pieces.BlackBishop(pieces_spritesheet, BLOCK_SIZE * 5, 0)
+        self.black_knight2 = pieces.BlackKnight(pieces_spritesheet, BLOCK_SIZE * 6, 0)
+        self.black_rook2 = pieces.BlackRook(pieces_spritesheet, BLOCK_SIZE * 7, 0)
+        self.black_pawn1 = pieces.BlackPawn(pieces_spritesheet, 0, BLOCK_SIZE)
+        self.black_pawn2 = pieces.BlackPawn(pieces_spritesheet, BLOCK_SIZE, BLOCK_SIZE)
+        self.black_pawn3 = pieces.BlackPawn(
             pieces_spritesheet, BLOCK_SIZE * 2, BLOCK_SIZE
         )
-        self.black_pawn4 = pieces.Black_Pawn(
+        self.black_pawn4 = pieces.BlackPawn(
             pieces_spritesheet, BLOCK_SIZE * 3, BLOCK_SIZE
         )
-        self.black_pawn5 = pieces.Black_Pawn(
+        self.black_pawn5 = pieces.BlackPawn(
             pieces_spritesheet, BLOCK_SIZE * 4, BLOCK_SIZE
         )
-        self.black_pawn6 = pieces.Black_Pawn(
+        self.black_pawn6 = pieces.BlackPawn(
             pieces_spritesheet, BLOCK_SIZE * 5, BLOCK_SIZE
         )
-        self.black_pawn7 = pieces.Black_Pawn(
+        self.black_pawn7 = pieces.BlackPawn(
             pieces_spritesheet, BLOCK_SIZE * 6, BLOCK_SIZE
         )
-        self.black_pawn8 = pieces.Black_Pawn(
+        self.black_pawn8 = pieces.BlackPawn(
             pieces_spritesheet, BLOCK_SIZE * 7, BLOCK_SIZE
         )
 
         # WHITE PIECES
 
-        self.white_rook1 = pieces.White_Rook(pieces_spritesheet, 0, BLOCK_SIZE * 7)
-        self.white_knight1 = pieces.White_Knight(
+        self.white_rook1 = pieces.WhiteRook(pieces_spritesheet, 0, BLOCK_SIZE * 7)
+        self.white_knight1 = pieces.WhiteKnight(
             pieces_spritesheet, BLOCK_SIZE, BLOCK_SIZE * 7
         )
-        self.white_bishop1 = pieces.White_Bishop(
+        self.white_bishop1 = pieces.WhiteBishop(
             pieces_spritesheet, BLOCK_SIZE * 2, BLOCK_SIZE * 7
         )
-        self.white_queen = pieces.White_Queen(
+        self.white_queen = pieces.WhiteQueen(
             pieces_spritesheet, BLOCK_SIZE * 3, BLOCK_SIZE * 7
         )
-        self.white_king = pieces.White_King(
+        self.white_king = pieces.WhiteKing(
             pieces_spritesheet, BLOCK_SIZE * 4, BLOCK_SIZE * 7
         )
-        self.white_bishop2 = pieces.White_Bishop(
+        self.white_bishop2 = pieces.WhiteBishop(
             pieces_spritesheet, BLOCK_SIZE * 5, BLOCK_SIZE * 7
         )
-        self.white_knight2 = pieces.White_Knight(
+        self.white_knight2 = pieces.WhiteKnight(
             pieces_spritesheet, BLOCK_SIZE * 6, BLOCK_SIZE * 7
         )
-        self.white_rook2 = pieces.White_Rook(
+        self.white_rook2 = pieces.WhiteRook(
             pieces_spritesheet, BLOCK_SIZE * 7, BLOCK_SIZE * 7
         )
-        self.white_pawn1 = pieces.White_Pawn(pieces_spritesheet, 0, BLOCK_SIZE * 6)
-        self.white_pawn2 = pieces.White_Pawn(
+        self.white_pawn1 = pieces.WhitePawn(pieces_spritesheet, 0, BLOCK_SIZE * 6)
+        self.white_pawn2 = pieces.WhitePawn(
             pieces_spritesheet, BLOCK_SIZE, BLOCK_SIZE * 6
         )
-        self.white_pawn3 = pieces.White_Pawn(
+        self.white_pawn3 = pieces.WhitePawn(
             pieces_spritesheet, BLOCK_SIZE * 2, BLOCK_SIZE * 6
         )
-        self.white_pawn4 = pieces.White_Pawn(
+        self.white_pawn4 = pieces.WhitePawn(
             pieces_spritesheet, BLOCK_SIZE * 3, BLOCK_SIZE * 6
         )
-        self.white_pawn5 = pieces.White_Pawn(
+        self.white_pawn5 = pieces.WhitePawn(
             pieces_spritesheet, BLOCK_SIZE * 4, BLOCK_SIZE * 6
         )
-        self.white_pawn6 = pieces.White_Pawn(
+        self.white_pawn6 = pieces.WhitePawn(
             pieces_spritesheet, BLOCK_SIZE * 5, BLOCK_SIZE * 6
         )
-        self.white_pawn7 = pieces.White_Pawn(
+        self.white_pawn7 = pieces.WhitePawn(
             pieces_spritesheet, BLOCK_SIZE * 6, BLOCK_SIZE * 6
         )
-        self.white_pawn8 = pieces.White_Pawn(
+        self.white_pawn8 = pieces.WhitePawn(
             pieces_spritesheet, BLOCK_SIZE * 7, BLOCK_SIZE * 6
         )
 
@@ -139,31 +139,38 @@ class Game_Manager:
         mouse_x = p.get_mouse_x()
         mouse_y = p.get_mouse_y()
 
+        active_piece = None
+
         # GET CHESS PIECE FOCUSED BY MOUSE
         for piece in self.chess_pieces_list:
             if p.check_collision_point_rec(
-                (mouse_x, mouse_y), (piece.dest_x, piece.dest_y, BLOCK_SIZE, BLOCK_SIZE)
+                (mouse_x, mouse_y),
+                (piece.window_x, piece.window_y, BLOCK_SIZE, BLOCK_SIZE),
             ):
                 active_piece = piece
+                break
 
         # MOVE PIECES
-        if (
-            p.is_mouse_button_pressed(p.MouseButton.MOUSE_BUTTON_LEFT)
-            and not piece.is_dragging
-        ):
-            active_piece.is_dragging = True
-            active_piece.offset_x = mouse_x - active_piece.dest_x
-            active_piece.offset_y = mouse_y - active_piece.dest_y
-        elif (
-            p.is_mouse_button_down(p.MouseButton.MOUSE_BUTTON_LEFT)
-            and piece.is_dragging
-        ):
-            active_piece.dest_x = mouse_x - active_piece.offset_x
-            active_piece.dest_y = mouse_y - active_piece.offset_y
-        elif p.is_mouse_button_released(p.MouseButton.MOUSE_BUTTON_LEFT):
-            active_piece.is_dragging = False
-            active_piece.offset_x = 0
-            active_piece.offset_y = 0
-            if self.board.active_block:
-                active_piece.dest_x = self.board.active_block[0]
-                active_piece.dest_y = self.board.active_block[1]
+        if active_piece:
+            if (
+                p.is_mouse_button_pressed(p.MouseButton.MOUSE_BUTTON_LEFT)
+                and not piece.is_dragging
+            ):
+                active_piece.is_dragging = True
+                active_piece.offset_x = mouse_x - active_piece.window_x
+                active_piece.offset_y = mouse_y - active_piece.window_y
+            elif (
+                p.is_mouse_button_down(p.MouseButton.MOUSE_BUTTON_LEFT)
+                and piece.is_dragging
+            ):
+                active_piece.window_x = mouse_x - active_piece.offset_x
+                active_piece.window_y = mouse_y - active_piece.offset_y
+            elif p.is_mouse_button_released(p.MouseButton.MOUSE_BUTTON_LEFT):
+                active_piece.is_dragging = False
+                active_piece.offset_x = 0
+                active_piece.offset_y = 0
+                if self.board.active_block:
+                    active_piece.window_x = self.board.active_block[0]
+                    active_piece.window_y = self.board.active_block[1]
+
+                

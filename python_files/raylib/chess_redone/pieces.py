@@ -15,209 +15,208 @@ class Pieces:
         
 # BLACK PIECES
 
-class Black_Rook(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y):
+class BlackRook(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y):
         super().__init__(pieces_spritesheet)
         
         self.source_x = 0
         self.source_y = 0
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
     
     def draw(self):
         p.draw_texture_pro(self.spritesheet, 
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class Black_Knight(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class BlackKnight(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width
         self.source_y = 0
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class Black_Bishop(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class BlackBishop(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width * 2
         self.source_y = 0
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class Black_Queen(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class BlackQueen(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width * 3
         self.source_y = 0
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class Black_King(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class BlackKing(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width * 4
         self.source_y = 0
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class Black_Pawn(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class BlackPawn(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width * 5
         self.source_y = 0
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
 # WHITE PIECES
 
-class White_Rook(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y):
+class WhiteRook(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y):
         super().__init__(pieces_spritesheet)
         
         self.source_x = 0
         self.source_y = self.source_height
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
     
     def draw(self):
         p.draw_texture_pro(self.spritesheet, 
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class White_Knight(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class WhiteKnight(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width
         self.source_y = self.source_height
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class White_Bishop(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class WhiteBishop(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width * 2
         self.source_y = self.source_height
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class White_Queen(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class WhiteQueen(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width * 3
         self.source_y = self.source_height
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class White_King(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class WhiteKing(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width * 4
         self.source_y = self.source_height
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
         
-class White_Pawn(Pieces):
-    def __init__(self, pieces_spritesheet, dest_x, dest_y) -> None:
+class WhitePawn(Pieces):
+    def __init__(self, pieces_spritesheet, window_x, window_y) -> None:
         super().__init__(pieces_spritesheet)
         
         self.source_x = self.source_width * 5
         self.source_y = self.source_height
-        self.dest_x = dest_x
-        self.dest_y = dest_y
+        self.window_x = window_x
+        self.window_y = window_y
         
     def draw(self):
         p.draw_texture_pro(self.spritesheet,
                            (self.source_x, self.source_y, self.source_width, self.source_height),
-                           (self.dest_x, self.dest_y, BLOCK_SIZE, BLOCK_SIZE),
+                           (self.window_x, self.window_y, BLOCK_SIZE, BLOCK_SIZE),
                            (0, 0),
                            0,
                            p.WHITE)
-        
