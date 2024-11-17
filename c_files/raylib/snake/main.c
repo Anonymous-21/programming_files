@@ -1,102 +1,154 @@
-#include "food.h"
-#include "grid.h"
-#include "raylib.h"
-#include "snake.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include "raylib.h"
 
-int main(void) {
-  const int SCREEN_WIDTH = 800;
-  const int SCREEN_HEIGHT = 800;
-  const char SCREEN_TITLE[] = "Snake";
-  const Color SCREEN_BACKGROUND = RAYWHITE;
-  const int GAME_FPS = 60;
+#include "constants.h"
+#include "snake.h"
+#include "food.h"
+#include "collision_handler.h"
+#include "ui.h"
 
-  const int SCORE_LENGTH = 10;
+int main(void)
+{
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE);
+    SetTargetFPS(GAME_FPS);
 
-  InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE);
-  SetTargetFPS(GAME_FPS);
+    int score = 0;
+    char score_str[SCORE_LENGTH];
+    bool main_menu = true;
+    bool game_active = false;
+    bool game_over = false;
+    bool game_won = false;
 
-  bool game_win = false;
-  bool game_over = false;
-  int score = 0;
-  char score_str[SCORE_LENGTH];
+    bool highlight_play_button = false;
+    bool highlight_quit_button = false;
 
-  Grid grid;
-  Snake snake;
-  Food food;
+    Snake snake;
+    Food food;
 
-  initGrid(&grid);
-  initSnake(&snake, &grid);
-  initFood(&food, &grid, &snake);
+    initSnake(&snake);
+    initFood(&food, &snake);
 
-  while (!WindowShouldClose()) {
-    // convert score to string
-    snprintf(score_str, SCORE_LENGTH, "Score: %d\n", score);
+    while (!WindowShouldClose())
+    {
+        // convert score to string
+        snprintf(score_str, SCORE_LENGTH, "Score: %d\n", score);
 
-    // game win condition
-    if (snake.size >= grid.rows * grid.cols) {
-      game_win = true;
+        // game win condition
+        if (snake.snake_array.size >= 600)
+        {
+            game_won = true;
+        }
+
+        // Handle game over or win
+        if (game_over || game_won)
+        {
+            game_active = false;
+            if (IsKeyPressed(KEY_ENTER))
+            {
+                main_menu = true;
+                game_active = false;
+                game_over = false;
+                game_won = false;
+            }
+        }
+
+        // highlight main menu buttons
+        highlight_play_button = false;
+        highlight_quit_button = false;
+
+        Vector2 mouse_pos = GetMousePosition();
+
+        if (CheckCollisionPointRec(mouse_pos,
+                                   (Rectangle){
+                                       (float)GetScreenWidth() / 2 - 70,
+                                       (float)GetScreenHeight() / 2 - 100,
+                                       150,
+                                       50}))
+        {
+            highlight_play_button = true;
+
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                main_menu = false;
+                score = 0;
+                initSnake(&snake);
+                initFood(&food, &snake);
+                game_active = true;
+                game_over = false;
+                game_won = false;
+            }
+        }
+
+        if (CheckCollisionPointRec(mouse_pos,
+                                   (Rectangle){
+                                       (float)GetScreenWidth() / 2 - 70,
+                                       (float)GetScreenHeight() / 2,
+                                       150,
+                                       50}))
+        {
+            highlight_quit_button = true;
+
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                exit(0);
+            }
+        }
+
+        // after main menu
+        if (game_active)
+        {
+            // move and update snake
+            updateSnakeList(&snake);
+            getDirection(&snake);
+            moveSnake(&snake);
+
+            // collisions
+            snakeCollisionWalls(&snake, &game_over);
+            snakeCollisionFood(&snake, &food);
+            snakeCollisionItself(&snake, &game_over);
+        }
+
+        // begin drawing program
+        BeginDrawing();
+        ClearBackground(SCREEN_BACKGROUND);
+
+        // draw starting menu
+        if (main_menu)
+        {
+            drawMainMenu(highlight_play_button,
+                         highlight_quit_button);
+        }
+        // draw game
+        else if (game_active)
+        {
+            // draw window outline
+            drawOutline();
+
+            // draw score
+            drawScore(score_str);
+
+            // draw snake
+            drawSnake(&snake);
+            // draw food
+            drawFood(&food);
+        }
+        // draw game over menu
+        else if (game_over)
+        {
+            drawGameOverMenu();
+        }
+        // draw game won menu
+        else if (game_won)
+        {
+            drawGameWonMenu();
+        }
+
+        EndDrawing();
     }
 
-    if (!game_over && !game_win) {
-      moveSnake(&snake);
+    freeSnakeList(&snake);
+    CloseWindow();
 
-      // snake collision food
-      if (CheckCollisionRecs(
-              (Rectangle){snake.list[0].x, snake.list[0].y, snake.width,
-                          snake.height},
-              (Rectangle){food.x, food.y, food.width, food.height})) {
-        score++;
-        snake.size++;
-        initFood(&food, &grid, &snake);
-      }
-
-      snakeCollisionWalls(&snake, &grid, &game_over);
-      snakeCollisionItself(&snake, &game_over);
-
-    } else if (game_win || game_over) {
-      if (IsKeyPressed(KEY_ENTER)) {
-        game_over = false;
-        game_win = false;
-        score = 0;
-        initGrid(&grid);
-        initSnake(&snake, &grid);
-        initFood(&food, &grid, &snake);
-      }
-    }
-
-    BeginDrawing();
-    ClearBackground(SCREEN_BACKGROUND);
-
-    if (!game_over && !game_win) {
-      // draw score
-      DrawText(score_str, GetScreenWidth() / 2 - 60, 35, 30, GRAY);
-
-      drawGrid(&grid);
-      drawSnake(&snake);
-      drawFood(&food);
-    } else if (game_over) {
-      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), RAYWHITE);
-      DrawText(score_str, GetScreenWidth() / 2 - 60,
-               GetScreenHeight() / 2 - 100, 30, GRAY);
-      DrawText("You lose", GetScreenWidth() / 2 - 60, GetScreenHeight() / 2, 30,
-               GRAY);
-      DrawText("Press 'enter' to restart!", GetScreenWidth() / 2 - 120,
-               GetScreenHeight() / 2 + 50, 20, GRAY);
-    } else if (game_win) {
-      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), RAYWHITE);
-      DrawText(score_str, GetScreenWidth() / 2 - 60,
-               GetScreenHeight() / 2 - 100, 30, GRAY);
-      DrawText("You win", GetScreenWidth() / 2 - 60, GetScreenHeight() / 2, 30,
-               GRAY);
-      DrawText("Press 'enter' to restart!", GetScreenWidth() / 2 - 120,
-               GetScreenHeight() / 2 + 50, 20, GRAY);
-    }
-
-    EndDrawing();
-  }
-
-  CloseWindow();
-
-  return 0;
+    return 0;
 }

@@ -3,29 +3,39 @@
 
 #include "raylib.h"
 
-#define LIST_LENGTH 400
+typedef enum
+{
+    RIGHT,
+    LEFT,
+    UP,
+    DOWN
 
-typedef enum Direction { RIGHT, LEFT, UP, DOWN } Direction;
+} Direction;
 
-typedef struct Grid Grid;
-typedef struct Snake {
-  int x;
-  int y;
-  int width;
-  int height;
-  Color color;
-  Vector2 list[LIST_LENGTH];
-  int size;
-  int speed;
-  int frames_counter;
-  Direction direction;
+typedef struct
+{
+    Vector2 *list;
+    int size;
+    int capacity;
+
+} SnakeArray;
+
+typedef struct
+{
+    int x;
+    int y;
+    Color color;
+    int frames_counter;
+    Direction direction;
+    SnakeArray snake_array;
 
 } Snake;
 
-void initSnake(Snake *snake, Grid *grid);
+void initSnake(Snake *snake);
 void drawSnake(Snake *snake);
+void updateSnakeList(Snake *snake);
+void getDirection(Snake *snake);
 void moveSnake(Snake *snake);
-void snakeCollisionWalls(Snake *snake, Grid *grid, bool *game_over);
-void snakeCollisionItself(Snake *snake, bool *game_over);
+void freeSnakeList(Snake *snake);
 
 #endif // SNAKE_H

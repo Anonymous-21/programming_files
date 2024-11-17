@@ -1,30 +1,40 @@
-#include "food.h"
-#include "grid.h"
 #include "raylib.h"
+#include "food.h"
 #include "snake.h"
+#include "constants.h"
 
-void initFood(Food *food, Grid *grid, Snake *snake) {
-  Vector2 random_food = genRandomFood(grid, snake);
-  food->x = random_food.x;
-  food->y = random_food.y;
-  food->width = grid->block_size;
-  food->height = grid->block_size;
-  food->color = RED;
+void initFood(Food *food, Snake *snake)
+{
+    Vector2 random_food = genRandomFood(snake);
+    food->x = random_food.x;
+    food->y = random_food.y;
+    food->color = RED;
 }
 
-Vector2 genRandomFood(Grid *grid, Snake *snake) {
-  while (1) {
-    int x = GetRandomValue(0, grid->rows - 1) * grid->block_size + grid->margin;
-    int y = GetRandomValue(0, grid->cols - 1) * grid->block_size + grid->margin;
+Vector2 genRandomFood(Snake *snake)
+{
+    while (1)
+    {
+        int x = GetRandomValue(0, ROWS - 1) * BLOCK_SIZE + MARGIN;
+        int y = GetRandomValue(0, COLS - 1) * BLOCK_SIZE + MARGIN;
 
-    for (int i = 0; i < snake->size; i++) {
-      if (x != snake->list[0].x && y != snake->list[0].y) {
-        return (Vector2){x, y};
-      }
+        for (int i = 0; i < snake->snake_array.size; i++)
+        {
+            if (x != snake->snake_array.list[i].x && y != snake->snake_array.list[i].y)
+            {
+                return (Vector2){x, y};
+            }
+        }
     }
-  }
 }
 
-void drawFood(Food *food) {
-  DrawRectangle(food->x, food->y, food->width, food->height, food->color);
+void drawFood(Food *food)
+{
+    DrawRectangleRec(
+        (Rectangle){
+            food->x,
+            food->y,
+            BLOCK_SIZE,
+            BLOCK_SIZE},
+        food->color);
 }

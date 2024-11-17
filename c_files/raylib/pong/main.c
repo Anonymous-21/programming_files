@@ -1,25 +1,25 @@
 #include "ball.h"
+#include "collision_manager.h"
 #include "paddle.h"
 #include "raylib.h"
 #include <stdio.h>
 
 int main(void) {
-  const int screenWidth = 800;
-  const int screenHeight = 600;
-  const char screenTitlte[] = "Pong";
-  const Color screenBackground = RAYWHITE;
-  const int gameFps = 60;
+  const int SCREEN_WIDTH = 800;
+  const int SCREEN_HEIGHT = 600;
+  const char SCREEN_TITLE[] = "Pong";
+  const Color SCREEN_BACKGROUND = RAYWHITE;
+  const int GAME_FPS = 60;
 
-  const int LEFT_SCORE_LENGTH = 10;
-  const int RIGHT_SCORE_LENGTH = 10;
+  const int SCORE_LENGTH = 10;
 
-  InitWindow(screenWidth, screenHeight, screenTitlte);
-  SetTargetFPS(gameFps);
+  InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE);
+  SetTargetFPS(GAME_FPS);
 
   int left_score = 0;
   int right_score = 0;
-  char left_score_str[LEFT_SCORE_LENGTH];
-  char right_score_str[RIGHT_SCORE_LENGTH];
+  char left_score_str[SCORE_LENGTH];
+  char right_score_str[SCORE_LENGTH];
 
   Paddle paddle_left;
   Paddle paddle_right;
@@ -30,49 +30,41 @@ int main(void) {
   initBall(&ball);
 
   while (!WindowShouldClose()) {
-    // paddles
+
+    // convert score to string
+    snprintf(left_score_str, SCORE_LENGTH, "%d\n", left_score);
+    snprintf(right_score_str, SCORE_LENGTH, "%d\n", right_score);
+
+    // Move objects
     movePaddle(&paddle_left, KEY_W, KEY_S);
     movePaddle(&paddle_right, KEY_UP, KEY_DOWN);
-
-    // ball
     moveBall(&ball);
-    ballCollisionWalls(&ball, &left_score, &right_score);
 
-    // update score and convert to string
-    snprintf(left_score_str, LEFT_SCORE_LENGTH, "%d\n", left_score);
-    snprintf(right_score_str, RIGHT_SCORE_LENGTH, "%d\n", right_score);
+    // collisions
+    paddleCollisionWalls(&paddle_left);
+    paddleCollisionWalls(&paddle_right);
 
-    // paddle collision ball
-    if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius,
-                                (Rectangle){paddle_left.x, paddle_left.y,
-                                            paddle_left.width,
-                                            paddle_right.height})) {
-      ball.change_x *= -1;
-    } else if (CheckCollisionCircleRec(
-                   (Vector2){ball.x, ball.y}, ball.radius,
-                   (Rectangle){paddle_right.x, paddle_right.y,
-                               paddle_right.width, paddle_right.height})) {
-      ball.change_x *= -1;
-    }
+    ballVerticalCollision(&ball);
+    ballHorizontalCollision(&ball, &paddle_left, &paddle_right, &left_score, &right_score);
 
-    // begin drawing
+    ballCollisionPaddle(&ball, &paddle_left);
+    ballCollisionPaddle(&ball, &paddle_right);
+
+    // program
     BeginDrawing();
-    ClearBackground(screenBackground);
+    ClearBackground(SCREEN_BACKGROUND);
 
     // draw screen divider
     DrawLineEx((Vector2){(float)GetScreenWidth() / 2, 0},
                (Vector2){(float)GetScreenWidth() / 2, GetScreenHeight()}, 5,
                GRAY);
 
-    // draw scores
-    DrawText(left_score_str, GetScreenWidth() / 2 - 70, 20, 30, GRAY);
-    DrawText(right_score_str, GetScreenWidth() / 2 + 50, 20, 30, GRAY);
+    // draw score
+    DrawText(left_score_str, (float)GetScreenWidth() / 2 - 70, 10, 30, GRAY);
+    DrawText(right_score_str, (float)GetScreenWidth() / 2 + 50, 10, 30, GRAY);
 
-    // draw paddles
     drawPaddle(&paddle_left);
     drawPaddle(&paddle_right);
-
-    // draw ball
     drawBall(&ball);
 
     EndDrawing();

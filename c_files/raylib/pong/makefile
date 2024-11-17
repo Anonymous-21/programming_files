@@ -2,7 +2,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-SRC = main.c paddle.c ball.c 
+SRC = main.c paddle.c ball.c collision_manager.c
 TARGET = pong
 
 # Build rule
