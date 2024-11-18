@@ -1,7 +1,6 @@
 #ifndef COLLISION_HANDLER_H
 #define COLLISION_HANDLER_H
 
-#include "raylib.h"
 #include "snake.h"
 #include "food.h"
 
