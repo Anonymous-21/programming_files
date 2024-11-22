@@ -13,13 +13,13 @@ setenv VIRTUAL_ENV "/home/anonymous/Downloads/programming_files/python_files"
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
+setenv VIRTUAL_ENV_PROMPT "python_files"
 
 
 set _OLD_VIRTUAL_PROMPT="$prompt"
 
 if (! "$?VIRTUAL_ENV_DISABLE_PROMPT") then
     set prompt = "(python_files) $prompt"
-    setenv VIRTUAL_ENV_PROMPT "(python_files) "
 endif
 
 alias pydoc python -m pydoc
