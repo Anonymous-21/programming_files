@@ -1,0 +1,10 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
+#define SCREEN_TITLE "Pong"
+#define SCREEN_BACKGROUND RAYWHITE
+#define GAME_FPS 60
+
+#endif // CONSTANTS_HJK
