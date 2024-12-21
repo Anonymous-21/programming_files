@@ -5,14 +5,24 @@ CFLAGS = -Wall -Wextra -std=c99 -O2 -lm -g
 # Raylib configuration
 RAYLIB_FLAGS = -lraylib -lm -ldl -lpthread -lGL -lX11
 
-# Source files and output
-SRC = main.c 
+# Default source and target
+SRC = $(SOURCE)
+TARGET = $(OUTPUT)
+
+# Check if SOURCE and OUTPUT are set, otherwise use defaults
+ifeq ($(SOURCE),)
+    $(error SOURCE variable not set)
+endif
+
+ifeq ($(OUTPUT),)
+    OUTPUT = $(basename $(SOURCE))
+endif
+
+# Object file based on the source file
 OBJ = $(SRC:.c=.o)
-TARGET = game
 
 # Rules
 all: $(TARGET)
-	$(RM) $(OBJ)  # Clean up object files after build
 
 $(TARGET): $(OBJ)
 	$(CC) $(OBJ) -o $@ $(RAYLIB_FLAGS)
