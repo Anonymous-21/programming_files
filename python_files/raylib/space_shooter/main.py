@@ -5,7 +5,7 @@ from player import Player
 from background import Background
 
 SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 800
+SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Space Shooter"
 SCREEN_BACKGROUND: p.Color = p.BLACK
 GAME_FPS = 60

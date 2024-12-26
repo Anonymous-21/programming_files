@@ -62,7 +62,7 @@ class Player:
         )
         self.dest = p.Rectangle(
             p.get_screen_width() / 2,
-            p.get_screen_height() / 2,
+            p.get_screen_height() - 100,
             self.current_sprite.width,
             self.current_sprite.height,
         )
