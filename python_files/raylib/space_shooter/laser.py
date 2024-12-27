@@ -70,7 +70,10 @@ class Laser:
             self.current_sprite.height,
         )
         self.dest = p.Rectangle(
-            spawn_x, spawn_y, self.current_sprite.width, self.current_sprite.height
+            spawn_x,
+            spawn_y,
+            self.current_sprite.width / 2,
+            self.current_sprite.height / 2,
         )
         self.origin = p.Vector2(self.dest.width / 2, self.dest.height / 2)
         self.rotation = 0
