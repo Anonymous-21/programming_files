@@ -3,6 +3,7 @@ import pyray as p
 from spritesheet_xml_parser import xml_parser
 from player import Player
 from background import Background
+from enemy_list import EnemyList
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 900
@@ -21,14 +22,17 @@ class Game:
 
         self.background = Background(self.spritesheet, self.sprite_dict)
         self.player = Player(self.spritesheet, self.sprite_dict)
+        self.enemy_list = EnemyList(self.spritesheet, self.sprite_dict, self.player)
 
     def draw(self):
         self.background.draw()
         self.player.draw()
+        self.enemy_list.draw()
 
     def update(self):
         self.background.update()
         self.player.update()
+        self.enemy_list.update()
 
 
 def main():
