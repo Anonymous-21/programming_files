@@ -72,7 +72,7 @@ class Player:
         self.speed = 5
         self.rotation_speed = 3
 
-        self.laser_list = LaserList(self.spritesheet, self.sprite_dict)
+        self.laser_list = LaserList(self.spritesheet, self.sprite_dict, 0.18)
 
     def draw(self):
         # draw player life

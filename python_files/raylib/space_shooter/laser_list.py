@@ -11,13 +11,14 @@ class LaserList:
         self,
         spritesheet,
         sprite_dict,
+        shooting_interval
     ):
         self.spritesheet = spritesheet
         self.sprite_dict = sprite_dict
         self.list = []
 
         self.last_current_time = 0
-        self.shooting_interval = 0.18
+        self.shooting_interval = shooting_interval
 
     def draw(self):
         for laser in self.list:
