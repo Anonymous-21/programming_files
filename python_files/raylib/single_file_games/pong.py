@@ -1,15 +1,16 @@
 import pyray as p
+from math import sqrt
 
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Pong"
-SCREEN_BACKGROUND = p.RAYWHITE
+SCREEN_BACKGROUND = p.SKYBLUE
 GAME_FPS = 60
 
 
 class Paddle:
-    def __init__(self, x):
+    def __init__(self, x) -> None:
         self.width = 10
         self.height = 100
         self.initial_x = x
@@ -18,6 +19,7 @@ class Paddle:
         self.y = self.initial_y
         self.color = p.BLACK
         self.speed = 5
+        self.ai_speed = 7
 
     def reset(self):
         self.x = self.initial_x
@@ -26,97 +28,117 @@ class Paddle:
     def draw(self):
         p.draw_rectangle_rec((self.x, self.y, self.width, self.height), self.color)
 
-    def update(self, key_up, key_down):
-        if p.is_key_down(key_up) and self.y >= 0:
+    def update(self):
+        if p.is_key_down(p.KeyboardKey.KEY_W) and self.y >= 0:
             self.y -= self.speed
-        elif p.is_key_down(key_down) and self.y <= p.get_screen_height() - self.height:
+        elif (
+            p.is_key_down(p.KeyboardKey.KEY_S)
+            and self.y <= p.get_screen_height() - self.height
+        ):
             self.y += self.speed
+
+    def update_ai(self, ball):
+        if ball.x > p.get_screen_width() / 2:
+            distance_x = ball.x - (self.x + self.width / 2)
+            distance_y = ball.y - (self.y + self.height / 2)
+            distance = sqrt((distance_x**2) + (distance_y**2))
+            if distance > 0:
+                distance_y /= distance
+
+                self.y += distance_y * self.ai_speed
+
+        if self.y <= 0:
+            self.y = 0
+        elif self.y >= p.get_screen_height() - self.height:
+            self.y = p.get_screen_height() - self.height
 
 
 class Ball:
-    def __init__(self):
-        self.radius = 10
+    def __init__(self) -> None:
         self.initial_x = p.get_screen_width() / 2
         self.initial_y = p.get_screen_height() / 2
         self.x = self.initial_x
         self.y = self.initial_y
+        self.radius = 10
         self.color = p.RED
-        self.speed_x = 5
-        self.speed_y = 6
-        self.frames_counter = 0
+        self.initial_speed_x = 4.0
+        self.initial_speed_y = 4.0
+        self.speed_x = self.initial_speed_x
+        self.speed_y = self.initial_speed_y
+        self.speed_increment = 0.0005
+        self.active = False
 
     def reset(self):
         self.x = self.initial_x
         self.y = self.initial_y
+        self.speed_x = self.initial_speed_x
+        self.speed_y = self.initial_speed_y
         self.speed_x *= -1
-        self.frames_counter = 0
+        self.active = False
 
     def draw(self):
         p.draw_circle_v((self.x, self.y), self.radius, self.color)
 
-    def update(self, paddle_left, paddle_right, left_score, right_score):
-        self.frames_counter += 1
-        if self.frames_counter >= 60:
-            self.frames_counter = 61
+    def update(self):
+        if p.is_key_pressed(p.KeyboardKey.KEY_SPACE):
+            self.active = True
 
+        if self.active:
             self.x += self.speed_x
             self.y += self.speed_y
 
-        if self.x <= self.radius:
-            self.reset()
-            paddle_left.reset()
-            paddle_right.reset()
-            right_score += 1
-        elif self.x >= p.get_screen_width() - self.radius:
-            self.reset()
-            paddle_left.reset()
-            paddle_right.reset()
-            left_score += 1
+            # increment speed
+            if self.speed_x > 0:
+                self.speed_x += self.speed_increment
+            else:
+                self.speed_x -= self.speed_increment
+
+            if self.speed_y > 0:
+                self.speed_y += self.speed_increment
+            else:
+                self.speed_y -= self.speed_increment
 
         if self.y <= self.radius or self.y >= p.get_screen_height() - self.radius:
             self.speed_y *= -1
 
-        return (left_score, right_score)
-
 
 class Game:
-    def __init__(self):
-        self.left_score = 0
-        self.right_score = 0
+    def __init__(self) -> None:
+        self.score_right = 0
+        self.score_left = 0
 
         self.paddle_left = Paddle(10)
-        self.paddle_right = Paddle(p.get_screen_width() - self.paddle_left.width - 10)
+        self.ai = Paddle(p.get_screen_width() - self.paddle_left.width - 10)
         self.ball = Ball()
 
-    def draw(self):
-        # draw screen divider
-        p.draw_line_ex(
-            (p.get_screen_width() / 2, 0),
-            (p.get_screen_width() / 2, p.get_screen_height()),
-            5,
-            p.GRAY,
-        )
+    def reset(self):
+        self.ball.reset()
+        self.paddle_left.reset()
+        self.ai.reset()
 
+    def draw(self):
         # draw scores
-        p.draw_text(
-            str(self.left_score), p.get_screen_width() // 2 - 70, 20, 30, p.GRAY
-        )
-        p.draw_text(
-            str(self.right_score), p.get_screen_width() // 2 + 50, 20, 30, p.GRAY
-        )
+        p.draw_text(str(self.score_left), 200, 20, 40, p.BLACK)
+        p.draw_text(str(self.score_right), p.get_screen_width() - 220, 20, 40, p.BLACK)
 
         self.paddle_left.draw()
-        self.paddle_right.draw()
+        self.ai.draw()
         self.ball.draw()
 
     def update(self):
-        self.paddle_left.update(p.KeyboardKey.KEY_W, p.KeyboardKey.KEY_S)
-        self.paddle_right.update(p.KEY_UP, p.KEY_DOWN)
-        self.left_score, self.right_score = self.ball.update(
-            self.paddle_left, self.paddle_right, self.left_score, self.right_score
-        )
+        self.paddle_left.update()
+        self.ai.update_ai(self.ball)
+        self.ball.update()
 
-        # paddle collision ball
+        # update scores
+        if self.ball.x < 0:
+            self.score_right += 1
+            self.reset()
+        elif self.ball.x > p.get_screen_width():
+            self.score_left += 1
+            self.reset()
+
+        # ball collision paddle
         if p.check_collision_circle_rec(
             (self.ball.x, self.ball.y),
             self.ball.radius,
@@ -132,10 +154,10 @@ class Game:
             (self.ball.x, self.ball.y),
             self.ball.radius,
             (
-                self.paddle_right.x,
-                self.paddle_right.y,
-                self.paddle_right.width,
-                self.paddle_right.height,
+                self.ai.x,
+                self.ai.y,
+                self.ai.width,
+                self.ai.height,
             ),
         ):
             self.ball.speed_x *= -1
@@ -148,11 +170,12 @@ def main():
     game = Game()
 
     while not p.window_should_close():
+        game.update()
+
         p.begin_drawing()
         p.clear_background(SCREEN_BACKGROUND)
 
         game.draw()
-        game.update()
 
         p.end_drawing()
 
@@ -161,5 +184,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# %%

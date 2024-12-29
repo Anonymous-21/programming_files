@@ -1,6 +1,6 @@
 # Compiler and linker
 CC = gcc
-CFLAGS = -Wall -g
+CFLAGS = -Wall -Werror -g
 
 # Raylib paths (adjust these if necessary)
 RAYLIB_PATH = /usr/local/include
