@@ -50,9 +50,10 @@ class Game:
         # mouse position according to world space (background)
         mouse_x = p.get_mouse_x() - p.get_screen_width() / 2 + self.camera.target.x
         mouse_y = p.get_mouse_y() - p.get_screen_height() / 2 + self.camera.target.y
-        
-        self.player.update(mouse_x, mouse_y) 
 
+        self.player.update(mouse_x, mouse_y)
+
+        print(len(self.player.bullet_list.list))
 
 
 SCREEN_WIDTH = 800

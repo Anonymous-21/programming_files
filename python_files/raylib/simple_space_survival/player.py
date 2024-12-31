@@ -1,11 +1,11 @@
 import pyray as p
 from math import atan2, degrees
 
+from bullet_list import BulletList
+
 
 class Player:
-    def __init__(
-        self, spritesheet, sprite_dict, background_width, background_height
-    ):
+    def __init__(self, spritesheet, sprite_dict, background_width, background_height):
         self.spritesheet = spritesheet
         self.sprite_dict = sprite_dict
 
@@ -32,7 +32,10 @@ class Player:
         self.speed = 5
         self.diagonal_speed = 0.7
 
+        self.bullet_list = BulletList(self.spritesheet, self.sprite_dict)
+
     def draw(self):
+        self.bullet_list.draw()
         p.draw_texture_pro(
             self.spritesheet,
             self.source,
@@ -42,15 +45,14 @@ class Player:
             self.tint,
         )
 
-    def update(self, mouse_x, mouse_y):
+    def update(self, world_mouse_x, world_mouse_y):
         # rotation towards mouse
-        dx = mouse_x - self.dest.x
-        dy = mouse_y - self.dest.y
+        dx = world_mouse_x - self.dest.x
+        dy = world_mouse_y - self.dest.y
         self.rotation = degrees(atan2(dy, dx))
         self.rotation += 90
 
         # movement
-        
         # diagonal
         if p.is_key_down(p.KeyboardKey.KEY_W) and p.is_key_down(p.KeyboardKey.KEY_A):
             self.dest.x -= self.diagonal_speed
@@ -76,5 +78,14 @@ class Player:
             self.dest.x += self.speed
 
         # player boundary checks
-        self.dest.x = max(self.dest.width/2, min(self.dest.x, self.background_width - self.dest.width/2))
-        self.dest.y = max(self.dest.height/2, min(self.dest.y, self.background_height - self.dest.height/2))
+        self.dest.x = max(
+            self.dest.width / 2,
+            min(self.dest.x, self.background_width - self.dest.width / 2),
+        )
+        self.dest.y = max(
+            self.dest.height / 2,
+            min(self.dest.y, self.background_height - self.dest.height / 2),
+        )
+
+        # move bullets
+        self.bullet_list.update(self.dest.x, self.dest.y, world_mouse_x, world_mouse_y)
