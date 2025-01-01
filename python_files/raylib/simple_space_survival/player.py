@@ -5,12 +5,11 @@ from bullet_list import BulletList
 
 
 class Player:
-    def __init__(self, spritesheet, sprite_dict, background_width, background_height):
+    def __init__(self, spritesheet, sprite_dict, world_background):
         self.spritesheet = spritesheet
         self.sprite_dict = sprite_dict
 
-        self.background_width = background_width
-        self.background_height = background_height
+        self.world_background = world_background
 
         self.current_sprite = self.sprite_dict["ship_A.png"]
 
@@ -21,8 +20,8 @@ class Player:
             self.current_sprite.height,
         )
         self.dest = p.Rectangle(
-            self.background_width / 2,
-            self.background_height / 2,
+            self.world_background.width / 2,
+            self.world_background.height / 2,
             self.current_sprite.width,
             self.current_sprite.height,
         )
@@ -80,11 +79,11 @@ class Player:
         # player boundary checks
         self.dest.x = max(
             self.dest.width / 2,
-            min(self.dest.x, self.background_width - self.dest.width / 2),
+            min(self.dest.x, self.world_background.width - self.dest.width / 2),
         )
         self.dest.y = max(
             self.dest.height / 2,
-            min(self.dest.y, self.background_height - self.dest.height / 2),
+            min(self.dest.y, self.world_background.height - self.dest.height / 2),
         )
 
         # move bullets

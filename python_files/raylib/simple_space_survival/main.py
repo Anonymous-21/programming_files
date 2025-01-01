@@ -15,21 +15,16 @@ class Game:
         self.spritesheet_xml = "assets/simpleSpace_sheet.xml"
         self.sprite_dict = xml_parser(self.spritesheet_xml)
 
-        self.background = p.load_texture("assets/background.png")
-        self.player = Player(
-            self.spritesheet,
-            self.sprite_dict,
-            self.background.width,
-            self.background.height,
-        )
+        self.world_background = p.load_texture("assets/background.png")
+        self.player = Player(self.spritesheet, self.sprite_dict, self.world_background)
 
         self.camera = p.Camera2D()
         self.camera.rotation = 0
         self.camera.zoom = 1
 
     def draw(self):
-        # draw background
-        p.draw_texture(self.background, 0, 0, p.WHITE)
+        # draw world_background
+        p.draw_texture(self.world_background, 0, 0, p.WHITE)
 
         self.player.draw()
 
@@ -37,23 +32,27 @@ class Game:
         # update camera
         self.camera.target.x = max(
             p.get_screen_width() / 2,
-            min(self.player.dest.x, self.background.width - p.get_screen_width() / 2),
+            min(
+                self.player.dest.x,
+                self.world_background.width - p.get_screen_width() / 2,
+            ),
         )
         self.camera.target.y = max(
             p.get_screen_height() / 2,
-            min(self.player.dest.y, self.background.height - p.get_screen_height() / 2),
+            min(
+                self.player.dest.y,
+                self.world_background.height - p.get_screen_height() / 2,
+            ),
         )
         self.camera.offset = p.Vector2(
             p.get_screen_width() / 2, p.get_screen_height() / 2
         )
 
-        # mouse position according to world space (background)
+        # mouse position according to world space (world_background)
         mouse_x = p.get_mouse_x() - p.get_screen_width() / 2 + self.camera.target.x
         mouse_y = p.get_mouse_y() - p.get_screen_height() / 2 + self.camera.target.y
 
         self.player.update(mouse_x, mouse_y)
-
-        print(len(self.player.bullet_list.list))
 
 
 SCREEN_WIDTH = 800
@@ -80,7 +79,7 @@ def main():
         p.end_mode_2d()
         p.end_drawing()
 
-    p.unload_texture(game.background)
+    p.unload_texture(game.world_background)
     p.unload_texture(game.spritesheet)
     p.close_window()
 
