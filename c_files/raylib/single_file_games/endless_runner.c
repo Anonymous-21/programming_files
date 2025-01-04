@@ -75,7 +75,6 @@ typedef struct Pillar
     float height;
     Color color;
     float speed;
-    float speed_increment;
 
 } Pillar;
 
@@ -87,7 +86,6 @@ void init_pillar(Pillar *pillar)
     pillar->y = GetScreenHeight() - pillar->height;
     pillar->color = DARKGREEN;
     pillar->speed = 3.0f;
-    pillar->speed_increment = 0.005f;
 }
 
 void draw_pillar(Pillar *pillar)
@@ -102,7 +100,6 @@ void draw_pillar(Pillar *pillar)
 void update_pillar(Pillar *pillar)
 {
     pillar->x -= pillar->speed;
-    pillar->speed -= pillar->speed_increment;
 }
 
 // ********************************************
@@ -148,11 +145,11 @@ void update_pillar_list(PillarList *pillar_list)
 
         if (pillar_list->list[i].x + pillar_list->list[i].width < 0)
         {
+            pillar_list->size--;
             for (int j = i; j < pillar_list->size; j++)
             {
                 pillar_list->list[j] = pillar_list->list[j + 1];
             }
-            pillar_list->size--;
         }
     }
 }
@@ -193,11 +190,6 @@ int main(void)
 
             for (int i = 0; i < pillar_list.size; i++)
             {
-                if (player.x == pillar_list.list[i].x + pillar_list.list[i].width)
-                {
-                    score++;
-                }
-
                 if (CheckCollisionRecs((Rectangle){player.x,
                                                    player.y,
                                                    player.width,
@@ -209,6 +201,12 @@ int main(void)
                 {
                     game_over = true;
                 }
+
+                if (player.x == pillar_list.list[i].x + pillar_list.list[i].width)
+                {
+                    score++;
+                }
+                printf("player_x: %f, pillar(x+width): %f\n", player.x, pillar_list.list[i].x + pillar_list.list[i].width);
             }
         }
         else
@@ -225,17 +223,17 @@ int main(void)
         BeginDrawing();
         ClearBackground(screenBackground);
 
+        draw_player(&player);
+        draw_pillar_list(&pillar_list);
+
+        // draw score
+        DrawText(score_str, 10, 10, 40, BLACK);
+
         // game over
         if (game_over)
         {
             DrawText("Game Over", GetScreenWidth() / 2 - 70, 100, 30, BLACK);
         }
-
-        // draw score
-        DrawText(score_str, 10, 10, 40, BLACK);
-
-        draw_player(&player);
-        draw_pillar_list(&pillar_list);
 
         EndDrawing();
     }
