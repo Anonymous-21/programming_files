@@ -1,17 +1,15 @@
 import pyray as p
-from math import atan2, degrees
-
-from bullet_list import BulletList
+from math import sqrt, degrees, atan2
 
 
 class Player:
-    def __init__(self, spritesheet, sprite_dict, world_background):
-        self.spritesheet = spritesheet
-        self.sprite_dict = sprite_dict
+    def __init__(
+        self, spritesheet: p.Texture, sprite_dict: dict[str, p.Rectangle]
+    ) -> None:
+        self.spritesheet: p.Texture = spritesheet
+        self.sprite_dict: dict[str, p.Rectangle] = sprite_dict
 
-        self.world_background = world_background
-
-        self.current_sprite = self.sprite_dict["ship_A.png"]
+        self.current_sprite: p.Rectangle = self.sprite_dict["ship_A.png"]
 
         self.source = p.Rectangle(
             self.current_sprite.x,
@@ -20,21 +18,18 @@ class Player:
             self.current_sprite.height,
         )
         self.dest = p.Rectangle(
-            self.world_background.width / 2,
-            self.world_background.height / 2,
+            p.get_screen_width() / 2,
+            p.get_screen_height() / 2,
             self.current_sprite.width,
             self.current_sprite.height,
         )
         self.origin = p.Vector2(self.dest.width / 2, self.dest.height / 2)
-        self.rotation = 0
-        self.tint = p.WHITE
-        self.speed = 5
-        self.diagonal_speed = 0.7
+        self.rotation: float = 0.0
+        self.tint: p.Color = p.WHITE
+        self.direction: p.Vector2 = p.Vector2(0, 0)
+        self.speed: float = 200.0
 
-        self.bullet_list = BulletList(self.spritesheet, self.sprite_dict)
-
-    def draw(self):
-        self.bullet_list.draw()
+    def draw(self) -> None:
         p.draw_texture_pro(
             self.spritesheet,
             self.source,
@@ -44,47 +39,44 @@ class Player:
             self.tint,
         )
 
-    def update(self, world_mouse_x, world_mouse_y):
-        # rotation towards mouse
-        dx = world_mouse_x - self.dest.x
-        dy = world_mouse_y - self.dest.y
-        self.rotation = degrees(atan2(dy, dx))
-        self.rotation += 90
+    def rotate(self, world_mouse_pos: p.Vector2) -> None:
+        # update player rotation
+        dx: float = world_mouse_pos.x - self.dest.x
+        dy: float = world_mouse_pos.y - self.dest.y
+        self.rotation = degrees(atan2(dy, dx)) + 90
 
-        # movement
-        # diagonal
-        if p.is_key_down(p.KeyboardKey.KEY_W) and p.is_key_down(p.KeyboardKey.KEY_A):
-            self.dest.x -= self.diagonal_speed
-            self.dest.y -= self.diagonal_speed
-        if p.is_key_down(p.KeyboardKey.KEY_W) and p.is_key_down(p.KeyboardKey.KEY_D):
-            self.dest.x += self.diagonal_speed
-            self.dest.y -= self.diagonal_speed
-        if p.is_key_down(p.KeyboardKey.KEY_S) and p.is_key_down(p.KeyboardKey.KEY_A):
-            self.dest.x -= self.diagonal_speed
-            self.dest.y += self.diagonal_speed
-        if p.is_key_down(p.KeyboardKey.KEY_S) and p.is_key_down(p.KeyboardKey.KEY_D):
-            self.dest.x += self.diagonal_speed
-            self.dest.y += self.diagonal_speed
+    def move(self) -> None:
+        # update player position
+        self.direction.x = int(p.is_key_down(p.KeyboardKey.KEY_D)) - int(
+            p.is_key_down(p.KeyboardKey.KEY_A)
+        )
+        self.direction.y = int(p.is_key_down(p.KeyboardKey.KEY_S)) - int(
+            p.is_key_down(p.KeyboardKey.KEY_W)
+        )
 
-        # rest of the directions
-        if p.is_key_down(p.KeyboardKey.KEY_W):
-            self.dest.y -= self.speed
-        if p.is_key_down(p.KeyboardKey.KEY_S):
-            self.dest.y += self.speed
-        if p.is_key_down(p.KeyboardKey.KEY_A):
-            self.dest.x -= self.speed
-        if p.is_key_down(p.KeyboardKey.KEY_D):
-            self.dest.x += self.speed
+        # diagonal movement - normalize vector
+        direction: float = sqrt(self.direction.x**2 + self.direction.y**2)
+        if direction > 0:
+            self.direction.x /= direction
+            self.direction.y /= direction
 
-        # player boundary checks
+        # move player
+        dt: float = p.get_frame_time()
+        self.dest.x += self.direction.x * self.speed * dt
+        self.dest.y += self.direction.y * self.speed * dt
+
+    def check_bounds(self, background: p.Texture) -> None:
+        # check bounds
         self.dest.x = max(
             self.dest.width / 2,
-            min(self.dest.x, self.world_background.width - self.dest.width / 2),
+            min(self.dest.x, background.width - self.dest.width / 2),
         )
         self.dest.y = max(
             self.dest.height / 2,
-            min(self.dest.y, self.world_background.height - self.dest.height / 2),
+            min(self.dest.y, background.height - self.dest.height / 2),
         )
 
-        # move bullets
-        self.bullet_list.update(self.dest.x, self.dest.y, world_mouse_x, world_mouse_y)
+    def update(self, background: p.Texture, world_mouse_pos: p.Vector2) -> None:
+        self.rotate(world_mouse_pos)
+        self.move()
+        self.check_bounds(background)
