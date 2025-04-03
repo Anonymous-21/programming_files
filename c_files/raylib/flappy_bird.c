@@ -72,7 +72,7 @@ void pillar_init(Pillar *pillar)
                                50,
                                GetRandomValue(0, GetScreenHeight() - VERTICAL_GAP)};
     pillar->color = DARKGREEN;
-    pillar->speed = 5.0f;
+    pillar->speed = 300.0f;
     pillar->scored = false;
 }
 
@@ -92,7 +92,7 @@ void pillar_draw(Pillar *pillar)
 
 void pillar_update(Pillar *pillar)
 {
-    pillar->rect.x -= pillar->speed;
+    pillar->rect.x -= pillar->speed * GetFrameTime();
 }
 
 // PILLARS LIST
@@ -258,10 +258,8 @@ int main(void)
     const int SCREEN_HEIGHT = 600;
     const char SCREEN_TITLE[] = "Flappy Bird";
     const Color SCREEN_BACKGROUND = SKYBLUE;
-    const int GAME_FPS = 60;
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE);
-    SetTargetFPS(GAME_FPS);
 
     Game game;
     game_init(&game);

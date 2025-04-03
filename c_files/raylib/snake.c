@@ -213,16 +213,34 @@ void game_init(Game *game)
 
 void draw_grid()
 {
-    for (int i = 0; i < ROWS; i++)
-    {
-        for (int j = 0; j < COLS; j++)
-        {
-            int x = j * BLOCK_SIZE + MARGIN;
-            int y = i * BLOCK_SIZE + MARGIN;
+    DrawRectangleLinesEx((Rectangle){MARGIN,
+                                     MARGIN,
+                                     GetScreenWidth() - (MARGIN * 2),
+                                     GetScreenHeight() - (MARGIN * 2)},
+                         5,
+                         BLACK);
 
-            DrawRectangleLines(x, y, BLOCK_SIZE, BLOCK_SIZE, BLACK);
-        }
+    // vertical lines
+    for (int x = MARGIN; x < GetScreenWidth() - MARGIN; x += BLOCK_SIZE)
+    {
+        DrawLineEx((Vector2){x, MARGIN}, (Vector2){x, GetScreenHeight() - MARGIN}, 2, BLACK);
     }
+    // horizontal lines
+    for (int y = MARGIN; y < GetScreenHeight() - MARGIN; y += BLOCK_SIZE)
+    {
+        DrawLineEx((Vector2){MARGIN, y}, (Vector2){GetScreenWidth() - MARGIN, y}, 2, BLACK);
+    }
+
+    // for (int i = 0; i < ROWS; i++)
+    // {
+    //     for (int j = 0; j < COLS; j++)
+    //     {
+    //         int x = j * BLOCK_SIZE + MARGIN;
+    //         int y = i * BLOCK_SIZE + MARGIN;
+
+    //         DrawRectangleLines(x, y, BLOCK_SIZE, BLOCK_SIZE, BLACK);
+    //     }
+    // }
 }
 
 void game_draw(Game *game)
@@ -338,7 +356,7 @@ int main(void)
     const int SCREEN_WIDTH = 800;
     const int SCREEN_HEIGHT = 800;
     const char SCREEN_TITLE[] = "Snake";
-    const Color SCREEN_BACKGROUND = RAYWHITE;
+    const Color SCREEN_BACKGROUND = LIGHTGRAY;
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE);
 

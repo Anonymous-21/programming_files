@@ -85,7 +85,7 @@ void pillar_init(Pillar *pillar)
                                GetRandomValue(10, 30),
                                random_height};
     pillar->color = BLACK;
-    pillar->speed = 5.0f;
+    pillar->speed = 300.0f;
     pillar->scored = false;
 }
 
@@ -96,7 +96,7 @@ void pillar_draw(Pillar *pillar)
 
 void pillar_update(Pillar *pillar)
 {
-    pillar->rect.x -= pillar->speed;
+    pillar->rect.x -= pillar->speed * GetFrameTime();
 }
 
 // LIST OF PILLARS
@@ -247,10 +247,8 @@ int main(void)
     const int SCREEN_HEIGHT = 200;
     const char SCREEN_TITLE[] = "Endless Runner";
     const Color SCREEN_BACKGROUND = SKYBLUE;
-    const int GAME_FPS = 60;
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE);
-    SetTargetFPS(GAME_FPS);
 
     Game game;
     game_init(&game);
