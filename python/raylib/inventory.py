@@ -2,7 +2,7 @@ import pyray as p
 
 SCREEN_WIDTH: int = 800
 SCREEN_HEIGHT: int = 600
-SCREEN_TITLE: str = ""
+SCREEN_TITLE: str = "Inventory"
 SCREEN_BACKGROUND: p.Color = p.RAYWHITE
 
 ROWS: int = 5
