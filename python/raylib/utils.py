@@ -39,7 +39,7 @@ def kenny_xml_parser(xml_file) -> dict[str : p.Rectangle]:
 
 def hex_to_rgba(hex_str: str) -> p.Color:
     hex_str: str = hex_str.lstrip("#")
-    a_str: str = "FF" # default value = opaque
+    a_str: str = "FF"  # default value = opaque
 
     if len(hex_str) == 8:
         r_str: str = hex_str[0:2]

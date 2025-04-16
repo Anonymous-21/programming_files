@@ -55,7 +55,7 @@ class Line:
 
 def main():
     p.init_window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    
+
     ring = Ring()
     line = Line(ring.center.x, ring.center.y, ring.inner_radius)
 
