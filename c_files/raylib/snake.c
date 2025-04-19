@@ -24,8 +24,7 @@ typedef struct Snake {
   int height;
   int speed;
   Direction direction;
-  Color color;
-  Vector2 list[ROWS * COLS];
+  Rectangle list[ROWS * COLS];
   int size;
   float last_current_time;
   float move_interval;
@@ -40,7 +39,7 @@ void snake_init(Snake *snake) {
   snake->speed = BLOCK_SIZE;
   snake->direction = RIGHT;
   snake->size = 1;
-  snake->list[0] = (Vector2){snake->x, snake->y};
+  snake->list[0] = (Rectangle){snake->x, snake->y, snake->width, snake->height};
 
   snake->last_current_time = 0.0f;
   snake->move_interval = 0.08f;
@@ -48,10 +47,10 @@ void snake_init(Snake *snake) {
 
 void snake_draw(Snake *snake) {
   for (int i = 0; i < snake->size; i++) {
-    snake->color = (i == 0) ? BLUE : SKYBLUE;
+    Color snake_color = (i == 0) ? BLUE : SKYBLUE;
 
-    DrawRectangle(snake->x, snake->y, snake->width, snake->height,
-                  snake->color);
+    DrawRectangle(snake->list[i].x, snake->list[i].y, snake->list[i].width,
+                  snake->list[i].height, snake_color);
   }
 }
 
@@ -96,7 +95,8 @@ void snake_update(Snake *snake) {
       break;
     }
 
-    snake->list[0] = (Vector2){snake->x, snake->y};
+    snake->list[0] =
+        (Rectangle){snake->x, snake->y, snake->width, snake->height};
   }
 }
 
@@ -117,8 +117,8 @@ void gen_random_food(Food *food, Snake *snake) {
   while (1) {
     bool matched = false;
 
-    int x = GetRandomValue(0, ROWS - 1) * food->width;
-    int y = GetRandomValue(0, COLS - 1) * food->height;
+    int x = GetRandomValue(0, COLS - 1) * food->width;
+    int y = GetRandomValue(0, ROWS - 1) * food->height;
 
     for (int i = 0; i < snake->size; i++) {
       if (x == snake->list[i].x && y == snake->list[i].y) {
@@ -136,10 +136,10 @@ void gen_random_food(Food *food, Snake *snake) {
 }
 
 void food_init(Food *food, Snake *snake) {
-  gen_random_food(food, snake);
   food->width = BLOCK_SIZE;
   food->height = BLOCK_SIZE;
   food->color = RED;
+  gen_random_food(food, snake);
 }
 
 void food_draw(Food *food) {
@@ -191,7 +191,18 @@ void game_draw(Game *game) {
   food_draw(&game->food);
 }
 
-void game_update(Game *game) { snake_update(&game->snake); }
+void game_update(Game *game) {
+  snake_update(&game->snake);
+
+  // food collision snake
+  if (CheckCollisionRecs(
+          (Rectangle){game->food.x, game->food.x, game->food.x, game->food.x},
+          (Rectangle){game->snake.list[0].x, game->snake.list[0].y, BLOCK_SIZE,
+                      BLOCK_SIZE})) {
+    gen_random_food(&game->food, &game->snake);
+    game->snake.size += 1;
+  }
+}
 
 //**********************************
 // MAIN

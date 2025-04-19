@@ -1,9 +1,10 @@
-#!/usr/bin/env python3
+#! /usr/bin/env python3
+
 import tcod
 
 
-def main() -> None:
-    print("Hello World!")
+def main():
+    print("Hello world")
 
 
 if __name__ == "__main__":
