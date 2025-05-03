@@ -1,7 +1,7 @@
 import pyray as p
 from dataclasses import dataclass
 
-from constants import *
+from constants import ROWS, COLS, BRICK_WIDTH, BRICK_HEIGHT, BRICK_GAP, MARGIN
 
 
 @dataclass
@@ -14,7 +14,7 @@ class Brick:
 
 
 class Bricks:
-    def __init__(self) -> None:
+    def __init__(self, level: int) -> None:
         self.list: list[Brick] = []
 
         for i in range(ROWS):
@@ -27,7 +27,7 @@ class Bricks:
                     color=p.BLACK,
                     thickness=5.0,
                     font_size=30,
-                    level=1,
+                    level=level,
                 )
 
                 self.list.append(brick)
@@ -40,10 +40,5 @@ class Bricks:
             text_width: float = p.measure_text(text, brick.font_size)
             x: int = int(brick.rect.x + brick.rect.width / 2 - text_width/2)
             y: int = int(brick.rect.y + brick.rect.height/2 - brick.font_size/2)
-
-            if p.is_key_down(p.KeyboardKey.KEY_UP):
-                brick.level += 1
-            if p.is_key_down(p.KeyboardKey.KEY_DOWN):
-                brick.level -= 1
 
             p.draw_text(text, x, y, brick.font_size, p.BLACK)

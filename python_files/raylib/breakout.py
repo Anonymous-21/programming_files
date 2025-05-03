@@ -106,6 +106,9 @@ class Ball:
                 self.paddle.rect.y - self.radius - 10.0,
             )
 
+        if abs(self.pos.x) > 0.01 and abs(self.pos.y) > 0.01:
+            self.direction = p.vector2_normalize(self.direction)
+
         # activate ball
         if p.is_key_pressed(p.KeyboardKey.KEY_SPACE):
             self.is_active = not self.is_active
@@ -120,10 +123,6 @@ class Ball:
             self.direction.x *= -1
         if self.pos.y < self.radius:
             self.direction.y *= -1
-
-        # normalize direction vector
-        if self.direction.x != 0 and self.direction.y != 0:
-            self.direction = p.vector2_normalize(self.direction)
 
 
 class Game:

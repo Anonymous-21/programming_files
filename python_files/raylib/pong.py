@@ -35,6 +35,9 @@ class Ball:
         if p.is_key_pressed(p.KeyboardKey.KEY_SPACE):
             self.active = not self.active
 
+        if abs(self.pos.x) > 0.01 and abs(self.pos.y) > 0.01:
+            self.direction = p.vector2_normalize(self.direction)
+
         # move ball
         if self.active:
             self.x += self.direction.x * self.speed * p.get_frame_time()
@@ -43,10 +46,6 @@ class Ball:
         # ball bounds
         if self.y < self.radius or self.y > p.get_screen_height() - self.radius:
             self.direction.y *= -1
-
-        # normalize ball direction
-        if self.direction.x != 0 and self.direction.y != 0:
-            self.direction = p.vector2_normalize(self.direction)
 
 
 class Paddle:
