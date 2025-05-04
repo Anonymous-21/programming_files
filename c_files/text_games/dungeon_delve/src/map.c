@@ -1,3 +1,4 @@
+
 #include "map.h"
 
 #include <stdio.h>
@@ -5,7 +6,6 @@
 #include <time.h>
 
 #include "rooms.h"
-#include "utils.h"
 
 void map_init(Map *map) {
   srand(time(0));
@@ -21,7 +21,7 @@ void map_init(Map *map) {
       } else {
         int random_num = (rand() % 100) + 1;
 
-        if (random_num > 95) {
+        if (random_num > 98) {
           room_init(&room, TREASURE);
         } else {
           int random_room = (rand() % 3) + 1;
@@ -41,21 +41,37 @@ void map_init(Map *map) {
   }
 }
 
-void map_draw(Map *map) {
+void map_display(Map *map, Vector2 player_position) {
   for (int i = 0; i < ROWS; i++) {
     for (int j = 0; j < COLS; j++) {
-      switch (map->list[i * COLS + j].room_type) {
-        case START:
-          printf("S ");
-          break;
-        case TREASURE:
-          printf("T ");
-          break;
-        default:
-          printf(". ");
-          break;
+      if (player_position.x == j && player_position.y == i) {
+        printf("P ");
+      } else {
+        switch (map->list[i * COLS + j].room_type) {
+          case START:
+            printf("S ");
+            break;
+          case TREASURE:
+            printf("T ");
+            break;
+          default:
+            printf(". ");
+            break;
+        }
       }
     }
     printf("\n");
   }
+}
+
+bool map_check_available_room(Map *map, Vector2 room_position) {
+  for (int i = 0; i < ROWS; i++) {
+    for (int j = 0; j < COLS; j++) {
+      if (map->list[i * COLS + j].position.x == room_position.x &&
+          map->list[i * COLS + j].position.y == room_position.y) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
