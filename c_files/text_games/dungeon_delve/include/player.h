@@ -3,8 +3,9 @@
 
 #include <stdbool.h>
 
-#include "commands.h"
 #include "utils.h"
+
+typedef enum Commands Commands;
 
 typedef enum PlayerType {
   WARRIOR,
@@ -27,12 +28,12 @@ typedef struct Player {
   int gold;
   int base_damage;
   int base_health;
-  float health_growth_rate;
-  float damage_growth_rate;
+  float health_growth_rate; // per level multiplier
+  float damage_growth_rate; // per level multiplier
 
 } Player;
 
-void player_init(Player *player, Vector2 start_pos);
+void player_init(Player *player, PlayerType type , Vector2 start_pos);
 bool player_is_alive(Player *player);
 void player_move(Player *player, Commands command);
 

@@ -1,78 +1,179 @@
-import traceback
 from enum import Enum
+from os import system
 
-from map import Map
-from player import Player
-
-ROWS: int = 50
-COLS: int = 50
-
-
-class Commands(Enum):
-    EXIT = ("exit", "quit", "q")
-    MAP = ("map", "m")
-    HELP = ("help", "h")
-    NORTH = ("north", "n")
-    SOUTH = ("south", "s")
-    EAST = ("east", "e")
-    WEST = ("west", "w")
+from levels import Level
+import player
+from commands import CommandHandler
 
 
-def start_menu() -> None:
-    print()
-    print("Dungeon Delve")
-    print()
+class GameState(Enum):
+    TITLE_SCREEN = 0
+    PLAYER_TYPE_SELECTION = 1
+    GAME_RUN = 2
 
 
-class GameManager:
+class Game:
     def __init__(self) -> None:
-        self.player: Player = Player()
-        self.map: Map = Map(ROWS, COLS, self.player)
+        system("clear")
+        self.game_state = GameState.TITLE_SCREEN
+        self.game_state_handler()
 
-        start_menu()
+    def get_user_input(self) -> str:
+        user_input: str = input("> ").lower().strip()
 
-    def print_commands(self) -> None:
-        print("Exit: exit, quit, q")
-        print("Help: help, h")
-        print("Map: map, m")
-        print("North: north, n")
-        print("South: north, n")
-        print("East: north, n")
-        print("West: north, n")
-
-    def execute_command(self, command: str) -> None:
-        if "map" in command:
-            self.map.draw()
-        if "help" in command:
-            self.print_commands()
-        if "exit" in command:
-            print("Exiting...")
+        # quit game
+        if user_input in ["exit", "quit"]:
             quit()
 
-    def update(self) -> None:
+        return user_input
+
+    def game_state_handler(self) -> None:
+        if self.game_state == GameState.TITLE_SCREEN:
+            self.print_title_screen()
+            self.game_state = GameState.PLAYER_TYPE_SELECTION
+        if self.game_state == GameState.PLAYER_TYPE_SELECTION:
+            self.player_type_selection()
+            self.game_state = GameState.GAME_RUN
+        if self.game_state == GameState.GAME_RUN:
+            self.game_run()
+
+    def print_title_screen(self) -> None:
+        print("""
+************************************************
+                DUNGEON DELVE
+************************************************
+""")
+
+    def player_type_selection(self) -> None:
         while True:
-            # update map
-            self.map.update()
+            for type in player.player_types:
+                print(f"- {type.capitalize()}")
 
-            try:
-                choice: str = input("> ").strip().lower()
-                mapped_command: tuple = ()
+            print()
+            user_input: str = self.get_user_input()
 
-                for command in Commands:
-                    if choice in command.value:
-                        mapped_command = command.value
+            if user_input == "warrior":
+                temp_player = player.Warrior()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice: str = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Warrior()
+                    break
+            elif user_input == "ranger":
+                temp_player = player.Ranger()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Ranger()
+                    break
+            elif user_input == "mage":
+                temp_player = player.Mage()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Mage()
+                    break
+            elif user_input == "cleric":
+                temp_player = player.Cleric()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Cleric()
+                    break
+            elif user_input == "rogue":
+                temp_player = player.Rogue()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Rogue()
+                    break
+            elif user_input == "paladin":
+                temp_player = player.Paladin()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Paladin()
+                    break
+            elif user_input == "berserker":
+                temp_player = player.Berserker()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Berserker()
+                    break
+            elif user_input == "necromancer":
+                temp_player = player.Necromancer()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Necromancer()
+                    break
+            elif user_input == "druid":
+                temp_player = player.Druid()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Druid()
+                    break
+            elif user_input == "monk":
+                temp_player = player.Monk()
+                print()
+                print(f"Base Health: {temp_player.base_health}")
+                print(f"Base Health: {temp_player.base_damage}")
+                print()
+                choice = input("Are you sure? ").strip().lower()
+                print()
+                if choice in ["yes", "y"]:
+                    self.player = player.Monk()
+                    break
+            else:
+                print()
+                print("Invalid type. Try again")
+                print()
 
-                if mapped_command:
-                    self.execute_command(mapped_command)
-                else:
-                    print("Command not recognized. Type 'help' for available commands")
+    def game_run(self) -> None:
+        self.level = Level(self.player)
 
-            except Exception:
-                # printing detailed traceback
-                print("Detailed Error Location: ")
-                traceback.print_exc()
+        while True:
+            user_input: str = self.get_user_input()
+            CommandHandler(user_input, self.level, self.player)
 
 
 if __name__ == "__main__":
-    game_manager: GameManager = GameManager()
-    game_manager.update()
+    game = Game()

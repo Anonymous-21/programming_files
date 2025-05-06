@@ -15,7 +15,7 @@ typedef enum GameState {
   TITLE_SCREEN,
   PLAYER_SELECTION,
 
-} GameState;
+} GameState; 
 
 // *********************************************
 // GAME MANAGER
@@ -31,18 +31,24 @@ typedef struct Game {
 } Game;
 
 void print_title() {
-  printf("*********************************\n");
-  printf("\tDUNGEON DELVE\n");
+  printf("\n*********************************\n");
+  printf("          DUNGEON DELVE          \n");
   printf("*********************************\n\n");
+}
+
+void game_state_handler(Game *game) {
+  if (game->state == TITLE_SCREEN) {
+    print_title();
+    game->state = PLAYER_SELECTION;
+  }
 }
 
 void game_init(Game *game) {
   game->state = TITLE_SCREEN;
+  game_state_handler(game);
 
   map_init(&game->map);
-  player_init(&game->player, game->map.list[0].position);
-
-  print_title();
+  player_init(&game->player, WARRIOR, game->map.list[0].position);
 }
 
 void game_update(Game *game) {

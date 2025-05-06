@@ -1,6 +1,8 @@
 #ifndef ENEMIES_H
 #define ENEMIES_H
 
+#include <stdbool.h>
+
 #define NAME_SIZE 20
 
 typedef enum {
@@ -30,6 +32,6 @@ typedef struct Enemy {
 } Enemy;
 
 void enemy_init(Enemy *enemy, int level, EnemyType type);
-void enemy_is_alive(Enemy *enemy);
+bool enemy_is_alive(Enemy *enemy);
 
 #endif  // ENEMIES_H;

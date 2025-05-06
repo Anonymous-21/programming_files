@@ -1,5 +1,7 @@
 #include "player.h"
 
+#include "commands.h"
+
 void player_init(Player *player, PlayerType type, Vector2 start_pos) {
   player->position.x = start_pos.x;
   player->position.y = start_pos.y;

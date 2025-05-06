@@ -1,10 +1,10 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
-#define USER_INPUT_SIZE 50
-
 #include "map.h"
 #include "player.h"
+
+#define USER_INPUT_SIZE 50
 
 typedef enum Commands {
   EXIT,
