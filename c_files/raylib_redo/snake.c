@@ -123,11 +123,27 @@ snake_move(Snake* snake)
 void
 snake_collision_walls(Snake* snake, bool* game_over)
 {
-  if (snake->x < MARGIN || snake->x > GetScreenWidth() - MARGIN - BLOCK_SIZE) {
+  if (snake->list[0].x < MARGIN ||
+      snake->list[0].x > GetScreenWidth() - MARGIN - BLOCK_SIZE) {
     *game_over = true;
   }
-  if (snake->y < MARGIN || snake->y > GetScreenHeight() - MARGIN - BLOCK_SIZE) {
+  if (snake->list[0].y < MARGIN ||
+      snake->list[0].y > GetScreenHeight() - MARGIN - BLOCK_SIZE) {
     *game_over = true;
+  }
+}
+
+void
+snake_collision_itself(Snake* snake, bool* game_over)
+{
+  for (int i = 1; i < snake->size; i++) {
+    if (CheckCollisionRecs(
+          (Rectangle){
+            snake->list[0].x, snake->list[0].y, BLOCK_SIZE, BLOCK_SIZE },
+          (Rectangle){
+            snake->list[i].x, snake->list[i].y, BLOCK_SIZE, BLOCK_SIZE })) {
+      *game_over = true;
+    }
   }
 }
 
@@ -147,7 +163,7 @@ snake_update(Snake* snake, bool* game_over)
     }
 
     snake_move(snake);
-    snake_collision_walls(snake, game_over);
+    // snake_collision_walls(snake, game_over);
 
     snake->list[0] = (Vector2){ snake->x, snake->y };
   }
@@ -156,22 +172,26 @@ snake_update(Snake* snake, bool* game_over)
 void
 snake_grow(Snake* snake)
 {
-  snake->list[snake->size] = snake->list[snake->size - 1];
-  snake->size += 1;
-}
-
-void
-snake_collision_itself(Snake* snake, bool* game_over)
-{
-  for (int i = 1; i < snake->size; i++) {
-    if (CheckCollisionRecs(
-          (Rectangle){
-            snake->list[0].x, snake->list[0].y, BLOCK_SIZE, BLOCK_SIZE },
-          (Rectangle){
-            snake->list[i].x, snake->list[i].y, BLOCK_SIZE, BLOCK_SIZE })) {
-      *game_over = true;
-    }
+  Vector2 new_segment = snake->list[snake->size - 1];
+  // move segment to the opposite direction of snake movement
+  // away from tail
+  switch (snake->direction) {
+    case RIGHT:
+      new_segment.x -= BLOCK_SIZE;
+      break;
+    case LEFT:
+      new_segment.x += BLOCK_SIZE;
+      break;
+    case DOWN:
+      new_segment.y -= BLOCK_SIZE;
+      break;
+    case UP:
+      new_segment.y += BLOCK_SIZE;
+      break;
   }
+
+  snake->list[snake->size] = new_segment;
+  snake->size += 1;
 }
 
 // FOOD
@@ -273,6 +293,7 @@ main(void)
       }
 
       snake_collision_itself(&snake, &game_over);
+      snake_collision_walls(&snake, &game_over);
     } else {
       if (IsKeyPressed(KEY_ENTER)) {
         score = 0;
